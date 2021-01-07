@@ -35,6 +35,7 @@
     coro_destroy,                              // llvm.coro.destroy
     coro_done,                                 // llvm.coro.done
     coro_end,                                  // llvm.coro.end
+    coro_end_async,                            // llvm.coro.end.async
     coro_frame,                                // llvm.coro.frame
     coro_free,                                 // llvm.coro.free
     coro_id,                                   // llvm.coro.id
@@ -137,6 +138,8 @@
     flt_rounds,                                // llvm.flt.rounds
     fma,                                       // llvm.fma
     fmuladd,                                   // llvm.fmuladd
+    fptosi_sat,                                // llvm.fptosi.sat
+    fptoui_sat,                                // llvm.fptoui.sat
     frameaddress,                              // llvm.frameaddress
     fshl,                                      // llvm.fshl
     fshr,                                      // llvm.fshr
@@ -318,4 +321,4 @@
     write_register,                            // llvm.write_register
     xray_customevent,                          // llvm.xray.customevent
     xray_typedevent,                           // llvm.xray.typedevent
-    num_intrinsics = 9470
+    num_intrinsics = 9744

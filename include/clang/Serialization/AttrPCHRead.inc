@@ -756,6 +756,14 @@
     New->setPackExpansion(isPackExpansion);
     break;
   }
+  case attr::CalledOnce: {
+    bool isImplicit = Record.readInt();
+    bool isPackExpansion = Record.readInt();
+    New = new (Context) CalledOnceAttr(Context, Info);
+    New->setImplicit(isImplicit);
+    New->setPackExpansion(isPackExpansion);
+    break;
+  }
   case attr::Capability: {
     bool isInherited = Record.readInt();
     bool isImplicit = Record.readInt();
@@ -1726,9 +1734,11 @@
     break;
   }
   case attr::NoMerge: {
+    bool isInherited = Record.readInt();
     bool isImplicit = Record.readInt();
     bool isPackExpansion = Record.readInt();
     New = new (Context) NoMergeAttr(Context, Info);
+    cast<InheritableAttr>(New)->setInherited(isInherited);
     New->setImplicit(isImplicit);
     New->setPackExpansion(isPackExpansion);
     break;

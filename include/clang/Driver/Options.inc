@@ -389,11 +389,11 @@ OPTION(prefix_1, &"-dD"[1], dD, Flag, d_Group, INVALID, nullptr, CC1Option, 0,
 OPTION(prefix_1, &"-dead_strip"[1], dead__strip, Flag, INVALID, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-debug-forward-template-params"[1], debug_forward_template_params, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Emit complete descriptions of template parameters in forward declarations", nullptr, nullptr)
-OPTION(prefix_1, &"-debug-info-kind="[1], debug_info_kind_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0, nullptr, nullptr, nullptr)
+OPTION(prefix_1, &"-debug-info-kind="[1], debug_info_kind_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0, nullptr, nullptr, "line-tables-only,line-directives-only,constructor,limited,standalone,unused-types")
 OPTION(prefix_1, &"-debug-info-macro"[1], debug_info_macro, Flag, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0,
        "Emit macro debug information", nullptr, nullptr)
 OPTION(prefix_3, &"--debug="[2], _debug_EQ, Joined, INVALID, g_Flag, nullptr, 0, 0, nullptr, nullptr, nullptr)
-OPTION(prefix_1, &"-debugger-tuning="[1], debugger_tuning_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0, nullptr, nullptr, nullptr)
+OPTION(prefix_1, &"-debugger-tuning="[1], debugger_tuning_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0, nullptr, nullptr, "gdb,lldb,sce")
 OPTION(prefix_3, &"--debug"[2], _debug, Flag, INVALID, g_Flag, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-default-function-attr"[1], default_function_attr, Separate, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0,
        "Apply given attribute to all functions", nullptr, nullptr)
@@ -473,7 +473,7 @@ OPTION(prefix_1, &"-dylinker_install_name"[1], dylinker__install__name, JoinedOr
 OPTION(prefix_1, &"-dylinker"[1], dylinker, Flag, INVALID, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-dynamiclib"[1], dynamiclib, Flag, INVALID, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-dynamic"[1], dynamic, Flag, INVALID, INVALID, nullptr, NoArgumentUnused, 0, nullptr, nullptr, nullptr)
-OPTION(prefix_1, &"-D"[1], D, JoinedOrSeparate, Preprocessor_Group, INVALID, nullptr, CC1Option, 0,
+OPTION(prefix_1, &"-D"[1], D, JoinedOrSeparate, Preprocessor_Group, INVALID, nullptr, CC1Option | FlangOption | FC1Option, 0,
        "Define <macro> to <value> (or 1 if <value> omitted)", "<macro>=<value>", nullptr)
 OPTION(prefix_2, &"/D"[1], _SLASH_D, JoinedOrSeparate, cl_Group, D, nullptr, CLOption | NoXarchOption | CLOption, 0,
        "Define macro", "<macro[=value]>", nullptr)
@@ -547,7 +547,7 @@ OPTION(prefix_1, &"-faapcs-bitfield-width"[1], faapcs_bitfield_width, Flag, m_ar
 OPTION(prefix_1, &"-faccess-control"[1], faccess_control, Flag, f_Group, INVALID, nullptr, 0, 0,
        "", nullptr, nullptr)
 OPTION(prefix_1, &"-faddress-space-map-mangling="[1], faddress_space_map_mangling_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
-       "Set the mode for address space map based mangling; OpenCL testing purposes only", "<yes|no|target>", nullptr)
+       "Set the mode for address space map based mangling; OpenCL testing purposes only", "<yes|no|target>", "target,no,yes")
 OPTION(prefix_1, &"-faddrsig"[1], faddrsig, Flag, f_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
        "Emit an address-significance table", nullptr, nullptr)
 OPTION(prefix_1, &"-faggressive-function-elimination"[1], faggressive_function_elimination, Flag, gfortran_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
@@ -666,7 +666,7 @@ OPTION(prefix_1, &"-fcf-protection="[1], fcf_protection_EQ, Joined, f_Group, INV
        "Instrument control-flow architecture protection. Options: return, branch, full, none.", nullptr, "return,branch,full,none")
 OPTION(prefix_1, &"-fcf-protection"[1], fcf_protection, Flag, f_Group, fcf_protection_EQ, "full\0", CoreOption | CC1Option, 0,
        "Enable cf-protection in 'full' mode", nullptr, nullptr)
-OPTION(prefix_1, &"-fcf-runtime-abi="[1], fcf_runtime_abi_EQ, Joined, f_Group, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, nullptr)
+OPTION(prefix_1, &"-fcf-runtime-abi="[1], fcf_runtime_abi_EQ, Joined, f_Group, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, "unspecified,standalone,objc,swift,swift-5.0,swift-4.2,swift-4.1")
 OPTION(prefix_1, &"-fchar8_t"[1], fchar8__t, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
        "Enable C++ builtin type char8_t", nullptr, nullptr)
 OPTION(prefix_1, &"-fcheck-array-temporaries"[1], fcheck_array_temporaries, Flag, gfortran_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
@@ -689,7 +689,7 @@ OPTION(prefix_1, &"-fcomplete-member-pointers"[1], fcomplete_member_pointers, Fl
        "Require member pointer base types to be complete if they would be significant under the Microsoft ABI", nullptr, nullptr)
 OPTION(prefix_1, &"-fconcepts-ts"[1], fconcepts_ts, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Enable C++ Extensions for Concepts. (deprecated - use -std=c++2a)", nullptr, nullptr)
-OPTION(prefix_1, &"-fconst-strings"[1], fconst_strings, Flag, f_Group, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+OPTION(prefix_1, &"-fconst-strings"[1], fconst_strings, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Use a const qualified type for string literals in C and ObjC", nullptr, nullptr)
 OPTION(prefix_1, &"-fconstant-cfstrings"[1], fconstant_cfstrings, Flag, f_Group, INVALID, nullptr, 0, 0,
        "", nullptr, nullptr)
@@ -848,7 +848,7 @@ OPTION(prefix_1, &"-feliminate-unused-debug-types"[1], feliminate_unused_debug_t
 OPTION(prefix_1, &"-fembed-bitcode-marker"[1], fembed_bitcode_marker, Flag, INVALID, fembed_bitcode_EQ, "marker\0", 0, 0,
        "Embed placeholder LLVM IR data as a marker", nullptr, nullptr)
 OPTION(prefix_1, &"-fembed-bitcode="[1], fembed_bitcode_EQ, Joined, f_Group, INVALID, nullptr, NoXarchOption | CC1Option | CC1AsOption, 0,
-       "Embed LLVM bitcode (option: off, all, bitcode, marker)", "<option>", nullptr)
+       "Embed LLVM bitcode (option: off, all, bitcode, marker)", "<option>", "off,all,bitcode,marker")
 OPTION(prefix_1, &"-fembed-bitcode"[1], fembed_bitcode, Flag, f_Group, fembed_bitcode_EQ, "all\0", 0, 0,
        "Embed LLVM IR bitcode as data", nullptr, nullptr)
 OPTION(prefix_1, &"-femit-all-decls"[1], femit_all_decls, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
@@ -1021,6 +1021,8 @@ OPTION(prefix_1, &"-fgpu-exclude-wrong-side-overloads"[1], fgpu_exclude_wrong_si
        "Always exclude wrong side overloads in overloading resolution for CUDA/HIP", nullptr, nullptr)
 OPTION(prefix_1, &"-fgpu-rdc"[1], fgpu_rdc, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
        "Generate relocatable device code, also known as separate compilation mode", nullptr, nullptr)
+OPTION(prefix_1, &"-fhalf-no-semantic-interposition"[1], fhalf_no_semantic_interposition, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Like -fno-semantic-interposition but don't use local aliases", nullptr, nullptr)
 OPTION(prefix_1, &"-fheinous-gnu-extensions"[1], fheinous_gnu_extensions, Flag, INVALID, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-fhip-dump-offload-linker-script"[1], fhip_dump_offload_linker_script, Flag, f_Group, INVALID, nullptr, NoArgumentUnused | HelpHidden, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-fhip-new-launch-api"[1], fhip_new_launch_api, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
@@ -1105,7 +1107,7 @@ OPTION(prefix_1, &"-flimit-debug-info"[1], flimit_debug_info, Flag, INVALID, fno
 OPTION(prefix_1, &"-flimited-precision="[1], flimited_precision_EQ, Joined, f_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-flto-jobs="[1], flto_jobs_EQ, Joined, f_Group, INVALID, nullptr, CC1Option, 0,
        "Controls the backend parallelism of -flto=thin (default of 0 means the number of threads will be derived from the number of CPUs detected)", nullptr, nullptr)
-OPTION(prefix_1, &"-flto-unit"[1], flto_unit, Flag, f_Group, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+OPTION(prefix_1, &"-flto-unit"[1], flto_unit, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Emit IR to support LTO unit features (CFI, whole program vtable opt)", nullptr, nullptr)
 OPTION(prefix_1, &"-flto-visibility-public-std"[1], flto_visibility_public_std, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Use public LTO visibility for classes in std and stdext namespaces", nullptr, nullptr)
@@ -1207,7 +1209,7 @@ OPTION(prefix_1, &"-fms-compatibility"[1], fms_compatibility, Flag, f_Group, INV
        "Enable full Microsoft Visual C++ compatibility", nullptr, nullptr)
 OPTION(prefix_1, &"-fms-extensions"[1], fms_extensions, Flag, f_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
        "Accept some non-standard constructs supported by the Microsoft compiler", nullptr, nullptr)
-OPTION(prefix_1, &"-fms-memptr-rep="[1], fms_memptr_rep_EQ, Joined, f_Group, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, nullptr)
+OPTION(prefix_1, &"-fms-memptr-rep="[1], fms_memptr_rep_EQ, Joined, f_Group, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, "single,multiple,virtual")
 OPTION(prefix_1, &"-fms-volatile"[1], fms_volatile, Flag, f_Group, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-fmsc-version="[1], fmsc_version, Joined, f_Group, INVALID, nullptr, NoXarchOption | CoreOption, 0,
        "Microsoft compiler version number to report in _MSC_VER (0 = don't define it (default))", nullptr, nullptr)
@@ -1288,7 +1290,7 @@ OPTION(prefix_1, &"-fno-complete-member-pointers"[1], fno_complete_member_pointe
        "Do not require member pointer base types to be complete if they would be significant under the Microsoft ABI", nullptr, nullptr)
 OPTION(prefix_1, &"-fno-concept-satisfaction-caching"[1], fno_concept_satisfaction_caching, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Disable satisfaction caching for C++2a Concepts.", nullptr, nullptr)
-OPTION(prefix_1, &"-fno-const-strings"[1], fno_const_strings, Flag, f_Group, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+OPTION(prefix_1, &"-fno-const-strings"[1], fno_const_strings, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Don't use a const qualified type for string literals in C and ObjC", nullptr, nullptr)
 OPTION(prefix_1, &"-fno-constant-cfstrings"[1], fno_constant_cfstrings, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
        "Disable creation of CodeFoundation-type constant strings", nullptr, nullptr)
@@ -1462,7 +1464,7 @@ OPTION(prefix_1, &"-fno-lax-vector-conversions"[1], fno_lax_vector_conversions, 
 OPTION(prefix_1, &"-fno-legacy-pass-manager"[1], fno_legacy_pass_manager, Flag, f_clang_Group, INVALID, nullptr, CC1Option, 0,
        "Use the new pass manager in LLVM", nullptr, nullptr)
 OPTION(prefix_1, &"-fno-limit-debug-info"[1], fno_limit_debug_info, Flag, INVALID, fstandalone_debug, nullptr, CoreOption, 0, nullptr, nullptr, nullptr)
-OPTION(prefix_1, &"-fno-lto-unit"[1], fno_lto_unit, Flag, f_Group, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+OPTION(prefix_1, &"-fno-lto-unit"[1], fno_lto_unit, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "", nullptr, nullptr)
 OPTION(prefix_1, &"-fno-lto"[1], fno_lto, Flag, f_Group, INVALID, nullptr, CoreOption | CC1Option, 0,
        "Disable LTO mode (default)", nullptr, nullptr)
@@ -1651,7 +1653,8 @@ OPTION(prefix_1, &"-fno-schedule-insns2"[1], fno_schedule_insns2, Flag, clang_ig
 OPTION(prefix_1, &"-fno-schedule-insns"[1], fno_schedule_insns, Flag, clang_ignored_gcc_optimization_f_Group, INVALID, nullptr, Ignored, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-fno-second-underscore"[1], fno_second_underscore, Flag, gfortran_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-fno-see"[1], fno_see, Flag, clang_ignored_f_Group, INVALID, nullptr, Ignored, 0, nullptr, nullptr, nullptr)
-OPTION(prefix_1, &"-fno-semantic-interposition"[1], fno_semantic_interposition, Flag, f_Group, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, nullptr)
+OPTION(prefix_1, &"-fno-semantic-interposition"[1], fno_semantic_interposition, Flag, f_Group, INVALID, nullptr, 0, 0,
+       "", nullptr, nullptr)
 OPTION(prefix_1, &"-fno-short-enums"[1], fno_short_enums, Flag, f_Group, INVALID, nullptr, 0, 0,
        "", nullptr, nullptr)
 OPTION(prefix_1, &"-fno-short-wchar"[1], fno_short_wchar, Flag, f_Group, INVALID, nullptr, 0, 0,
@@ -1665,7 +1668,7 @@ OPTION(prefix_1, &"-fno-signaling-math"[1], fno_signaling_math, Flag, f_Group, I
 OPTION(prefix_1, &"-fno-signaling-nans"[1], fno_signaling_nans, Flag, clang_ignored_gcc_optimization_f_Group, INVALID, nullptr, Ignored, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-fno-signed-char"[1], fno_signed_char, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
        "char is unsigned", nullptr, nullptr)
-OPTION(prefix_1, &"-fno-signed-wchar"[1], fno_signed_wchar, Flag, f_Group, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+OPTION(prefix_1, &"-fno-signed-wchar"[1], fno_signed_wchar, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Use an unsigned type for wchar_t", nullptr, nullptr)
 OPTION(prefix_1, &"-fno-signed-zeros"[1], fno_signed_zeros, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
        "Allow optimizations that ignore the sign of floating point zeros", nullptr, nullptr)
@@ -1960,7 +1963,7 @@ OPTION(prefix_1, &"-fprofile-instrument-path="[1], fprofile_instrument_path_EQ, 
 OPTION(prefix_1, &"-fprofile-instrument-use-path="[1], fprofile_instrument_use_path_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Specify the profile path in PGO use compilation", nullptr, nullptr)
 OPTION(prefix_1, &"-fprofile-instrument="[1], fprofile_instrument_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
-       "Enable PGO instrumentation. The accepted value is clang, llvm, or none", nullptr, "none,clang,llvm")
+       "Enable PGO instrumentation. The accepted value is clang, llvm, or none", nullptr, "none,clang,llvm,csllvm")
 OPTION(prefix_1, &"-fprofile-remapping-file="[1], fprofile_remapping_file_EQ, Joined, f_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
        "Use the remappings described in <file> to match the profile data against names in the program", "<file>", nullptr)
 OPTION(prefix_1, &"-fprofile-remapping-file"[1], fprofile_remapping_file, Separate, f_Group, fprofile_remapping_file_EQ, nullptr, CoreOption, 0, nullptr, nullptr, nullptr)
@@ -2136,7 +2139,8 @@ OPTION(prefix_1, &"-fsecond-underscore"[1], fsecond_underscore, Flag, gfortran_G
 OPTION(prefix_1, &"-fsee"[1], fsee, Flag, clang_ignored_f_Group, INVALID, nullptr, Ignored, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-fseh-exceptions"[1], fseh_exceptions, Flag, f_Group, INVALID, nullptr, 0, 0,
        "Use SEH style exceptions", nullptr, nullptr)
-OPTION(prefix_1, &"-fsemantic-interposition"[1], fsemantic_interposition, Flag, f_Group, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, nullptr)
+OPTION(prefix_1, &"-fsemantic-interposition"[1], fsemantic_interposition, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
+       "", nullptr, nullptr)
 OPTION(prefix_1, &"-fshort-enums"[1], fshort_enums, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
        "Allocate to an enum type only as many bytes as it needs for the declared range of possible values", nullptr, nullptr)
 OPTION(prefix_1, &"-fshort-wchar"[1], fshort_wchar, Flag, f_Group, INVALID, nullptr, 0, 0,
@@ -2152,7 +2156,7 @@ OPTION(prefix_1, &"-fsignaling-nans"[1], fsignaling_nans, Flag, clang_ignored_gc
 OPTION(prefix_1, &"-fsigned-bitfields"[1], fsigned_bitfields, Flag, f_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-fsigned-char"[1], fsigned_char, Flag, f_Group, INVALID, nullptr, 0, 0,
        "char is signed", nullptr, nullptr)
-OPTION(prefix_1, &"-fsigned-wchar"[1], fsigned_wchar, Flag, f_Group, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+OPTION(prefix_1, &"-fsigned-wchar"[1], fsigned_wchar, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Use a signed type for wchar_t", nullptr, nullptr)
 OPTION(prefix_1, &"-fsigned-zeros"[1], fsigned_zeros, Flag, f_Group, INVALID, nullptr, 0, 0,
        "", nullptr, nullptr)
@@ -2208,7 +2212,7 @@ OPTION(prefix_1, &"-fsycl-is-device"[1], fsycl_is_device, Flag, INVALID, INVALID
 OPTION(prefix_1, &"-fsycl"[1], fsycl, Flag, sycl_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
        "Enable SYCL kernels compilation for device", nullptr, nullptr)
 OPTION(prefix_1, &"-fsymbol-partition="[1], fsymbol_partition_EQ, Joined, f_Group, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, nullptr)
-OPTION(prefix_1, &"-fsyntax-only"[1], fsyntax_only, Flag, Action_Group, INVALID, nullptr, NoXarchOption | CoreOption | CC1Option, 0, nullptr, nullptr, nullptr)
+OPTION(prefix_1, &"-fsyntax-only"[1], fsyntax_only, Flag, Action_Group, INVALID, nullptr, NoXarchOption | CoreOption | CC1Option | FC1Option, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-fsystem-module"[1], fsystem_module, Flag, INVALID, INVALID, nullptr, CC1Option, 0,
        "Build this module as a system module. Only used with -emit-module", nullptr, nullptr)
 OPTION(prefix_2, &"/FS"[1], _SLASH_FS, Flag, cl_ignored_Group, INVALID, nullptr, CLOption | NoXarchOption, 0, nullptr, nullptr, nullptr)
@@ -2240,7 +2244,7 @@ OPTION(prefix_1, &"-ftime-trace-granularity="[1], ftime_trace_granularity_EQ, Jo
        "Minimum time granularity (in microseconds) traced by time profiler", nullptr, nullptr)
 OPTION(prefix_1, &"-ftime-trace"[1], ftime_trace, Flag, f_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
        "Turn on time profiler. Generates JSON file based on output filename.", nullptr, nullptr)
-OPTION(prefix_1, &"-ftls-model="[1], ftlsmodel_EQ, Joined, f_Group, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, nullptr)
+OPTION(prefix_1, &"-ftls-model="[1], ftlsmodel_EQ, Joined, f_Group, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, "global-dynamic,local-dynamic,initial-exec,local-exec")
 OPTION(prefix_1, &"-ftls-model"[1], ftls_model, Flag, clang_ignored_f_Group, INVALID, nullptr, Ignored, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-ftracer"[1], ftracer, Flag, clang_ignored_gcc_optimization_f_Group, INVALID, nullptr, Ignored, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-ftrap-function="[1], ftrap_function_EQ, Joined, f_Group, INVALID, nullptr, CC1Option, 0,
@@ -2263,7 +2267,7 @@ OPTION(prefix_1, &"-ftrigraphs"[1], ftrigraphs, Flag, f_Group, INVALID, nullptr,
 OPTION(prefix_1, &"-ftrivial-auto-var-init-stop-after="[1], ftrivial_auto_var_init_stop_after, Joined, f_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
        "Stop initializing trivial automatic stack variables after the specified number of instances", nullptr, nullptr)
 OPTION(prefix_1, &"-ftrivial-auto-var-init="[1], ftrivial_auto_var_init, Joined, f_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
-       "Initialize trivial automatic stack variables: uninitialized (default) | pattern", nullptr, "uninitialized,pattern")
+       "Initialize trivial automatic stack variables: uninitialized (default) | pattern", nullptr, "uninitialized,zero,pattern")
 OPTION(prefix_1, &"-ftype-visibility"[1], ftype_visibility, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Default type visibility", nullptr, nullptr)
 OPTION(prefix_1, &"-function-alignment"[1], function_alignment, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
@@ -2333,7 +2337,7 @@ OPTION(prefix_1, &"-fvisibility-nodllstorageclass="[1], fvisibility_nodllstorage
 OPTION(prefix_1, &"-fvisibility="[1], fvisibility_EQ, Joined, f_Group, INVALID, nullptr, 0, 0,
        "Set the default symbol visibility for all global declarations", nullptr, "hidden,default")
 OPTION(prefix_1, &"-fvisibility"[1], fvisibility, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
-       "Default type and symbol visibility", nullptr, nullptr)
+       "Default type and symbol visibility", nullptr, "default,hidden,internal,protected")
 OPTION(prefix_1, &"-fwasm-exceptions"[1], fwasm_exceptions, Flag, f_Group, INVALID, nullptr, 0, 0,
        "Use WebAssembly style exceptions", nullptr, nullptr)
 OPTION(prefix_1, &"-fwchar-type="[1], fwchar_type_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
@@ -2401,7 +2405,7 @@ OPTION(prefix_1, &"-gcodeview-ghash"[1], gcodeview_ghash, Flag, INVALID, INVALID
 OPTION(prefix_1, &"-gcodeview"[1], gcodeview, Flag, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | CoreOption, 0,
        "Generate CodeView debug information", nullptr, nullptr)
 OPTION(prefix_1, &"-gcoff"[1], gcoff, Joined, g_Group, INVALID, nullptr, Unsupported, 0, nullptr, nullptr, nullptr)
-OPTION(prefix_1, &"-gcolumn-info"[1], gcolumn_info, Flag, g_Group, INVALID, nullptr, CoreOption, 0,
+OPTION(prefix_1, &"-gcolumn-info"[1], gcolumn_info, Flag, g_flags_Group, INVALID, nullptr, CoreOption, 0,
        "", nullptr, nullptr)
 OPTION(prefix_1, &"-gdwarf-2"[1], gdwarf_2, Flag, g_Group, INVALID, nullptr, 0, 0,
        "Generate source-level debug information with dwarf version 2", nullptr, nullptr)
@@ -2452,7 +2456,7 @@ OPTION(prefix_1, &"-gmodules"[1], gmodules, Flag, gN_Group, INVALID, nullptr, 0,
 OPTION(prefix_2, &"/Gm"[1], _SLASH_Gm, Flag, cl_Group, INVALID, nullptr, CLOption | NoXarchOption | CLOption, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-gno-codeview-ghash"[1], gno_codeview_ghash, Flag, INVALID, INVALID, nullptr, CoreOption, 0,
        "", nullptr, nullptr)
-OPTION(prefix_1, &"-gno-column-info"[1], gno_column_info, Flag, g_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
+OPTION(prefix_1, &"-gno-column-info"[1], gno_column_info, Flag, g_flags_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
        "", nullptr, nullptr)
 OPTION(prefix_1, &"-gno-embed-source"[1], gno_embed_source, Flag, g_flags_Group, INVALID, nullptr, NoXarchOption, 0,
        "Restore the default behavior of not embedding source text in DWARF debug sections", nullptr, nullptr)
@@ -2491,7 +2495,7 @@ OPTION(prefix_1, &"-gstabs"[1], gstabs, Joined, g_Group, INVALID, nullptr, Unsup
 OPTION(prefix_1, &"-gstrict-dwarf"[1], gstrict_dwarf, Flag, g_flags_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_2, &"/GS"[1], _SLASH_GS, Flag, cl_Group, INVALID, nullptr, CLOption | NoXarchOption | CLOption, 0,
        "Enable buffer security check (default)", nullptr, nullptr)
-OPTION(prefix_2, &"/Gs"[1], anonymous_908, Flag, cl_Group, mstack_probe_size, "4096\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Gs"[1], anonymous_910, Flag, cl_Group, mstack_probe_size, "4096\0", CLOption | NoXarchOption | CLOption, 0,
        "Use stack probes (default)", nullptr, nullptr)
 OPTION(prefix_2, &"/Gs"[1], _SLASH_Gs, Joined, cl_Group, mstack_probe_size, nullptr, CLOption | NoXarchOption | CLOption, 0,
        "Set stack probe size (default 4096)", nullptr, nullptr)
@@ -2739,7 +2743,7 @@ OPTION(prefix_1, &"-mcmse"[1], mcmse, Flag, m_arm_Features_Group, INVALID, nullp
 OPTION(prefix_1, &"-mcode-object-v3"[1], mcode_object_v3_legacy, Flag, m_Group, INVALID, nullptr, 0, 0,
        "Legacy option to specify code object ABI V2 (-mnocode-object-v3) or V3 (-mcode-object-v3) (AMDGPU only)", nullptr, nullptr)
 OPTION(prefix_1, &"-mcode-object-version="[1], mcode_object_version_EQ, Joined, m_Group, INVALID, nullptr, 0, 0,
-       "Specify code object ABI version. Defaults to 4. (AMDGPU only)", "<version>", "2,3,4")
+       "Specify code object ABI version. Defaults to 3. (AMDGPU only)", "<version>", "2,3,4")
 OPTION(prefix_1, &"-mcompact-branches="[1], mcompact_branches_EQ, Joined, m_mips_Features_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-mconsole"[1], mconsole, Joined, m_Group, INVALID, nullptr, NoXarchOption, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-mconstant-cfstrings"[1], mconstant_cfstrings, Flag, clang_ignored_m_Group, INVALID, nullptr, Ignored, 0, nullptr, nullptr, nullptr)
@@ -3502,16 +3506,16 @@ OPTION(prefix_1, &"-nostdsysteminc"[1], nostdsysteminc, Flag, INVALID, INVALID, 
 OPTION(prefix_1, &"-n"[1], n, Flag, INVALID, INVALID, nullptr, CC1AsOption | NoDriverOption, 0,
        "Don't automatically start assembly file with a text section", nullptr, nullptr)
 OPTION(prefix_1, &"-O0"[1], O0, Flag, O_Group, INVALID, nullptr, CC1Option | HelpHidden, 0, nullptr, nullptr, nullptr)
-OPTION(prefix_2, &"/O1"[1], anonymous_909, Flag, cl_Group, _SLASH_O, "1\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/O1"[1], anonymous_911, Flag, cl_Group, _SLASH_O, "1\0", CLOption | NoXarchOption | CLOption, 0,
        "Optimize for size  (like /Og     /Os /Oy /Ob2 /GF /Gy)", nullptr, nullptr)
-OPTION(prefix_2, &"/O2"[1], anonymous_910, Flag, cl_Group, _SLASH_O, "2\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/O2"[1], anonymous_912, Flag, cl_Group, _SLASH_O, "2\0", CLOption | NoXarchOption | CLOption, 0,
        "Optimize for speed (like /Og /Oi /Ot /Oy /Ob2 /GF /Gy)", nullptr, nullptr)
 OPTION(prefix_1, &"-O4"[1], O4, Flag, O_Group, INVALID, nullptr, CC1Option | HelpHidden, 0, nullptr, nullptr, nullptr)
-OPTION(prefix_2, &"/Ob0"[1], anonymous_911, Flag, cl_Group, _SLASH_O, "b0\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Ob0"[1], anonymous_913, Flag, cl_Group, _SLASH_O, "b0\0", CLOption | NoXarchOption | CLOption, 0,
        "Disable function inlining", nullptr, nullptr)
-OPTION(prefix_2, &"/Ob1"[1], anonymous_912, Flag, cl_Group, _SLASH_O, "b1\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Ob1"[1], anonymous_914, Flag, cl_Group, _SLASH_O, "b1\0", CLOption | NoXarchOption | CLOption, 0,
        "Only inline functions explicitly or implicitly marked inline", nullptr, nullptr)
-OPTION(prefix_2, &"/Ob2"[1], anonymous_913, Flag, cl_Group, _SLASH_O, "b2\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Ob2"[1], anonymous_915, Flag, cl_Group, _SLASH_O, "b2\0", CLOption | NoXarchOption | CLOption, 0,
        "Inline functions as deemed beneficial by the compiler", nullptr, nullptr)
 OPTION(prefix_1, &"-ObjC++"[1], ObjCXX, Flag, INVALID, INVALID, nullptr, NoXarchOption, 0,
        "Treat source input files as Objective-C++ inputs", nullptr, nullptr)
@@ -3555,16 +3559,16 @@ OPTION(prefix_1, &"-objcxx-isystem"[1], objcxx_isystem, JoinedOrSeparate, INVALI
 OPTION(prefix_1, &"-ObjC"[1], ObjC, Flag, INVALID, INVALID, nullptr, NoXarchOption, 0,
        "Treat source input files as Objective-C inputs", nullptr, nullptr)
 OPTION(prefix_1, &"-object"[1], object, Flag, INVALID, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
-OPTION(prefix_2, &"/Od"[1], anonymous_914, Flag, cl_Group, _SLASH_O, "d\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Od"[1], anonymous_916, Flag, cl_Group, _SLASH_O, "d\0", CLOption | NoXarchOption | CLOption, 0,
        "Disable optimization", nullptr, nullptr)
 OPTION(prefix_1, &"-Ofast"[1], Ofast, Joined, O_Group, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_3, &"--offload-arch="[2], offload_arch_EQ, Joined, INVALID, INVALID, nullptr, NoXarchOption, 0,
        "CUDA offloading device architecture (e.g. sm_35), or HIP offloading target ID in the form of a device architecture followed by target ID features delimited by a colon. Each target ID feature is a pre-defined string followed by a plus or minus sign (e.g. gfx908:xnack+:sramecc-).  May be specified more than once.", nullptr, nullptr)
-OPTION(prefix_2, &"/Og"[1], anonymous_915, Flag, cl_Group, _SLASH_O, "g\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Og"[1], anonymous_917, Flag, cl_Group, _SLASH_O, "g\0", CLOption | NoXarchOption | CLOption, 0,
        "No effect", nullptr, nullptr)
-OPTION(prefix_2, &"/Oi-"[1], anonymous_917, Flag, cl_Group, _SLASH_O, "i-\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Oi-"[1], anonymous_919, Flag, cl_Group, _SLASH_O, "i-\0", CLOption | NoXarchOption | CLOption, 0,
        "Disable use of builtin functions", nullptr, nullptr)
-OPTION(prefix_2, &"/Oi"[1], anonymous_916, Flag, cl_Group, _SLASH_O, "i\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Oi"[1], anonymous_918, Flag, cl_Group, _SLASH_O, "i\0", CLOption | NoXarchOption | CLOption, 0,
        "Enable use of builtin functions", nullptr, nullptr)
 OPTION(prefix_2, &"/openmp-"[1], _SLASH_openmp_, Flag, cl_Group, fno_openmp, nullptr, CLOption | NoXarchOption | CLOption, 0,
        "Disable OpenMP support", nullptr, nullptr)
@@ -3580,9 +3584,9 @@ OPTION(prefix_1, &"-opt-record-passes"[1], opt_record_passes, Separate, INVALID,
        "Only record remark information for passes whose names match the given regular expression", nullptr, nullptr)
 OPTION(prefix_3, &"--optimize="[2], _optimize_EQ, Joined, INVALID, O, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_3, &"--optimize"[2], _optimize, Flag, INVALID, O, nullptr, 0, 0, nullptr, nullptr, nullptr)
-OPTION(prefix_2, &"/Os"[1], anonymous_918, Flag, cl_Group, _SLASH_O, "s\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Os"[1], anonymous_920, Flag, cl_Group, _SLASH_O, "s\0", CLOption | NoXarchOption | CLOption, 0,
        "Optimize for size", nullptr, nullptr)
-OPTION(prefix_2, &"/Ot"[1], anonymous_919, Flag, cl_Group, _SLASH_O, "t\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Ot"[1], anonymous_921, Flag, cl_Group, _SLASH_O, "t\0", CLOption | NoXarchOption | CLOption, 0,
        "Optimize for speed", nullptr, nullptr)
 OPTION(prefix_1, &"-output-asm-variant"[1], output_asm_variant, Separate, INVALID, INVALID, nullptr, CC1AsOption | NoDriverOption, 0,
        "Select the asm variant index to use for output", nullptr, nullptr)
@@ -3590,11 +3594,11 @@ OPTION(prefix_3, &"--output-class-directory="[2], _output_class_directory_EQ, Jo
 OPTION(prefix_3, &"--output-class-directory"[2], _output_class_directory, Separate, INVALID, foutput_class_dir_EQ, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_3, &"--output="[2], _output_EQ, Joined, INVALID, o, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_3, &"--output"[2], _output, Separate, INVALID, o, nullptr, 0, 0, nullptr, nullptr, nullptr)
-OPTION(prefix_2, &"/Ox"[1], anonymous_920, Flag, cl_Group, _SLASH_O, "x\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Ox"[1], anonymous_922, Flag, cl_Group, _SLASH_O, "x\0", CLOption | NoXarchOption | CLOption, 0,
        "Deprecated (like /Og /Oi /Ot /Oy /Ob2); use /O2", nullptr, nullptr)
-OPTION(prefix_2, &"/Oy-"[1], anonymous_922, Flag, cl_Group, _SLASH_O, "y-\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Oy-"[1], anonymous_924, Flag, cl_Group, _SLASH_O, "y-\0", CLOption | NoXarchOption | CLOption, 0,
        "Disable frame pointer omission (x86 only, default)", nullptr, nullptr)
-OPTION(prefix_2, &"/Oy"[1], anonymous_921, Flag, cl_Group, _SLASH_O, "y\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Oy"[1], anonymous_923, Flag, cl_Group, _SLASH_O, "y\0", CLOption | NoXarchOption | CLOption, 0,
        "Enable frame pointer omission (x86 only)", nullptr, nullptr)
 OPTION(prefix_1, &"-O"[1], O_flag, Flag, INVALID, O, "1\0", CC1Option, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-O"[1], O, Joined, O_Group, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, nullptr)
@@ -3816,7 +3820,7 @@ OPTION(prefix_1, &"-split-stacks"[1], split_stacks, Flag, INVALID, INVALID, null
 OPTION(prefix_1, &"-stack-protector-buffer-size"[1], stack_protector_buffer_size, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Lower bound for a buffer to be considered for stack protection", nullptr, nullptr)
 OPTION(prefix_1, &"-stack-protector"[1], stack_protector, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
-       "Enable stack protectors", nullptr, nullptr)
+       "Enable stack protectors", nullptr, "0,1,2,3")
 OPTION(prefix_1, &"-static-define"[1], static_define, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Should __STATIC__ be defined", nullptr, nullptr)
 OPTION(prefix_1, &"-static-libgcc"[1], static_libgcc, Flag, INVALID, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
@@ -3924,7 +3928,7 @@ OPTION(prefix_4, &"-unwindlib="[1], unwindlib_EQ, Joined, INVALID, INVALID, null
 OPTION(prefix_3, &"--user-dependencies"[2], _user_dependencies, Flag, INVALID, MM, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_2, &"/utf-8"[1], _SLASH_utf8, Flag, cl_ignored_Group, INVALID, nullptr, CLOption | NoXarchOption, 0,
        "Set source and runtime encoding to UTF-8 (default)", nullptr, nullptr)
-OPTION(prefix_1, &"-U"[1], U, JoinedOrSeparate, Preprocessor_Group, INVALID, nullptr, CC1Option, 0,
+OPTION(prefix_1, &"-U"[1], U, JoinedOrSeparate, Preprocessor_Group, INVALID, nullptr, CC1Option | FlangOption | FC1Option, 0,
        "Undefine macro <macro>", "<macro>", nullptr)
 OPTION(prefix_2, &"/U"[1], _SLASH_U, JoinedOrSeparate, cl_Group, U, nullptr, CLOption | NoXarchOption | CLOption, 0,
        "Undefine macro", "<macro>", nullptr)
@@ -4129,8 +4133,6 @@ OPTION(prefix_2, &"/Zc:twoPhase"[1], _SLASH_Zc_twoPhase, Flag, cl_Group, fno_del
        "Enable two-phase name lookup in templates", nullptr, nullptr)
 OPTION(prefix_2, &"/Zc:wchar_t"[1], _SLASH_Zc_wchar_t, Flag, cl_ignored_Group, INVALID, nullptr, CLOption | NoXarchOption, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_2, &"/Zc:"[1], _SLASH_Zc, Joined, cl_Group, INVALID, nullptr, CLOption | NoXarchOption | CLOption, 0, nullptr, nullptr, nullptr)
-OPTION(prefix_2, &"/Zd"[1], _SLASH_Zd, Flag, cl_Group, INVALID, nullptr, CLOption | NoXarchOption | CLOption, 0,
-       "Emit debug line number tables only", nullptr, nullptr)
 OPTION(prefix_2, &"/Ze"[1], _SLASH_Ze, Flag, cl_Group, INVALID, nullptr, CLOption | NoXarchOption | CLOption, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_2, &"/Zg"[1], _SLASH_Zg, Flag, cl_Group, INVALID, nullptr, CLOption | NoXarchOption | CLOption, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_2, &"/ZH:MD5"[1], _SLASH_ZH_MD5, Flag, cl_ignored_Group, INVALID, nullptr, CLOption | NoXarchOption, 0, nullptr, nullptr, nullptr)
@@ -4159,6 +4161,10 @@ OPTION(prefix_1, &"-z"[1], z, Separate, Link_Group, INVALID, nullptr, LinkerInpu
 OPTION(prefix_3, &"--"[2], _DASH_DASH, RemainingArgs, INVALID, INVALID, nullptr, NoXarchOption | CoreOption, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_3, &"--"[2], _, Joined, INVALID, INVALID, nullptr, Unsupported, 0, nullptr, nullptr, nullptr)
 #endif // OPTION
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-arcmt-migrate-report-output"[1], arcmt_migrate_report_output, Separate, INVALID, INVALID, nullptr, CC1Option, 0,
+       "Output path for the plist report", nullptr, nullptr, "-arcmt-migrate-report-output", 0, FrontendOpts.ARCMTMigrateReportOut, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-arcmt-migrate-emit-errors"[1], arcmt_migrate_emit_arc_errors, Flag, INVALID, INVALID, nullptr, CC1Option, 0,
        "Emit ARC errors even if the migrator can fix them", nullptr, nullptr, "-arcmt-migrate-emit-errors", 0, FrontendOpts.ARCMTMigrateEmitARCErrors, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
@@ -4222,6 +4228,10 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-objcmt-ns-nonatomic-iosonly"[1], objcmt_ns_
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-objcmt-migrate-designated-init"[1], objcmt_migrate_designated_init, Flag, INVALID, INVALID, nullptr, CC1Option, 0,
        "Enable migration to infer NS_DESIGNATED_INITIALIZER for initializer methods", nullptr, nullptr, "-objcmt-migrate-designated-init", 0, FrontendOpts.ObjCMTAction, 0u, false, 0u, makeFlagToValueNormalizer(FrontendOptions::ObjCMT_DesignatedInitializer), denormalizeSimpleFlag, mergeMaskValue, (extractMaskValue<unsigned, decltype(FrontendOptions::ObjCMT_DesignatedInitializer), FrontendOptions::ObjCMT_DesignatedInitializer>), -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-objcmt-whitelist-dir-path="[1], objcmt_whitelist_dir_path, Joined, INVALID, INVALID, nullptr, CC1Option, 0,
+       "Only modify files with a filename contained in the provided directory path", nullptr, nullptr, "-objcmt-whitelist-dir-path=", 0, FrontendOpts.ObjCMTWhiteListPath, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-CC"[1], CC, Flag, Preprocessor_Group, INVALID, nullptr, CC1Option, 0,
@@ -4340,6 +4350,10 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-module-dependency-dir"[1], module_dependenc
        "Directory to dump module dependencies to", nullptr, nullptr, "-module-dependency-dir", 0, DependencyOutputOpts.ModuleDependencyOutputDir, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fmax-tokens="[1], fmax_tokens_EQ, Joined, f_Group, INVALID, nullptr, CC1Option, 0,
+       "Max total number of preprocessed tokens for -Wmax-tokens.", nullptr, nullptr, "-fmax-tokens=", 0, LangOpts->MaxTokens, 0, false, 0, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fno-access-control"[1], fno_access_control, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
        "Disable C++ access control", nullptr, nullptr, "-fno-access-control", 0, LangOpts->AccessControl, true, false, true, makeBooleanOptionNormalizer(false, true, OPT_faccess_control), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
@@ -4376,6 +4390,10 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fautolink"[1], fautolink, Flag, f_Group, IN
        "", nullptr, nullptr, "-fautolink", 0, CodeGenOpts.Autolink, true, false, true, makeBooleanOptionNormalizer(true, false, OPT_fno_autolink), makeBooleanOptionDenormalizer(true), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fembed-bitcode="[1], fembed_bitcode_EQ, Joined, f_Group, INVALID, nullptr, NoXarchOption | CC1Option | CC1AsOption, 0,
+       "Embed LLVM bitcode (option: off, all, bitcode, marker)", "<option>", "off,all,bitcode,marker", "-fembed-bitcode=", 0, CodeGenOpts.EmbedBitcode, CodeGenOptions::Embed_Off, false, CodeGenOptions::Embed_Off, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 0)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fno-gnu-inline-asm"[1], fno_gnu_inline_asm, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
        "Disable GNU style inline asm", nullptr, nullptr, "-fno-gnu-inline-asm", 0, LangOpts->GNUAsm, true, false, true, makeBooleanOptionNormalizer(false, true, OPT_fgnu_inline_asm), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
@@ -4384,8 +4402,16 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fgnu-inline-asm"[1], fgnu_inline_asm, Flag,
        "", nullptr, nullptr, "-fgnu-inline-asm", 0, LangOpts->GNUAsm, true, false, true, makeBooleanOptionNormalizer(true, false, OPT_fno_gnu_inline_asm), makeBooleanOptionDenormalizer(true), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fprofile-sample-use="[1], fprofile_sample_use_EQ, Joined, f_Group, INVALID, nullptr, NoXarchOption | CC1Option, 0,
+       "Enable sample-based profile guided optimizations", nullptr, nullptr, "-fprofile-sample-use=", 0, CodeGenOpts.SampleProfileFile, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fprofile-sample-accurate"[1], fprofile_sample_accurate, Flag, f_Group, INVALID, nullptr, NoXarchOption | CC1Option, 0,
        "Specifies that the sample profile is accurate", nullptr, nullptr, "-fprofile-sample-accurate", 0, CodeGenOpts.ProfileSampleAccurate, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fdebug-compilation-dir"[1], fdebug_compilation_dir, Separate, f_Group, INVALID, nullptr, CC1Option | CC1AsOption | CoreOption, 0,
+       "The compilation directory to embed in the debug info.", nullptr, nullptr, "-fdebug-compilation-dir", 0, CodeGenOpts.DebugCompilationDir, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fdebug-info-for-profiling"[1], fdebug_info_for_profiling, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
@@ -4394,6 +4420,10 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fdebug-info-for-profiling"[1], fdebug_info_
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fno-debug-info-for-profiling"[1], fno_debug_info_for_profiling, Flag, f_Group, INVALID, nullptr, 0, 0,
        "", nullptr, nullptr, "-fno-debug-info-for-profiling", 0, CodeGenOpts.DebugInfoForProfiling, false, false, false, makeBooleanOptionNormalizer(false, true, OPT_fdebug_info_for_profiling), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fprofile-remapping-file="[1], fprofile_remapping_file_EQ, Joined, f_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
+       "Use the remappings described in <file> to match the profile data against names in the program", "<file>", nullptr, "-fprofile-remapping-file=", 0, CodeGenOpts.ProfileRemappingFile, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fcoverage-mapping"[1], fcoverage_mapping, Flag, f_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
@@ -4449,6 +4479,9 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fcomplete-member-pointers"[1], fcomplete_me
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fno-complete-member-pointers"[1], fno_complete_member_pointers, Flag, f_clang_Group, INVALID, nullptr, CoreOption, 0,
        "Do not require member pointer base types to be complete if they would be significant under the Microsoft ABI", nullptr, nullptr, "-fno-complete-member-pointers", 0, LangOpts->CompleteMemberPointers, false, false, false, makeBooleanOptionNormalizer(false, true, OPT_fcomplete_member_pointers), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fcf-runtime-abi="[1], fcf_runtime_abi_EQ, Joined, f_Group, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, "unspecified,standalone,objc,swift,swift-5.0,swift-4.2,swift-4.1", "-fcf-runtime-abi=", 0, LangOpts->CFRuntime, LangOptions::CoreFoundationABI::ObjectiveC, false, LangOptions::CoreFoundationABI::ObjectiveC, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fno-constant-cfstrings"[1], fno_constant_cfstrings, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
@@ -4508,7 +4541,7 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fno-exceptions"[1], fno_exceptions, Flag, f
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-exception-model"[1], exception_model, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
-       "The exception model: dwarf|sjlj|seh|wasm", nullptr, "dwarf,sjlj,seh,wasm", "-exception-model", 0, LangOpts->ExceptionHandling, llvm::ExceptionHandling::None, false, llvm::ExceptionHandling::None, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 0)
+       "The exception model: dwarf|sjlj|seh|wasm", nullptr, "dwarf,sjlj,seh,wasm", "-exception-model", 0, LangOpts->ExceptionHandling, llvm::ExceptionHandling::None, false, llvm::ExceptionHandling::None, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 2)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fignore-exceptions"[1], fignore_exceptions, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
@@ -4551,12 +4584,23 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fc++-static-destructors"[1], fcxx_static_de
        "", nullptr, nullptr, "-fc++-static-destructors", 0, LangOpts->RegisterStaticDestructors, true, false, true, makeBooleanOptionNormalizer(true, false, OPT_fno_cxx_static_destructors), makeBooleanOptionDenormalizer(true), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fsymbol-partition="[1], fsymbol_partition_EQ, Joined, f_Group, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, nullptr, "-fsymbol-partition=", 0, CodeGenOpts.SymbolPartition, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fsanitize-memory-track-origins="[1], fsanitize_memory_track_origins_EQ, Joined, f_clang_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
+       "Enable origins tracking in MemorySanitizer", nullptr, nullptr, "-fsanitize-memory-track-origins=", 0, CodeGenOpts.SanitizeMemoryTrackOrigins, 0, false, 0, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fsanitize-memory-use-after-dtor"[1], fsanitize_memory_use_after_dtor, Flag, f_clang_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
        "Enable use-after-destroy detection in MemorySanitizer", nullptr, nullptr, "-fsanitize-memory-use-after-dtor", 0, CodeGenOpts.SanitizeMemoryUseAfterDtor, false, false, false, makeBooleanOptionNormalizer(true, false, OPT_fno_sanitize_memory_use_after_dtor), makeBooleanOptionDenormalizer(true), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fno-sanitize-memory-use-after-dtor"[1], fno_sanitize_memory_use_after_dtor, Flag, f_clang_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
        "Disable use-after-destroy detection in MemorySanitizer", nullptr, nullptr, "-fno-sanitize-memory-use-after-dtor", 0, CodeGenOpts.SanitizeMemoryUseAfterDtor, false, false, false, makeBooleanOptionNormalizer(false, true, OPT_fsanitize_memory_use_after_dtor), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fsanitize-address-field-padding="[1], fsanitize_address_field_padding, Joined, f_clang_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
+       "Level of field padding for AddressSanitizer", nullptr, nullptr, "-fsanitize-address-field-padding=", 0, LangOpts->SanitizeAddressFieldPadding, 0, false, 0, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fsanitize-address-use-after-scope"[1], fsanitize_address_use_after_scope, Flag, f_clang_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
@@ -4621,6 +4665,10 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fsanitize-stats"[1], fsanitize_stats, Flag,
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fno-sanitize-stats"[1], fno_sanitize_stats, Flag, f_clang_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
        "Disable sanitizer statistics gathering.", nullptr, nullptr, "-fno-sanitize-stats", 0, CodeGenOpts.SanitizeStats, false, false, false, makeBooleanOptionNormalizer(false, true, OPT_fsanitize_stats), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fsanitize-undefined-strip-path-components="[1], fsanitize_undefined_strip_path_components_EQ, Joined, f_clang_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
+       "Strip (or keep only, if negative) a given number of path components when emitting check metadata.", "<number>", nullptr, "-fsanitize-undefined-strip-path-components=", 0, CodeGenOpts.EmitCheckPathComponentsToStrip, 0, false, 0, normalizeStringIntegral<int>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-freciprocal-math"[1], freciprocal_math, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
@@ -4720,6 +4768,10 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fxray-instrument"[1], fxray_instrument, Fla
        "Generate XRay instrumentation sleds on function entry and exit", nullptr, nullptr, "-fxray-instrument", 0, LangOpts->XRayInstrument, false, false, true, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fxray-instruction-threshold="[1], fxray_instruction_threshold_EQ, JoinedOrSeparate, f_Group, INVALID, nullptr, CC1Option, 0,
+       "Sets the minimum function size to instrument with XRay", nullptr, nullptr, "-fxray-instruction-threshold=", 0, CodeGenOpts.XRayInstructionThreshold, 200, false, 200, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fxray-always-emit-customevents"[1], fxray_always_emit_customevents, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
        "Always emit __xray_customevent(...) calls even if the containing function is not always instrumented", nullptr, nullptr, "-fxray-always-emit-customevents", 0, LangOpts->XRayAlwaysEmitCustomEvents, false, false, true, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
@@ -4752,6 +4804,14 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fno-experimental-relative-c++-abi-vtables"[
        "Do not use the experimental C++ class ABI for classes with virtual tables", nullptr, nullptr, "-fno-experimental-relative-c++-abi-vtables", 0, LangOpts->RelativeCXXABIVTables, false, false, false, makeBooleanOptionNormalizer(false, true, OPT_fexperimental_relative_cxx_abi_vtables), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-flax-vector-conversions="[1], flax_vector_conversions_EQ, Joined, f_Group, INVALID, nullptr, CC1Option, 0,
+       "Enable implicit vector bit-casts", nullptr, "none,integer,all", "-flax-vector-conversions=", 0, LangOpts->LaxVectorConversions, LangOptions::LaxVectorConversionKind::All, false, LangOptions::LaxVectorConversionKind::All, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 3)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fthin-link-bitcode="[1], fthin_link_bitcode_EQ, Joined, f_Group, INVALID, nullptr, CoreOption | CC1Option, 0,
+       "Write minimized bitcode to <file> for the ThinLTO thin link only", nullptr, nullptr, "-fthin-link-bitcode=", 0, CodeGenOpts.ThinLinkBitcodeFile, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fmerge-all-constants"[1], fmerge_all_constants, Flag, f_Group, INVALID, nullptr, CoreOption | CC1Option, 0,
        "Allow merging of constants", nullptr, nullptr, "-fmerge-all-constants", 0, CodeGenOpts.MergeAllConstants, false, false, false, makeBooleanOptionNormalizer(true, false, OPT_fno_merge_all_constants), makeBooleanOptionDenormalizer(true), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
@@ -4775,8 +4835,27 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fno-delayed-template-parsing"[1], fno_delay
        "Disable delayed template parsing", nullptr, nullptr, "-fno-delayed-template-parsing", 0, LangOpts->DelayedTemplateParsing, false, false, false, makeBooleanOptionNormalizer(false, true, OPT_fdelayed_template_parsing), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fms-memptr-rep="[1], fms_memptr_rep_EQ, Joined, f_Group, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, "single,multiple,virtual", "-fms-memptr-rep=", 0, LangOpts->MSPointerToMemberRepresentationMethod, LangOptions::PPTMK_BestCase, false, LangOptions::PPTMK_BestCase, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 4)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fmodules-user-build-path"[1], fmodules_user_build_path, Separate, i_Group, INVALID, nullptr, NoXarchOption | CC1Option, 0,
+       "Specify the module user build path", "<directory>", nullptr, "-fmodules-user-build-path", 0, HeaderSearchOpts->ModuleUserBuildPath, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fprebuilt-implicit-modules"[1], fprebuilt_implicit_modules, Flag, f_Group, INVALID, nullptr, CC1Option | NoXarchOption | CC1Option, 0,
        "Look up implicit modules in the prebuilt module path", nullptr, nullptr, "-fprebuilt-implicit-modules", 0, HeaderSearchOpts->EnablePrebuiltImplicitModules, false, false, true, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fmodules-prune-interval="[1], fmodules_prune_interval, Joined, i_Group, INVALID, nullptr, CC1Option, 0,
+       "Specify the interval (in seconds) between attempts to prune the module cache", "<seconds>", nullptr, "-fmodules-prune-interval=", 0, HeaderSearchOpts->ModuleCachePruneInterval, 7 * 24 * 60 * 60, false, 7 * 24 * 60 * 60, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fmodules-prune-after="[1], fmodules_prune_after, Joined, i_Group, INVALID, nullptr, CC1Option, 0,
+       "Specify the interval (in seconds) after which a module file will be considered unused", "<seconds>", nullptr, "-fmodules-prune-after=", 0, HeaderSearchOpts->ModuleCachePruneAfter, 31 * 24 * 60 * 60, false, 31 * 24 * 60 * 60, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fbuild-session-timestamp="[1], fbuild_session_timestamp, Joined, i_Group, INVALID, nullptr, CC1Option, 0,
+       "Time when the current build session started", "<time since Epoch in seconds>", nullptr, "-fbuild-session-timestamp=", 0, HeaderSearchOpts->BuildSessionTimestamp, 0, false, 0, normalizeStringIntegral<uint64_t>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fmodules-validate-once-per-build-session"[1], fmodules_validate_once_per_build_session, Flag, i_Group, INVALID, nullptr, CC1Option, 0,
@@ -4815,8 +4894,16 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fmodules-ts"[1], fmodules_ts, Flag, f_Group
        "Enable support for the C++ Modules TS", nullptr, nullptr, "-fmodules-ts", 0, LangOpts->ModulesTS, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fmodule-name="[1], fmodule_name_EQ, Joined, f_Group, INVALID, nullptr, NoXarchOption | CC1Option, 0,
+       "Specify the name of the module to build", "<name>", nullptr, "-fmodule-name=", 0, LangOpts->ModuleName, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fsystem-module"[1], fsystem_module, Flag, INVALID, INVALID, nullptr, CC1Option, 0,
        "Build this module as a system module. Only used with -emit-module", nullptr, nullptr, "-fsystem-module", 0, FrontendOpts.IsSystemModule, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fmodule-map-file="[1], fmodule_map_file, Joined, f_Group, INVALID, nullptr, NoXarchOption | CC1Option, 0,
+       "Load this module map file", "<file>", nullptr, "-fmodule-map-file=", 0, FrontendOpts.ModuleMapFiles, std::vector<std::string>({}), false, std::vector<std::string>({}), normalizeStringVector, denormalizeStringVector, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fmodules-strict-decluse"[1], fmodules_strict_decluse, Flag, f_Group, INVALID, nullptr, NoXarchOption | CC1Option, 0,
@@ -4836,6 +4923,10 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fretain-comments-from-system-headers"[1], f
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fno-assume-sane-operator-new"[1], fno_assume_sane_operator_new, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
        "Don't assume that C++'s global operator new can't alias any pointer", nullptr, nullptr, "-fno-assume-sane-operator-new", 0, CodeGenOpts.AssumeSaneOperatorNew, true, false, true, normalizeSimpleNegativeFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fveclib="[1], fveclib, Joined, f_Group, INVALID, nullptr, CC1Option, 0,
+       "Use the given vector functions library", nullptr, "Accelerate,libmvec,MASSV,SVML,none", "-fveclib=", 0, CodeGenOpts.VecLib, CodeGenOptions::NoLibrary, false, CodeGenOptions::NoLibrary, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 5)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fno-temp-file"[1], fno_temp_file, Flag, f_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
@@ -4897,6 +4988,10 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fno-sized-deallocation"[1], fno_sized_deall
        "", nullptr, nullptr, "-fno-sized-deallocation", 0, LangOpts->SizedDeallocation, false, false, false, makeBooleanOptionNormalizer(false, true, OPT_fsized_deallocation), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fnew-alignment="[1], fnew_alignment_EQ, Joined, f_Group, INVALID, nullptr, CC1Option, 0,
+       "Specifies the largest alignment guaranteed by '::operator new(size_t)'", "<align>", nullptr, "-fnew-alignment=", 0, LangOpts->NewAlignOverride, 0, false, 0, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fno-objc-infer-related-result-type"[1], fno_objc_infer_related_result_type, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
        "do not infer Objective-C related result type based on method family", nullptr, nullptr, "-fno-objc-infer-related-result-type", 0, LangOpts->ObjCInferRelatedResultType, true, false, true, makeBooleanOptionNormalizer(false, true, OPT_fobjc_infer_related_result_type), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
@@ -4925,12 +5020,24 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fescaping-block-tail-calls"[1], fescaping_b
        "", nullptr, nullptr, "-fescaping-block-tail-calls", 0, CodeGenOpts.NoEscapingBlockTailCalls, false, false, false, makeBooleanOptionNormalizer(false, true, OPT_fno_escaping_block_tail_calls), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fpack-struct="[1], fpack_struct_EQ, Joined, f_Group, INVALID, nullptr, CC1Option, 0,
+       "Specify the default maximum struct packing alignment", nullptr, nullptr, "-fpack-struct=", 0, LangOpts->PackStruct, 0, false, 0, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fmax-type-align="[1], fmax_type_align_EQ, Joined, f_Group, INVALID, nullptr, CC1Option, 0,
+       "Specify the maximum alignment to enforce on pointers lacking an explicit alignment", nullptr, nullptr, "-fmax-type-align=", 0, LangOpts->MaxTypeAlign, 0, false, 0, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fpascal-strings"[1], fpascal_strings, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
        "Recognize and construct Pascal-style string literals", nullptr, nullptr, "-fpascal-strings", 0, LangOpts->PascalStrings, false, false, false, makeBooleanOptionNormalizer(true, false, OPT_fno_pascal_strings), makeBooleanOptionDenormalizer(true), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fno-pascal-strings"[1], fno_pascal_strings, Flag, f_Group, INVALID, nullptr, 0, 0,
        "", nullptr, nullptr, "-fno-pascal-strings", 0, LangOpts->PascalStrings, false, false, false, makeBooleanOptionNormalizer(false, true, OPT_fpascal_strings), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fpatchable-function-entry="[1], fpatchable_function_entry_EQ, Joined, f_Group, INVALID, nullptr, CC1Option, 0,
+       "Generate M NOPs before function entry and N-M NOPs after function entry", "<N,M>", nullptr, "-fpatchable-function-entry=", 0, CodeGenOpts.PatchableFunctionEntryCount, 0, false, 0, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fno-plt"[1], fno_plt, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
@@ -4997,6 +5104,14 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fno-stack-clash-protection"[1], fno_stack_c
        "Disable stack clash protection", nullptr, nullptr, "-fno-stack-clash-protection", 0, CodeGenOpts.StackClashProtector, false, false, false, makeBooleanOptionNormalizer(false, true, OPT_fstack_clash_protection), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-ftrivial-auto-var-init="[1], ftrivial_auto_var_init, Joined, f_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
+       "Initialize trivial automatic stack variables: uninitialized (default) | pattern", nullptr, "uninitialized,zero,pattern", "-ftrivial-auto-var-init=", 0, LangOpts->TrivialAutoVarInit, LangOptions::TrivialAutoVarInitKind::Uninitialized, false, LangOptions::TrivialAutoVarInitKind::Uninitialized, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 6)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-ftrivial-auto-var-init-stop-after="[1], ftrivial_auto_var_init_stop_after, Joined, f_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
+       "Stop initializing trivial automatic stack variables after the specified number of instances", nullptr, nullptr, "-ftrivial-auto-var-init-stop-after=", 0, LangOpts->TrivialAutoVarInitStopAfter, 0, false, 0, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fstrict-enums"[1], fstrict_enums, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
        "Enable optimizations based on the strict definition of an enum's value range", nullptr, nullptr, "-fstrict-enums", 0, CodeGenOpts.StrictEnums, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
@@ -5017,6 +5132,9 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fno-test-coverage"[1], fno_test_coverage, F
        "", nullptr, nullptr, "-fno-test-coverage", 0, CodeGenOpts.EmitGcovNotes, false, false, false, makeBooleanOptionNormalizer(false, true, OPT_ftest_coverage), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-Wlarge-by-value-copy="[1], Wlarge_by_value_copy_EQ, Joined, INVALID, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, nullptr, "-Wlarge-by-value-copy=", 0, LangOpts->NumLargeByValueCopy, 0, false, 0, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fno-threadsafe-statics"[1], fno_threadsafe_statics, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
        "Do not emit code to make initialization of local statics thread safe", nullptr, nullptr, "-fno-threadsafe-statics", 0, LangOpts->ThreadsafeStatics, true, false, true, makeBooleanOptionNormalizer(false, true, OPT_fthreadsafe_statics), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
@@ -5034,6 +5152,17 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-ftime-report="[1], ftime_report_EQ, Joined,
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-ftime-trace"[1], ftime_trace, Flag, f_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
        "Turn on time profiler. Generates JSON file based on output filename.", nullptr, nullptr, "-ftime-trace", 0, FrontendOpts.TimeTrace, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-ftime-trace-granularity="[1], ftime_trace_granularity_EQ, Joined, f_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
+       "Minimum time granularity (in microseconds) traced by time profiler", nullptr, nullptr, "-ftime-trace-granularity=", 0, FrontendOpts.TimeTraceGranularity, 500u, false, 500u, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-ftls-model="[1], ftlsmodel_EQ, Joined, f_Group, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, "global-dynamic,local-dynamic,initial-exec,local-exec", "-ftls-model=", 0, CodeGenOpts.DefaultTLSModel, CodeGenOptions::GeneralDynamicTLSModel, false, CodeGenOptions::GeneralDynamicTLSModel, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 7)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-ftrap-function="[1], ftrap_function_EQ, Joined, f_Group, INVALID, nullptr, CC1Option, 0,
+       "Issue call to specified function rather than a trap instruction", nullptr, nullptr, "-ftrap-function=", 0, CodeGenOpts.TrapFuncName, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-freroll-loops"[1], freroll_loops, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
@@ -5118,6 +5247,10 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fno-zero-initialized-in-bss"[1], fno_zero_i
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fzero-initialized-in-bss"[1], fzero_initialized_in_bss, Flag, f_Group, INVALID, nullptr, 0, 0,
        "", nullptr, nullptr, "-fzero-initialized-in-bss", 0, CodeGenOpts.NoZeroInitializedInBSS, false, false, false, makeBooleanOptionNormalizer(false, true, OPT_fno_zero_initialized_in_bss), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fbasic-block-sections="[1], fbasic_block_sections_EQ, Joined, f_Group, INVALID, nullptr, CC1Option | CC1AsOption, 0,
+       "Place each function's basic blocks in unique sections (ELF Only) : all | labels | none | list=<file>", nullptr, "all,labels,none,list=", "-fbasic-block-sections=", 0, CodeGenOpts.BBSections, "none", false, "none", normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fdata-sections"[1], fdata_sections, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
@@ -5224,11 +5357,11 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-ginline-line-tables"[1], ginline_line_table
        "", nullptr, nullptr, "-ginline-line-tables", 0, CodeGenOpts.NoInlineLineTables, false, false, false, makeBooleanOptionNormalizer(false, true, OPT_gno_inline_line_tables), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
-OPTION_WITH_MARSHALLING(prefix_1, &"-gno-column-info"[1], gno_column_info, Flag, g_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
+OPTION_WITH_MARSHALLING(prefix_1, &"-gno-column-info"[1], gno_column_info, Flag, g_flags_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
        "", nullptr, nullptr, "-gno-column-info", 0, CodeGenOpts.DebugColumnInfo, true, false, true, makeBooleanOptionNormalizer(false, true, OPT_gcolumn_info), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
-OPTION_WITH_MARSHALLING(prefix_1, &"-gcolumn-info"[1], gcolumn_info, Flag, g_Group, INVALID, nullptr, CoreOption, 0,
+OPTION_WITH_MARSHALLING(prefix_1, &"-gcolumn-info"[1], gcolumn_info, Flag, g_flags_Group, INVALID, nullptr, CoreOption, 0,
        "", nullptr, nullptr, "-gcolumn-info", 0, CodeGenOpts.DebugColumnInfo, true, false, true, makeBooleanOptionNormalizer(true, false, OPT_gno_column_info), makeBooleanOptionDenormalizer(true), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
@@ -5240,12 +5373,31 @@ OPTION_WITH_MARSHALLING(prefix_4, &"-help"[1], help, Flag, INVALID, INVALID, nul
        "Display available options", nullptr, nullptr, "-help", 0, FrontendOpts.ShowHelp, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-include-pch"[1], include_pch, Separate, clang_i_Group, INVALID, nullptr, CC1Option, 0,
+       "Include precompiled header file", "<file>", nullptr, "-include-pch", 0, PreprocessorOpts->ImplicitPCHInclude, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_4, &"-relocatable-pch"[1], relocatable_pch, Flag, INVALID, INVALID, nullptr, CC1Option, 0,
        "Whether to build a relocatable precompiled header", nullptr, nullptr, "-relocatable-pch", 0, FrontendOpts.RelocatablePCH, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-isysroot"[1], isysroot, JoinedOrSeparate, clang_i_Group, INVALID, nullptr, CC1Option, 0,
+       "Set the system root directory (usually /)", "<dir>", nullptr, "-isysroot", 0, HeaderSearchOpts->Sysroot, "/", false, "/", normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-mqdsp6-compat"[1], mqdsp6_compat, Flag, m_Group, INVALID, nullptr, NoXarchOption | CC1Option, 0,
        "Enable hexagon-qdsp6 backward compatibility", nullptr, nullptr, "-mqdsp6-compat", 0, LangOpts->HexagonQdsp6Compat, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-mdouble="[1], mdouble_EQ, Joined, m_Group, INVALID, nullptr, CC1Option, 0,
+       "Force double to be 32 bits or 64 bits", nullptr, "32,64", "-mdouble=", 0, LangOpts->DoubleSize, 0, false, 0, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-mcmodel="[1], mcmodel_EQ, Joined, m_Group, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, nullptr, "-mcmodel=", 0, TargetOpts->CodeModel, "default", false, "default", normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-mtls-size="[1], mtls_size_EQ, Joined, m_Group, INVALID, nullptr, NoXarchOption | CC1Option, 0,
+       "Specify bit size of immediate TLS offsets (AArch64 ELF only): 12 (for 4KB) | 24 (for 16MB, default) | 32 (for 4GB) | 48 (for 256TB, needs -mcmodel=large)", nullptr, nullptr, "-mtls-size=", 0, CodeGenOpts.TLSSize, 0, false, 0, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-malign-double"[1], malign_double, Flag, m_Group, INVALID, nullptr, CC1Option, 0,
@@ -5260,8 +5412,20 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-mstackrealign"[1], mstackrealign, Flag, m_G
        "Force realign the stack at entry to every function", nullptr, nullptr, "-mstackrealign", 0, CodeGenOpts.StackRealignment, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-mstack-alignment="[1], mstack_alignment, Joined, m_Group, INVALID, nullptr, CC1Option, 0,
+       "Set the stack alignment", nullptr, nullptr, "-mstack-alignment=", 0, CodeGenOpts.StackAlignment, 0, false, 0, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-mstack-probe-size="[1], mstack_probe_size, Joined, m_Group, INVALID, nullptr, CC1Option, 0,
+       "Set the stack probe size", nullptr, nullptr, "-mstack-probe-size=", 0, CodeGenOpts.StackProbeSize, 4096, false, 4096, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-mno-stack-arg-probe"[1], mno_stack_arg_probe, Flag, m_Group, INVALID, nullptr, CC1Option, 0,
        "Disable stack probes which are enabled by default", nullptr, nullptr, "-mno-stack-arg-probe", 0, CodeGenOpts.NoStackArgProbe, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-meabi"[1], meabi, Separate, m_Group, INVALID, nullptr, CC1Option, 0,
+       "Set EABI type, e.g. 4, 5 or gnu (default depends on triple)", nullptr, "default,4,5,gnu", "-meabi", 0, TargetOpts->EABIVersion, llvm::EABI::Default, false, llvm::EABI::Default, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 8)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-mno-tls-direct-seg-refs"[1], mno_tls_direct_seg_refs, Flag, m_Group, INVALID, nullptr, CC1Option, 0,
@@ -5320,6 +5484,10 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-msoft-float"[1], msoft_float, Flag, m_Group
        "Use software floating point", nullptr, nullptr, "-msoft-float", 0, CodeGenOpts.SoftFloat, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-mprefer-vector-width="[1], mprefer_vector_width_EQ, Joined, m_Group, INVALID, nullptr, CC1Option, 0,
+       "Specifies preferred vector width for auto-vectorization. Defaults to 'none' which allows target specific decisions.", nullptr, nullptr, "-mprefer-vector-width=", 0, CodeGenOpts.PreferVectorWidth, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-mpie-copy-relocations"[1], mpie_copy_relocations, Flag, m_Group, INVALID, nullptr, CC1Option, 0,
        "Use copy relocations support for PIE builds", nullptr, nullptr, "-mpie-copy-relocations", 0, CodeGenOpts.PIECopyRelocations, false, false, false, makeBooleanOptionNormalizer(true, false, OPT_mno_pie_copy_relocations), makeBooleanOptionDenormalizer(true), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
@@ -5352,6 +5520,10 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-nostdinc++"[1], nostdincxx, Flag, INVALID, 
        "Disable standard #include directories for the C++ standard library", nullptr, nullptr, "-nostdinc++", 0, HeaderSearchOpts->UseStandardCXXIncludes, true, false, true, normalizeSimpleNegativeFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-o"[1], o, JoinedOrSeparate, INVALID, INVALID, nullptr, NoXarchOption | RenderAsInput | CC1Option | CC1AsOption | FC1Option | FlangOption, 0,
+       "Write output to <file>", "<file>", nullptr, "-o", 0, FrontendOpts.OutputFile, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-pg"[1], pg, Flag, INVALID, INVALID, nullptr, CC1Option, 0,
        "Enable mcount instrumentation", nullptr, nullptr, "-pg", 0, CodeGenOpts.InstrumentForProfiling, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
@@ -5366,6 +5538,10 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-pthread"[1], pthread, Flag, INVALID, INVALI
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-no-pthread"[1], no_pthread, Flag, INVALID, INVALID, nullptr, CC1Option, 0,
        "", nullptr, nullptr, "-no-pthread", 0, LangOpts->POSIXThreads, false, false, false, makeBooleanOptionNormalizer(false, true, OPT_pthread), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-resource-dir"[1], resource_dir, Separate, INVALID, INVALID, nullptr, NoXarchOption | CC1Option | CoreOption | HelpHidden, 0,
+       "The directory which holds the compiler resource files", nullptr, nullptr, "-resource-dir", 0, HeaderSearchOpts->ResourceDir, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_4, &"-print-supported-cpus"[1], print_supported_cpus, Flag, CompileOnly_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
@@ -5396,10 +5572,12 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-working-directory"[1], working_directory, J
        "Resolve file paths relative to the specified directory", nullptr, nullptr, "-working-directory", 0, FileSystemOpts.WorkingDir, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
-OPTION_WITH_MARSHALLING(prefix_1, &"-fsemantic-interposition"[1], fsemantic_interposition, Flag, f_Group, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, nullptr, "-fsemantic-interposition", 0, LangOpts->SemanticInterposition, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
+OPTION_WITH_MARSHALLING(prefix_1, &"-fsemantic-interposition"[1], fsemantic_interposition, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
+       "", nullptr, nullptr, "-fsemantic-interposition", 0, LangOpts->SemanticInterposition, false, false, false, makeBooleanOptionNormalizer(true, false, OPT_fno_semantic_interposition), makeBooleanOptionDenormalizer(true), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
-OPTION_WITH_MARSHALLING(prefix_1, &"-fno-semantic-interposition"[1], fno_semantic_interposition, Flag, f_Group, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, nullptr, "-fno-semantic-interposition", 0, LangOpts->ExplicitNoSemanticInterposition, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
+OPTION_WITH_MARSHALLING(prefix_1, &"-fno-semantic-interposition"[1], fno_semantic_interposition, Flag, f_Group, INVALID, nullptr, 0, 0,
+       "", nullptr, nullptr, "-fno-semantic-interposition", 0, LangOpts->SemanticInterposition, false, false, false, makeBooleanOptionNormalizer(false, true, OPT_fsemantic_interposition), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fsycl"[1], fsycl, Flag, sycl_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
@@ -5410,8 +5588,28 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fno-sycl"[1], fno_sycl, Flag, sycl_Group, I
        "Disable SYCL kernels compilation for device", nullptr, nullptr, "-fno-sycl", 0, LangOpts->SYCL, false, false, false, makeBooleanOptionNormalizer(false, true, OPT_fsycl), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-target-cpu"[1], target_cpu, Separate, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0,
+       "Target a specific cpu type", nullptr, nullptr, "-target-cpu", 0, TargetOpts->CPU, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-tune-cpu"[1], tune_cpu, Separate, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0,
+       "Tune for a specific cpu type", nullptr, nullptr, "-tune-cpu", 0, TargetOpts->TuneCPU, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-triple"[1], triple, Separate, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0,
        "Specify target triple (e.g. i686-apple-darwin9)", nullptr, nullptr, "-triple", 1, TargetOpts->Triple, llvm::Triple::normalize(llvm::sys::getDefaultTargetTriple()), false, llvm::Triple::normalize(llvm::sys::getDefaultTargetTriple()), normalizeTriple, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-target-abi"[1], target_abi, Separate, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0,
+       "Target a particular ABI type", nullptr, nullptr, "-target-abi", 0, TargetOpts->ABI, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-target-linker-version"[1], target_linker_version, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Target linker version", nullptr, nullptr, "-target-linker-version", 0, TargetOpts->LinkerVersion, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-mfpmath"[1], mfpmath, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Which unit to use for fp math", nullptr, nullptr, "-mfpmath", 0, TargetOpts->FPMath, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-unoptimized-cfg"[1], analysis_UnoptimizedCFG, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
@@ -5430,6 +5628,10 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-analyzer-display-progress"[1], analyzer_dis
        "Emit verbose output about the analyzer's progress", nullptr, nullptr, "-analyzer-display-progress", 0, AnalyzerOpts->AnalyzerDisplayProgress, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-analyze-function"[1], analyze_function, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Run analysis on specific function (for C++ include parameters in name)", nullptr, nullptr, "-analyze-function", 0, AnalyzerOpts->AnalyzeSpecificFunction, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-trim-egraph"[1], trim_egraph, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Only show error-related paths in the analysis graph", nullptr, nullptr, "-trim-egraph", 0, AnalyzerOpts->TrimGraph, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
@@ -5442,8 +5644,16 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-analyzer-dump-egraph"[1], analyzer_dump_egr
        "Dump exploded graph to the specified file", nullptr, nullptr, "-analyzer-dump-egraph", 0, AnalyzerOpts->DumpExplodedGraphTo, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-analyzer-inline-max-stack-depth"[1], analyzer_inline_max_stack_depth, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Bound on stack depth while inlining (4 by default)", nullptr, nullptr, "-analyzer-inline-max-stack-depth", 0, AnalyzerOpts->InlineMaxStackDepth, 5, false, 5, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-analyzer-disable-retry-exhausted"[1], analyzer_disable_retry_exhausted, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Do not re-analyze paths leading to exhausted nodes with a different strategy (may decrease code coverage)", nullptr, nullptr, "-analyzer-disable-retry-exhausted", 0, AnalyzerOpts->NoRetryExhausted, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-analyzer-max-loop"[1], analyzer_max_loop, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "The maximum number of times the analyzer will go through a loop", nullptr, nullptr, "-analyzer-max-loop", 0, AnalyzerOpts->maxBlockVisitOnPath, 4, false, 4, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-analyzer-stats"[1], analyzer_stats, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
@@ -5498,8 +5708,25 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-no-finalize-removal"[1], migrator_no_finali
        "Do not remove finalize method in gc mode", nullptr, nullptr, "-no-finalize-removal", 0, MigratorOpts.NoFinalizeRemoval, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-debug-info-kind="[1], debug_info_kind_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0, nullptr, nullptr, "line-tables-only,line-directives-only,constructor,limited,standalone,unused-types", "-debug-info-kind=", 0, CodeGenOpts.DebugInfo, codegenoptions::NoDebugInfo, false, codegenoptions::NoDebugInfo, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 9)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-debug-info-macro"[1], debug_info_macro, Flag, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0,
        "Emit macro debug information", nullptr, nullptr, "-debug-info-macro", 0, CodeGenOpts.MacroDebugInfo, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-dwarf-version="[1], dwarf_version_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0, nullptr, nullptr, nullptr, "-dwarf-version=", 0, CodeGenOpts.DwarfVersion, 0, false, 0, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-debugger-tuning="[1], debugger_tuning_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0, nullptr, nullptr, "gdb,lldb,sce", "-debugger-tuning=", 0, CodeGenOpts.DebuggerTuning, llvm::DebuggerKind::Default, false, llvm::DebuggerKind::Default, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 10)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-dwarf-debug-flags"[1], dwarf_debug_flags, Separate, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0,
+       "The string to embed in the Dwarf debug flags record.", nullptr, nullptr, "-dwarf-debug-flags", 0, CodeGenOpts.DwarfDebugFlags, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-record-command-line"[1], record_command_line, Separate, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0,
+       "The string to embed in the .LLVM.command.line section.", nullptr, nullptr, "-record-command-line", 0, CodeGenOpts.RecordCommandLine, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-mnoexecstack"[1], mno_exec_stack, Flag, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0,
@@ -5523,7 +5750,7 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-msave-temp-labels"[1], msave_temp_labels, F
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-mrelocation-model"[1], mrelocation_model, Separate, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0,
-       "The relocation model to use", nullptr, "static,pic,ropi,rwpi,ropi-rwpi,dynamic-no-pic", "-mrelocation-model", 0, CodeGenOpts.RelocationModel, llvm::Reloc::PIC_, false, llvm::Reloc::PIC_, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 1)
+       "The relocation model to use", nullptr, "static,pic,ropi,rwpi,ropi-rwpi,dynamic-no-pic", "-mrelocation-model", 0, CodeGenOpts.RelocationModel, llvm::Reloc::PIC_, false, llvm::Reloc::PIC_, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 11)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fno-math-builtin"[1], fno_math_builtin, Flag, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0,
@@ -5594,6 +5821,14 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-no-struct-path-tbaa"[1], no_struct_path_tba
        "Turn off struct-path aware Type Based Alias Analysis", nullptr, nullptr, "-no-struct-path-tbaa", 0, CodeGenOpts.StructPathTBAA, true, false, true, normalizeSimpleNegativeFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-mdebug-pass"[1], mdebug_pass, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Enable additional debug output", nullptr, nullptr, "-mdebug-pass", 0, CodeGenOpts.DebugPass, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-mframe-pointer="[1], mframe_pointer_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Specify which frame pointers to retain (all, non-leaf, none).", nullptr, "all,non-leaf,none", "-mframe-pointer=", 0, CodeGenOpts.FramePointer, CodeGenOptions::FramePointerKind::None, false, CodeGenOptions::FramePointerKind::None, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 12)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-mdisable-tail-calls"[1], mdisable_tail_calls, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Disable tail call optimization, keeping the call stack accurate", nullptr, nullptr, "-mdisable-tail-calls", 0, CodeGenOpts.DisableTailCalls, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
@@ -5614,8 +5849,24 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-mabi=ieeelongdouble"[1], mabi_EQ_ieeelongdo
        "Use IEEE 754 quadruple-precision for long double", nullptr, nullptr, "-mabi=ieeelongdouble", 0, LangOpts->PPCIEEELongDouble, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-mfloat-abi"[1], mfloat_abi, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "The float ABI to use", nullptr, nullptr, "-mfloat-abi", 0, CodeGenOpts.FloatABI, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-mlimit-float-precision"[1], mlimit_float_precision, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Limit float precision to the given value", nullptr, nullptr, "-mlimit-float-precision", 0, CodeGenOpts.LimitFloatPrecision, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-split-stacks"[1], split_stacks, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Try to use a split stack if possible.", nullptr, nullptr, "-split-stacks", 0, CodeGenOpts.EnableSegmentedStacks, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-mregparm"[1], mregparm, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Limit the number of registers available for integer arguments", nullptr, nullptr, "-mregparm", 0, CodeGenOpts.NumRegisterParameters, 0, false, 0, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-msmall-data-limit"[1], msmall_data_limit, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Put global and static data smaller than the limit into a special section", nullptr, nullptr, "-msmall-data-limit", 0, CodeGenOpts.SmallDataLimit, 0, false, 0, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-munwind-tables"[1], munwind_tables, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
@@ -5632,6 +5883,10 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-vectorize-loops"[1], vectorize_loops, Flag,
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-vectorize-slp"[1], vectorize_slp, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Run the SLP vectorization passes", nullptr, nullptr, "-vectorize-slp", 0, CodeGenOpts.VectorizeSLP, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fsanitize-coverage-type="[1], fsanitize_coverage_type, Joined, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Sanitizer coverage type", nullptr, nullptr, "-fsanitize-coverage-type=", 0, CodeGenOpts.SanitizeCoverageType, 0, false, 0, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fsanitize-coverage-indirect-calls"[1], fsanitize_coverage_indirect_calls, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
@@ -5686,15 +5941,31 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fsanitize-coverage-stack-depth"[1], fsaniti
        "Enable max stack depth tracing", nullptr, nullptr, "-fsanitize-coverage-stack-depth", 0, CodeGenOpts.SanitizeCoverageStackDepth, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fpatchable-function-entry-offset="[1], fpatchable_function_entry_offset_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Generate M NOPs before function entry", "<M>", nullptr, "-fpatchable-function-entry-offset=", 0, CodeGenOpts.PatchableFunctionEntryOffset, 0, false, 0, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fprofile-instrument="[1], fprofile_instrument_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Enable PGO instrumentation. The accepted value is clang, llvm, or none", nullptr, "none,clang,llvm,csllvm", "-fprofile-instrument=", 0, CodeGenOpts.ProfileInstr, CodeGenOptions::ProfileNone, false, CodeGenOptions::ProfileNone, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 13)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fprofile-instrument-path="[1], fprofile_instrument_path_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Generate instrumented code to collect execution counts into <file> (overridden by LLVM_PROFILE_FILE env var)", nullptr, nullptr, "-fprofile-instrument-path=", 0, CodeGenOpts.InstrProfileOutput, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fprofile-instrument-use-path="[1], fprofile_instrument_use_path_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Specify the profile path in PGO use compilation", nullptr, nullptr, "-fprofile-instrument-use-path=", 0, CodeGenOpts.ProfileInstrumentUsePath, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-flto-visibility-public-std"[1], flto_visibility_public_std, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Use public LTO visibility for classes in std and stdext namespaces", nullptr, nullptr, "-flto-visibility-public-std", 0, CodeGenOpts.LTOVisibilityPublicStd, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
-OPTION_WITH_MARSHALLING(prefix_1, &"-flto-unit"[1], flto_unit, Flag, f_Group, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+OPTION_WITH_MARSHALLING(prefix_1, &"-flto-unit"[1], flto_unit, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Emit IR to support LTO unit features (CFI, whole program vtable opt)", nullptr, nullptr, "-flto-unit", 0, CodeGenOpts.LTOUnit, false, false, false, makeBooleanOptionNormalizer(true, false, OPT_fno_lto_unit), makeBooleanOptionDenormalizer(true), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
-OPTION_WITH_MARSHALLING(prefix_1, &"-fno-lto-unit"[1], fno_lto_unit, Flag, f_Group, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+OPTION_WITH_MARSHALLING(prefix_1, &"-fno-lto-unit"[1], fno_lto_unit, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "", nullptr, nullptr, "-fno-lto-unit", 0, CodeGenOpts.LTOUnit, false, false, false, makeBooleanOptionNormalizer(false, true, OPT_flto_unit), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
@@ -5736,6 +6007,10 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-header-include-file"[1], header_include_fil
        "Filename (or -) to write header include output to", nullptr, nullptr, "-header-include-file", 0, DependencyOutputOpts.HeaderIncludeOutputFile, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-aux-triple"[1], aux_triple, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Auxiliary target triple.", nullptr, nullptr, "-aux-triple", 0, FrontendOpts.AuxTriple, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-code-completion-macros"[1], code_completion_macros, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Include macros in code-completion results", nullptr, nullptr, "-code-completion-macros", 0, FrontendOpts.CodeCompleteOpts.IncludeMacros, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
@@ -5768,6 +6043,10 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-discard-value-names"[1], discard_value_name
        "Discard value names in LLVM IR", nullptr, nullptr, "-discard-value-names", 0, CodeGenOpts.DiscardValueNames, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-ast-dump-filter"[1], ast_dump_filter, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Use with -ast-dump or -ast-print to dump/print only AST declaration nodes having a certain substring in a qualified name. Use -ast-list to list all filterable declaration node names.", "<dump_filter>", nullptr, "-ast-dump-filter", 0, FrontendOpts.ASTDumpFilter, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fno-modules-global-index"[1], fno_modules_global_index, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Do not automatically generate or update the global module index", nullptr, nullptr, "-fno-modules-global-index", 0, FrontendOpts.UseGlobalModuleIndex, true, false, true, normalizeSimpleNegativeFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
@@ -5790,6 +6069,10 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fmodules-codegen"[1], fmodules_codegen, Fla
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fmodules-debuginfo"[1], fmodules_debuginfo, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Generate debug info for types in an object file built from this module and do not generate them elsewhere", nullptr, nullptr, "-fmodules-debuginfo", 0, LangOpts->ModulesDebugInfo, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fmodule-format="[1], fmodule_format_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Select the container format for clang modules and PCH. Supported options are 'raw' and 'obj'.", nullptr, nullptr, "-fmodule-format=", 0, HeaderSearchOpts->ModuleFormat, "raw", false, "raw", normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fno-concept-satisfaction-caching"[1], fno_concept_satisfaction_caching, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
@@ -5828,12 +6111,24 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-no-emit-llvm-uselists"[1], no_emit_llvm_use
        "Don't preserve order of LLVM use-lists when serializing", nullptr, nullptr, "-no-emit-llvm-uselists", 0, CodeGenOpts.EmitLLVMUseLists, false, false, false, makeBooleanOptionNormalizer(false, true, OPT_emit_llvm_uselists), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-mt-migrate-directory"[1], mt_migrate_directory, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Directory for temporary files produced during ARC or ObjC migration", nullptr, nullptr, "-mt-migrate-directory", 0, FrontendOpts.MTMigrateDir, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-arcmt-action="[1], arcmt_action_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
-       "The ARC migration action to take", nullptr, "check,modify,migrate", "-arcmt-action=", 0, FrontendOpts.ARCMTAction, FrontendOptions::ARCMT_None, false, FrontendOptions::ARCMT_None, normalizeSimpleEnum, denormalizeSimpleEnumJoined, mergeForwardValue, extractForwardValue, 2)
+       "The ARC migration action to take", nullptr, "check,modify,migrate", "-arcmt-action=", 0, FrontendOpts.ARCMTAction, FrontendOptions::ARCMT_None, false, FrontendOptions::ARCMT_None, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 14)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-opt-record-file"[1], opt_record_file, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "File name to use for YAML optimization record output", nullptr, nullptr, "-opt-record-file", 0, CodeGenOpts.OptRecordFile, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-print-stats"[1], print_stats, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Print performance metrics and statistics", nullptr, nullptr, "-print-stats", 0, FrontendOpts.ShowStats, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-stats-file="[1], stats_file, Joined, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Filename to write statistics to", nullptr, nullptr, "-stats-file=", 0, FrontendOpts.StatsFile, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fdump-record-layouts-simple"[1], fdump_record_layouts_simple, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
@@ -5856,6 +6151,14 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fixit-to-temporary"[1], fixit_to_temp, Flag
        "Apply fix-it changes to temporary files", nullptr, nullptr, "-fixit-to-temporary", 0, FrontendOpts.FixToTemporaries, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-foverride-record-layout="[1], foverride_record_layout_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Override record layouts with those in the given file", nullptr, nullptr, "-foverride-record-layout=", 0, FrontendOpts.OverrideRecordLayoutsFile, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-pch-through-header="[1], pch_through_header_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Stop PCH generation after including this file.  When using a PCH, skip tokens until after this file is included.", nullptr, nullptr, "-pch-through-header=", 0, PreprocessorOpts->PCHThroughHeader, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-pch-through-hdrstop-create"[1], pch_through_hdrstop_create, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "When creating a PCH, stop PCH generation after #pragma hdrstop.", nullptr, nullptr, "-pch-through-hdrstop-create", 0, PreprocessorOpts->PCHWithHdrStopCreate, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
@@ -5872,12 +6175,36 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-version"[1], version, Flag, INVALID, INVALI
        "Print the compiler version", nullptr, nullptr, "-version", 0, FrontendOpts.ShowVersion, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-main-file-name"[1], main_file_name, Separate, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0,
+       "Main file name to use for debug info and source if missing", nullptr, nullptr, "-main-file-name", 0, CodeGenOpts.MainFileName, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-split-dwarf-output"[1], split_dwarf_output, Separate, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0,
+       "File name to use for split dwarf debug info output", nullptr, nullptr, "-split-dwarf-output", 0, CodeGenOpts.SplitDwarfOutput, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fblocks-runtime-optional"[1], fblocks_runtime_optional, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Weakly link in the blocks runtime", nullptr, nullptr, "-fblocks-runtime-optional", 0, LangOpts->BlocksRuntimeOptional, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fexternc-nounwind"[1], fexternc_nounwind, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Assume all functions with C linkage do not unwind", nullptr, nullptr, "-fexternc-nounwind", 0, LangOpts->ExternCNoUnwind, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-split-dwarf-file"[1], split_dwarf_file, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Name of the split dwarf debug info file to encode in the object file", nullptr, nullptr, "-split-dwarf-file", 0, CodeGenOpts.SplitDwarfFile, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fconstant-string-class"[1], fconstant_string_class, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Specify the class to use for constant Objective-C string objects.", "<class name>", nullptr, "-fconstant-string-class", 0, LangOpts->ObjCConstantStringClass, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fobjc-arc-cxxlib="[1], fobjc_arc_cxxlib_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Objective-C++ Automatic Reference Counting standard library kind", nullptr, "libc++,libstdc++,none", "-fobjc-arc-cxxlib=", 0, PreprocessorOpts->ObjCXXARCStandardLibrary, ARCXX_nolib, false, ARCXX_nolib, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 15)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fobjc-dispatch-method="[1], fobjc_dispatch_method_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Objective-C dispatch method to use", nullptr, "legacy,non-legacy,mixed", "-fobjc-dispatch-method=", 0, CodeGenOpts.ObjCDispatchMethod, CodeGenOptions::Legacy, false, CodeGenOptions::Legacy, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 16)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-disable-objc-default-synthesize-properties"[1], disable_objc_default_synthesize_properties, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
@@ -5888,8 +6215,16 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fencode-extended-block-signature"[1], fenco
        "enable extended encoding of block type signature", nullptr, nullptr, "-fencode-extended-block-signature", 0, LangOpts->EncodeExtendedBlockSig, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-function-alignment"[1], function_alignment, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "default alignment for functions", nullptr, nullptr, "-function-alignment", 0, LangOpts->FunctionAlignment, 0, false, 0, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-pic-is-pie"[1], pic_is_pie, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "File is for a position independent executable", nullptr, nullptr, "-pic-is-pie", 0, LangOpts->PIE, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fhalf-no-semantic-interposition"[1], fhalf_no_semantic_interposition, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Like -fno-semantic-interposition but don't use local aliases", nullptr, nullptr, "-fhalf-no-semantic-interposition", 0, LangOpts->HalfNoSemanticInterposition, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fno-validate-pch"[1], fno_validate_pch, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
@@ -5904,15 +6239,47 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-static-define"[1], static_define, Flag, INV
        "Should __STATIC__ be defined", nullptr, nullptr, "-static-define", 0, LangOpts->Static, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-stack-protector"[1], stack_protector, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Enable stack protectors", nullptr, "0,1,2,3", "-stack-protector", 0, LangOpts->StackProtector, LangOptions::SSPOff, false, LangOptions::SSPOff, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 17)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-stack-protector-buffer-size"[1], stack_protector_buffer_size, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Lower bound for a buffer to be considered for stack protection", nullptr, nullptr, "-stack-protector-buffer-size", 0, CodeGenOpts.SSPBufferSize, 8, false, 8, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fvisibility"[1], fvisibility, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Default type and symbol visibility", nullptr, "default,hidden,internal,protected", "-fvisibility", 0, LangOpts->ValueVisibilityMode, DefaultVisibility, false, DefaultVisibility, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 18)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fapply-global-visibility-to-externs"[1], fapply_global_visibility_to_externs, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Apply global symbol visibility to external declarations without an explicit visibility", nullptr, nullptr, "-fapply-global-visibility-to-externs", 0, LangOpts->SetVisibilityForExternDecls, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
-OPTION_WITH_MARSHALLING(prefix_1, &"-fconst-strings"[1], fconst_strings, Flag, f_Group, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+OPTION_WITH_MARSHALLING(prefix_1, &"-ftemplate-depth"[1], ftemplate_depth, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Maximum depth of recursive template instantiation", nullptr, nullptr, "-ftemplate-depth", 0, LangOpts->InstantiationDepth, 1024, false, 1024, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-foperator-arrow-depth"[1], foperator_arrow_depth, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Maximum number of 'operator->'s to call for a member access", nullptr, nullptr, "-foperator-arrow-depth", 0, LangOpts->ArrowDepth, 256, false, 256, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fconstexpr-depth"[1], fconstexpr_depth, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Maximum depth of recursive constexpr function calls", nullptr, nullptr, "-fconstexpr-depth", 0, LangOpts->ConstexprCallDepth, 512, false, 512, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fconstexpr-steps"[1], fconstexpr_steps, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Maximum number of steps in constexpr function evaluation", nullptr, nullptr, "-fconstexpr-steps", 0, LangOpts->ConstexprStepLimit, 1048576, false, 1048576, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fbracket-depth"[1], fbracket_depth, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Maximum nesting level for parentheses, brackets, and braces", nullptr, nullptr, "-fbracket-depth", 0, LangOpts->BracketDepth, 256, false, 256, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fconst-strings"[1], fconst_strings, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Use a const qualified type for string literals in C and ObjC", nullptr, nullptr, "-fconst-strings", 0, LangOpts->ConstStrings, false, false, false, makeBooleanOptionNormalizer(true, false, OPT_fno_const_strings), makeBooleanOptionDenormalizer(true), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
-OPTION_WITH_MARSHALLING(prefix_1, &"-fno-const-strings"[1], fno_const_strings, Flag, f_Group, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+OPTION_WITH_MARSHALLING(prefix_1, &"-fno-const-strings"[1], fno_const_strings, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Don't use a const qualified type for string literals in C and ObjC", nullptr, nullptr, "-fno-const-strings", 0, LangOpts->ConstStrings, false, false, false, makeBooleanOptionNormalizer(false, true, OPT_fconst_strings), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
@@ -5922,6 +6289,10 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fno-bitfield-type-align"[1], fno_bitfield_t
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-ffake-address-space-map"[1], ffake_address_space_map, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Use a fake address space map; OpenCL testing purposes only", nullptr, nullptr, "-ffake-address-space-map", 0, LangOpts->FakeAddressSpaceMap, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-faddress-space-map-mangling="[1], faddress_space_map_mangling_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Set the mode for address space map based mangling; OpenCL testing purposes only", "<yes|no|target>", "target,no,yes", "-faddress-space-map-mangling=", 0, LangOpts->AddressSpaceMapMangling, LangOptions::ASMM_Target, false, LangOptions::ASMM_Target, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 19)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-funknown-anytype"[1], funknown_anytype, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
@@ -5940,6 +6311,14 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fdebugger-objc-literal"[1], fdebugger_objc_
        "Enable special debugger support for Objective-C subscripting and literals", nullptr, nullptr, "-fdebugger-objc-literal", 0, LangOpts->DebuggerObjCLiteral, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-vtordisp-mode="[1], vtordisp_mode_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Control vtordisp placement on win32 targets", nullptr, nullptr, "-vtordisp-mode=", 0, LangOpts->VtorDispMode, 1, false, 1, normalizeStringIntegral<unsigned>, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fdefault-calling-conv="[1], fdefault_calling_conv_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Set default calling convention", nullptr, "cdecl,fastcall,stdcall,vectorcall,regcall", "-fdefault-calling-conv=", 0, LangOpts->DefaultCallingConv, LangOptions::DCC_None, false, LangOptions::DCC_None, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 20)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-finclude-default-header"[1], finclude_default_header, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Include default header file for OpenCL", nullptr, nullptr, "-finclude-default-header", 0, LangOpts->IncludeDefaultHeader, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
@@ -5952,11 +6331,15 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fpreserve-vec3-type"[1], fpreserve_vec3_typ
        "Preserve 3-component vector type", nullptr, nullptr, "-fpreserve-vec3-type", 0, CodeGenOpts.PreserveVec3Type, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
-OPTION_WITH_MARSHALLING(prefix_1, &"-fno-signed-wchar"[1], fno_signed_wchar, Flag, f_Group, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+OPTION_WITH_MARSHALLING(prefix_1, &"-fwchar-type="[1], fwchar_type_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Select underlying type for wchar_t", nullptr, "char,short,int", "-fwchar-type=", 0, LangOpts->WCharSize, 0, false, 0, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 21)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fno-signed-wchar"[1], fno_signed_wchar, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Use an unsigned type for wchar_t", nullptr, nullptr, "-fno-signed-wchar", 0, LangOpts->WCharIsSigned, true, false, true, makeBooleanOptionNormalizer(false, true, OPT_fsigned_wchar), makeBooleanOptionDenormalizer(false), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
-OPTION_WITH_MARSHALLING(prefix_1, &"-fsigned-wchar"[1], fsigned_wchar, Flag, f_Group, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+OPTION_WITH_MARSHALLING(prefix_1, &"-fsigned-wchar"[1], fsigned_wchar, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Use a signed type for wchar_t", nullptr, nullptr, "-fsigned-wchar", 0, LangOpts->WCharIsSigned, true, false, true, makeBooleanOptionNormalizer(true, false, OPT_fno_signed_wchar), makeBooleanOptionDenormalizer(true), mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
@@ -6000,6 +6383,10 @@ OPTION_WITH_MARSHALLING(prefix_1, &"-fcuda-is-device"[1], fcuda_is_device, Flag,
        "Generate code for CUDA device", nullptr, nullptr, "-fcuda-is-device", 0, LangOpts->CUDAIsDevice, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
 #ifdef OPTION_WITH_MARSHALLING
+OPTION_WITH_MARSHALLING(prefix_1, &"-fcuda-include-gpubinary"[1], fcuda_include_gpubinary, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
+       "Incorporate CUDA device-side binary into host object file.", nullptr, nullptr, "-fcuda-include-gpubinary", 0, CodeGenOpts.CudaGpuBinaryFileName, std::string(), false, std::string(), normalizeString, denormalizeString, mergeForwardValue, extractForwardValue, -1)
+#endif // OPTION_WITH_MARSHALLING
+#ifdef OPTION_WITH_MARSHALLING
 OPTION_WITH_MARSHALLING(prefix_1, &"-fcuda-allow-variadic-functions"[1], fcuda_allow_variadic_functions, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Allow variadic functions in CUDA device code.", nullptr, nullptr, "-fcuda-allow-variadic-functions", 0, LangOpts->CUDAAllowVariadicFunctions, false, false, false, normalizeSimpleFlag, denormalizeSimpleFlag, mergeForwardValue, extractForwardValue, -1)
 #endif // OPTION_WITH_MARSHALLING
@@ -6019,15 +6406,72 @@ struct SimpleEnumValueTable {
   const SimpleEnumValue *Table;
   unsigned Size;
 };
+static const SimpleEnumValue fembed_bitcode_EQValueTable[] = {
+{"off",static_cast<unsigned>(CodeGenOptions::Embed_Off)},{"all",static_cast<unsigned>(CodeGenOptions::Embed_All)},{"bitcode",static_cast<unsigned>(CodeGenOptions::Embed_Bitcode)},{"marker",static_cast<unsigned>(CodeGenOptions::Embed_Marker)},};
+static const SimpleEnumValue fcf_runtime_abi_EQValueTable[] = {
+{"unspecified",static_cast<unsigned>(LangOptions::CoreFoundationABI::ObjectiveC)},{"standalone",static_cast<unsigned>(LangOptions::CoreFoundationABI::ObjectiveC)},{"objc",static_cast<unsigned>(LangOptions::CoreFoundationABI::ObjectiveC)},{"swift",static_cast<unsigned>(LangOptions::CoreFoundationABI::Swift5_0)},{"swift-5.0",static_cast<unsigned>(LangOptions::CoreFoundationABI::Swift5_0)},{"swift-4.2",static_cast<unsigned>(LangOptions::CoreFoundationABI::Swift4_2)},{"swift-4.1",static_cast<unsigned>(LangOptions::CoreFoundationABI::Swift4_1)},};
 static const SimpleEnumValue exception_modelValueTable[] = {
 {"dwarf",static_cast<unsigned>(llvm::ExceptionHandling::DwarfCFI)},{"sjlj",static_cast<unsigned>(llvm::ExceptionHandling::SjLj)},{"seh",static_cast<unsigned>(llvm::ExceptionHandling::WinEH)},{"wasm",static_cast<unsigned>(llvm::ExceptionHandling::Wasm)},};
+static const SimpleEnumValue flax_vector_conversions_EQValueTable[] = {
+{"none",static_cast<unsigned>(LangOptions::LaxVectorConversionKind::None)},{"integer",static_cast<unsigned>(LangOptions::LaxVectorConversionKind::Integer)},{"all",static_cast<unsigned>(LangOptions::LaxVectorConversionKind::All)},};
+static const SimpleEnumValue fms_memptr_rep_EQValueTable[] = {
+{"single",static_cast<unsigned>(LangOptions::PPTMK_FullGeneralitySingleInheritance)},{"multiple",static_cast<unsigned>(LangOptions::PPTMK_FullGeneralityMultipleInheritance)},{"virtual",static_cast<unsigned>(LangOptions::PPTMK_FullGeneralityVirtualInheritance)},};
+static const SimpleEnumValue fveclibValueTable[] = {
+{"Accelerate",static_cast<unsigned>(CodeGenOptions::Accelerate)},{"libmvec",static_cast<unsigned>(CodeGenOptions::LIBMVEC)},{"MASSV",static_cast<unsigned>(CodeGenOptions::MASSV)},{"SVML",static_cast<unsigned>(CodeGenOptions::SVML)},{"none",static_cast<unsigned>(CodeGenOptions::NoLibrary)},};
+static const SimpleEnumValue ftrivial_auto_var_initValueTable[] = {
+{"uninitialized",static_cast<unsigned>(LangOptions::TrivialAutoVarInitKind::Uninitialized)},{"zero",static_cast<unsigned>(LangOptions::TrivialAutoVarInitKind::Zero)},{"pattern",static_cast<unsigned>(LangOptions::TrivialAutoVarInitKind::Pattern)},};
+static const SimpleEnumValue ftlsmodel_EQValueTable[] = {
+{"global-dynamic",static_cast<unsigned>(CodeGenOptions::GeneralDynamicTLSModel)},{"local-dynamic",static_cast<unsigned>(CodeGenOptions::LocalDynamicTLSModel)},{"initial-exec",static_cast<unsigned>(CodeGenOptions::InitialExecTLSModel)},{"local-exec",static_cast<unsigned>(CodeGenOptions::LocalExecTLSModel)},};
+static const SimpleEnumValue meabiValueTable[] = {
+{"default",static_cast<unsigned>(llvm::EABI::Default)},{"4",static_cast<unsigned>(llvm::EABI::EABI4)},{"5",static_cast<unsigned>(llvm::EABI::EABI5)},{"gnu",static_cast<unsigned>(llvm::EABI::GNU)},};
+static const SimpleEnumValue debug_info_kind_EQValueTable[] = {
+{"line-tables-only",static_cast<unsigned>(codegenoptions::DebugLineTablesOnly)},{"line-directives-only",static_cast<unsigned>(codegenoptions::DebugDirectivesOnly)},{"constructor",static_cast<unsigned>(codegenoptions::DebugInfoConstructor)},{"limited",static_cast<unsigned>(codegenoptions::LimitedDebugInfo)},{"standalone",static_cast<unsigned>(codegenoptions::FullDebugInfo)},{"unused-types",static_cast<unsigned>(codegenoptions::UnusedTypeInfo)},};
+static const SimpleEnumValue debugger_tuning_EQValueTable[] = {
+{"gdb",static_cast<unsigned>(llvm::DebuggerKind::GDB)},{"lldb",static_cast<unsigned>(llvm::DebuggerKind::LLDB)},{"sce",static_cast<unsigned>(llvm::DebuggerKind::SCE)},};
 static const SimpleEnumValue mrelocation_modelValueTable[] = {
 {"static",static_cast<unsigned>(llvm::Reloc::Static)},{"pic",static_cast<unsigned>(llvm::Reloc::PIC_)},{"ropi",static_cast<unsigned>(llvm::Reloc::ROPI)},{"rwpi",static_cast<unsigned>(llvm::Reloc::RWPI)},{"ropi-rwpi",static_cast<unsigned>(llvm::Reloc::ROPI_RWPI)},{"dynamic-no-pic",static_cast<unsigned>(llvm::Reloc::DynamicNoPIC)},};
+static const SimpleEnumValue mframe_pointer_EQValueTable[] = {
+{"all",static_cast<unsigned>(CodeGenOptions::FramePointerKind::All)},{"non-leaf",static_cast<unsigned>(CodeGenOptions::FramePointerKind::NonLeaf)},{"none",static_cast<unsigned>(CodeGenOptions::FramePointerKind::None)},};
+static const SimpleEnumValue fprofile_instrument_EQValueTable[] = {
+{"none",static_cast<unsigned>(CodeGenOptions::ProfileNone)},{"clang",static_cast<unsigned>(CodeGenOptions::ProfileClangInstr)},{"llvm",static_cast<unsigned>(CodeGenOptions::ProfileIRInstr)},{"csllvm",static_cast<unsigned>(CodeGenOptions::ProfileCSIRInstr)},};
 static const SimpleEnumValue arcmt_action_EQValueTable[] = {
 {"check",static_cast<unsigned>(FrontendOptions::ARCMT_Check)},{"modify",static_cast<unsigned>(FrontendOptions::ARCMT_Modify)},{"migrate",static_cast<unsigned>(FrontendOptions::ARCMT_Migrate)},};
-static const SimpleEnumValueTable SimpleEnumValueTables[] = {{exception_modelValueTable, sizeof(exception_modelValueTable) / sizeof(SimpleEnumValue)},
+static const SimpleEnumValue fobjc_arc_cxxlib_EQValueTable[] = {
+{"libc++",static_cast<unsigned>(ARCXX_libcxx)},{"libstdc++",static_cast<unsigned>(ARCXX_libstdcxx)},{"none",static_cast<unsigned>(ARCXX_nolib)},};
+static const SimpleEnumValue fobjc_dispatch_method_EQValueTable[] = {
+{"legacy",static_cast<unsigned>(CodeGenOptions::Legacy)},{"non-legacy",static_cast<unsigned>(CodeGenOptions::NonLegacy)},{"mixed",static_cast<unsigned>(CodeGenOptions::Mixed)},};
+static const SimpleEnumValue stack_protectorValueTable[] = {
+{"0",static_cast<unsigned>(LangOptions::SSPOff)},{"1",static_cast<unsigned>(LangOptions::SSPOn)},{"2",static_cast<unsigned>(LangOptions::SSPStrong)},{"3",static_cast<unsigned>(LangOptions::SSPReq)},};
+static const SimpleEnumValue fvisibilityValueTable[] = {
+{"default",static_cast<unsigned>(DefaultVisibility)},{"hidden",static_cast<unsigned>(HiddenVisibility)},{"internal",static_cast<unsigned>(HiddenVisibility)},{"protected",static_cast<unsigned>(ProtectedVisibility)},};
+static const SimpleEnumValue faddress_space_map_mangling_EQValueTable[] = {
+{"target",static_cast<unsigned>(LangOptions::ASMM_Target)},{"no",static_cast<unsigned>(LangOptions::ASMM_Off)},{"yes",static_cast<unsigned>(LangOptions::ASMM_On)},};
+static const SimpleEnumValue fdefault_calling_conv_EQValueTable[] = {
+{"cdecl",static_cast<unsigned>(LangOptions::DCC_CDecl)},{"fastcall",static_cast<unsigned>(LangOptions::DCC_FastCall)},{"stdcall",static_cast<unsigned>(LangOptions::DCC_StdCall)},{"vectorcall",static_cast<unsigned>(LangOptions::DCC_VectorCall)},{"regcall",static_cast<unsigned>(LangOptions::DCC_RegCall)},};
+static const SimpleEnumValue fwchar_type_EQValueTable[] = {
+{"char",static_cast<unsigned>(1)},{"short",static_cast<unsigned>(2)},{"int",static_cast<unsigned>(4)},};
+static const SimpleEnumValueTable SimpleEnumValueTables[] = {{fembed_bitcode_EQValueTable, sizeof(fembed_bitcode_EQValueTable) / sizeof(SimpleEnumValue)},
+{fcf_runtime_abi_EQValueTable, sizeof(fcf_runtime_abi_EQValueTable) / sizeof(SimpleEnumValue)},
+{exception_modelValueTable, sizeof(exception_modelValueTable) / sizeof(SimpleEnumValue)},
+{flax_vector_conversions_EQValueTable, sizeof(flax_vector_conversions_EQValueTable) / sizeof(SimpleEnumValue)},
+{fms_memptr_rep_EQValueTable, sizeof(fms_memptr_rep_EQValueTable) / sizeof(SimpleEnumValue)},
+{fveclibValueTable, sizeof(fveclibValueTable) / sizeof(SimpleEnumValue)},
+{ftrivial_auto_var_initValueTable, sizeof(ftrivial_auto_var_initValueTable) / sizeof(SimpleEnumValue)},
+{ftlsmodel_EQValueTable, sizeof(ftlsmodel_EQValueTable) / sizeof(SimpleEnumValue)},
+{meabiValueTable, sizeof(meabiValueTable) / sizeof(SimpleEnumValue)},
+{debug_info_kind_EQValueTable, sizeof(debug_info_kind_EQValueTable) / sizeof(SimpleEnumValue)},
+{debugger_tuning_EQValueTable, sizeof(debugger_tuning_EQValueTable) / sizeof(SimpleEnumValue)},
 {mrelocation_modelValueTable, sizeof(mrelocation_modelValueTable) / sizeof(SimpleEnumValue)},
+{mframe_pointer_EQValueTable, sizeof(mframe_pointer_EQValueTable) / sizeof(SimpleEnumValue)},
+{fprofile_instrument_EQValueTable, sizeof(fprofile_instrument_EQValueTable) / sizeof(SimpleEnumValue)},
 {arcmt_action_EQValueTable, sizeof(arcmt_action_EQValueTable) / sizeof(SimpleEnumValue)},
+{fobjc_arc_cxxlib_EQValueTable, sizeof(fobjc_arc_cxxlib_EQValueTable) / sizeof(SimpleEnumValue)},
+{fobjc_dispatch_method_EQValueTable, sizeof(fobjc_dispatch_method_EQValueTable) / sizeof(SimpleEnumValue)},
+{stack_protectorValueTable, sizeof(stack_protectorValueTable) / sizeof(SimpleEnumValue)},
+{fvisibilityValueTable, sizeof(fvisibilityValueTable) / sizeof(SimpleEnumValue)},
+{faddress_space_map_mangling_EQValueTable, sizeof(faddress_space_map_mangling_EQValueTable) / sizeof(SimpleEnumValue)},
+{fdefault_calling_conv_EQValueTable, sizeof(fdefault_calling_conv_EQValueTable) / sizeof(SimpleEnumValue)},
+{fwchar_type_EQValueTable, sizeof(fwchar_type_EQValueTable) / sizeof(SimpleEnumValue)},
 };
 static const unsigned SimpleEnumValueTablesSize = sizeof(SimpleEnumValueTables) / sizeof(SimpleEnumValueTable);
 #endif // SIMPLE_ENUM_VALUE_TABLE

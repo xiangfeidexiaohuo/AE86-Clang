@@ -350,6 +350,10 @@ Attr *instantiateTemplateAttribute(const Attr *At, ASTContext &C, Sema &S,
       const auto *A = cast<CallbackAttr>(At);
       return A->clone(C);
     }
+    case attr::CalledOnce: {
+      const auto *A = cast<CalledOnceAttr>(At);
+      return A->clone(C);
+    }
     case attr::Capability: {
       const auto *A = cast<CapabilityAttr>(At);
       return A->clone(C);
@@ -1743,6 +1747,9 @@ Attr *instantiateTemplateAttributeForDecl(const Attr *At,
       return nullptr;
     }
     case attr::Callback: {
+      return nullptr;
+    }
+    case attr::CalledOnce: {
       return nullptr;
     }
     case attr::Capability: {

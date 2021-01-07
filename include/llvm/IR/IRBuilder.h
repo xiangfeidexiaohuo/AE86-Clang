@@ -350,7 +350,7 @@ public:
     }
   }
 
-  void setConstrainedFPCallAttr(CallInst *I) {
+  void setConstrainedFPCallAttr(CallBase *I) {
     I->addAttribute(AttributeList::FunctionIndex, Attribute::StrictFP);
   }
 
@@ -779,11 +779,11 @@ public:
 
   /// Create a vector float max reduction intrinsic of the source
   /// vector.
-  CallInst *CreateFPMaxReduce(Value *Src, bool NoNaN = false);
+  CallInst *CreateFPMaxReduce(Value *Src);
 
   /// Create a vector float min reduction intrinsic of the source
   /// vector.
-  CallInst *CreateFPMinReduce(Value *Src, bool NoNaN = false);
+  CallInst *CreateFPMinReduce(Value *Src);
 
   /// Create a lifetime.start intrinsic.
   ///
@@ -1088,16 +1088,21 @@ public:
                            ArrayRef<Value *> Args,
                            ArrayRef<OperandBundleDef> OpBundles,
                            const Twine &Name = "") {
-    return Insert(
-        InvokeInst::Create(Ty, Callee, NormalDest, UnwindDest, Args, OpBundles),
-        Name);
+    InvokeInst *II =
+        InvokeInst::Create(Ty, Callee, NormalDest, UnwindDest, Args, OpBundles);
+    if (IsFPConstrained)
+      setConstrainedFPCallAttr(II);
+    return Insert(II, Name);
   }
   InvokeInst *CreateInvoke(FunctionType *Ty, Value *Callee,
                            BasicBlock *NormalDest, BasicBlock *UnwindDest,
                            ArrayRef<Value *> Args = None,
                            const Twine &Name = "") {
-    return Insert(InvokeInst::Create(Ty, Callee, NormalDest, UnwindDest, Args),
-                  Name);
+    InvokeInst *II =
+        InvokeInst::Create(Ty, Callee, NormalDest, UnwindDest, Args);
+    if (IsFPConstrained)
+      setConstrainedFPCallAttr(II);
+    return Insert(II, Name);
   }
 
   InvokeInst *CreateInvoke(FunctionCallee Callee, BasicBlock *NormalDest,
@@ -2519,10 +2524,10 @@ public:
   }
 
   /// Create a unary shuffle. The second vector operand of the IR instruction
-  /// is undefined.
+  /// is poison.
   Value *CreateShuffleVector(Value *V, ArrayRef<int> Mask,
                              const Twine &Name = "") {
-    return CreateShuffleVector(V, UndefValue::get(V->getType()), Mask, Name);
+    return CreateShuffleVector(V, PoisonValue::get(V->getType()), Mask, Name);
   }
 
   Value *CreateExtractValue(Value *Agg,

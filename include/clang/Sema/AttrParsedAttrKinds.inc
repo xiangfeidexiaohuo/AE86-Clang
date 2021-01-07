@@ -619,7 +619,7 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       break;
     }
     break;
-  case 11:	 // 25 strings to match.
+  case 11:	 // 26 strings to match.
     switch (Name[0]) {
     default: break;
     case 'a':	 // 2 strings to match.
@@ -637,9 +637,13 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
         return AttributeCommonInfo::AT_AllocAlign;	 // "alloc_align"
       }
       break;
-    case 'c':	 // 2 strings to match.
+    case 'c':	 // 3 strings to match.
       switch (Name[1]) {
       default: break;
+      case 'a':	 // 1 string to match.
+        if (memcmp(Name.data()+2, "lled_once", 9) != 0)
+          break;
+        return AttributeCommonInfo::AT_CalledOnce;	 // "called_once"
       case 'f':	 // 1 string to match.
         if (memcmp(Name.data()+2, "_consumed", 9) != 0)
           break;
@@ -2776,25 +2780,34 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       return AttributeCommonInfo::AT_NoUniqueAddress;	 // "no_unique_address"
     }
     break;
-  case 18:	 // 21 strings to match.
+  case 18:	 // 22 strings to match.
     switch (Name[0]) {
     default: break;
-    case 'c':	 // 18 strings to match.
+    case 'c':	 // 19 strings to match.
       switch (Name[1]) {
       default: break;
       case 'a':	 // 1 string to match.
         if (memcmp(Name.data()+2, "rries_dependency", 16) != 0)
           break;
         return AttributeCommonInfo::AT_CarriesDependency;	 // "carries_dependency"
-      case 'l':	 // 17 strings to match.
+      case 'l':	 // 18 strings to match.
         if (memcmp(Name.data()+2, "ang::", 5) != 0)
           break;
         switch (Name[7]) {
         default: break;
-        case 'c':	 // 1 string to match.
-          if (memcmp(Name.data()+8, "f_consumed", 10) != 0)
-            break;
-          return AttributeCommonInfo::AT_CFConsumed;	 // "clang::cf_consumed"
+        case 'c':	 // 2 strings to match.
+          switch (Name[8]) {
+          default: break;
+          case 'a':	 // 1 string to match.
+            if (memcmp(Name.data()+9, "lled_once", 9) != 0)
+              break;
+            return AttributeCommonInfo::AT_CalledOnce;	 // "clang::called_once"
+          case 'f':	 // 1 string to match.
+            if (memcmp(Name.data()+9, "_consumed", 9) != 0)
+              break;
+            return AttributeCommonInfo::AT_CFConsumed;	 // "clang::cf_consumed"
+          }
+          break;
         case 'e':	 // 1 string to match.
           if (memcmp(Name.data()+8, "xport_name", 10) != 0)
             break;
@@ -4439,18 +4452,27 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       return AttributeCommonInfo::AT_VectorCall;	 // "clang::vectorcall"
     }
     break;
-  case 18:	 // 16 strings to match.
+  case 18:	 // 17 strings to match.
     switch (Name[0]) {
     default: break;
-    case 'c':	 // 14 strings to match.
+    case 'c':	 // 15 strings to match.
       if (memcmp(Name.data()+1, "lang::", 6) != 0)
         break;
       switch (Name[7]) {
       default: break;
-      case 'c':	 // 1 string to match.
-        if (memcmp(Name.data()+8, "f_consumed", 10) != 0)
-          break;
-        return AttributeCommonInfo::AT_CFConsumed;	 // "clang::cf_consumed"
+      case 'c':	 // 2 strings to match.
+        switch (Name[8]) {
+        default: break;
+        case 'a':	 // 1 string to match.
+          if (memcmp(Name.data()+9, "lled_once", 9) != 0)
+            break;
+          return AttributeCommonInfo::AT_CalledOnce;	 // "clang::called_once"
+        case 'f':	 // 1 string to match.
+          if (memcmp(Name.data()+9, "_consumed", 9) != 0)
+            break;
+          return AttributeCommonInfo::AT_CFConsumed;	 // "clang::cf_consumed"
+        }
+        break;
       case 'e':	 // 1 string to match.
         if (memcmp(Name.data()+8, "xport_name", 10) != 0)
           break;

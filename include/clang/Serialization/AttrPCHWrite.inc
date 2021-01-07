@@ -536,6 +536,11 @@ Record.push_back(SA->getGuard());
       Record.push_back(Val);
     break;
   }
+  case attr::CalledOnce: {
+    Record.push_back(A->isImplicit());
+    Record.push_back(A->isPackExpansion());
+    break;
+  }
   case attr::Capability: {
     const auto *SA = cast<CapabilityAttr>(A);
     Record.push_back(SA->isInherited());
@@ -1222,6 +1227,8 @@ Record.push_back(SA->getInterrupt());
     break;
   }
   case attr::NoMerge: {
+    const auto *SA = cast<NoMergeAttr>(A);
+    Record.push_back(SA->isInherited());
     Record.push_back(A->isImplicit());
     Record.push_back(A->isPackExpansion());
     break;

@@ -5708,6 +5708,82 @@ const char *CallbackAttr::getSpelling() const {
 }
 
 
+// CalledOnceAttr implementation
+
+CalledOnceAttr *CalledOnceAttr::CreateImplicit(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo) {
+  auto *A = new (Ctx) CalledOnceAttr(Ctx, CommonInfo);
+  A->setImplicit(true);
+  if (!A->isAttributeSpellingListCalculated() && !A->getAttrName())
+    A->setAttributeSpellingListIndex(0);
+  return A;
+}
+
+CalledOnceAttr *CalledOnceAttr::Create(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo) {
+  auto *A = new (Ctx) CalledOnceAttr(Ctx, CommonInfo);
+  if (!A->isAttributeSpellingListCalculated() && !A->getAttrName())
+    A->setAttributeSpellingListIndex(0);
+  return A;
+}
+
+CalledOnceAttr *CalledOnceAttr::CreateImplicit(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax) {
+  AttributeCommonInfo I(Range, NoSemaHandlerAttribute, Syntax);
+  return CreateImplicit(Ctx, I);
+}
+
+CalledOnceAttr *CalledOnceAttr::Create(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax) {
+  AttributeCommonInfo I(Range, NoSemaHandlerAttribute, Syntax);
+  return Create(Ctx, I);
+}
+
+CalledOnceAttr::CalledOnceAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+             )
+  : Attr(Ctx, CommonInfo, attr::CalledOnce, false)
+  {
+}
+
+CalledOnceAttr *CalledOnceAttr::clone(ASTContext &C) const {
+  auto *A = new (C) CalledOnceAttr(C, *this);
+  A->Inherited = Inherited;
+  A->IsPackExpansion = IsPackExpansion;
+  A->setImplicit(Implicit);
+  return A;
+}
+
+void CalledOnceAttr::printPretty(raw_ostream &OS, const PrintingPolicy &Policy) const {
+  switch (getAttributeSpellingListIndex()) {
+  default:
+    llvm_unreachable("Unknown attribute spelling!");
+    break;
+  case 0 : {
+    OS << " __attribute__((called_once))";
+    break;
+  }
+  case 1 : {
+    OS << " [[clang::called_once]]";
+    break;
+  }
+  case 2 : {
+    OS << " [[clang::called_once]]";
+    break;
+  }
+}
+}
+
+const char *CalledOnceAttr::getSpelling() const {
+  switch (getAttributeSpellingListIndex()) {
+  default:
+    llvm_unreachable("Unknown attribute spelling!");
+    return "(No spelling)";
+  case 0:
+    return "called_once";
+  case 1:
+    return "called_once";
+  case 2:
+    return "called_once";
+  }
+}
+
+
 // CapabilityAttr implementation
 
 CapabilityAttr *CapabilityAttr::CreateImplicit(ASTContext &Ctx, llvm::StringRef Name, const AttributeCommonInfo &CommonInfo) {
@@ -13203,7 +13279,7 @@ NoMergeAttr *NoMergeAttr::Create(ASTContext &Ctx, SourceRange Range, AttributeCo
 
 NoMergeAttr::NoMergeAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
              )
-  : StmtAttr(Ctx, CommonInfo, attr::NoMerge, false)
+  : DeclOrStmtAttr(Ctx, CommonInfo, attr::NoMerge, false, true)
   {
 }
 
@@ -27090,6 +27166,8 @@ const char *Attr::getSpelling() const {
     return cast<CallableWhenAttr>(this)->getSpelling();
   case attr::Callback:
     return cast<CallbackAttr>(this)->getSpelling();
+  case attr::CalledOnce:
+    return cast<CalledOnceAttr>(this)->getSpelling();
   case attr::Capability:
     return cast<CapabilityAttr>(this)->getSpelling();
   case attr::CapturedRecord:
@@ -27748,6 +27826,8 @@ Attr *Attr::clone(ASTContext &C) const {
     return cast<CallableWhenAttr>(this)->clone(C);
   case attr::Callback:
     return cast<CallbackAttr>(this)->clone(C);
+  case attr::CalledOnce:
+    return cast<CalledOnceAttr>(this)->clone(C);
   case attr::Capability:
     return cast<CapabilityAttr>(this)->clone(C);
   case attr::CapturedRecord:
@@ -28406,6 +28486,8 @@ void Attr::printPretty(raw_ostream &OS, const PrintingPolicy &Policy) const {
     return cast<CallableWhenAttr>(this)->printPretty(OS, Policy);
   case attr::Callback:
     return cast<CallbackAttr>(this)->printPretty(OS, Policy);
+  case attr::CalledOnce:
+    return cast<CalledOnceAttr>(this)->printPretty(OS, Policy);
   case attr::Capability:
     return cast<CapabilityAttr>(this)->printPretty(OS, Policy);
   case attr::CapturedRecord:

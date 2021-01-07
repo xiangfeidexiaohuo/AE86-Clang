@@ -400,8 +400,11 @@ llvm::StringRef getOpenMPClauseName(Clause C);
 bool isAllowedClauseForDirective(Directive D, Clause C, unsigned Version);
 
 OrderKind getOrderKind(StringRef);
+llvm::StringRef getOpenMPOrderKindName(OrderKind);
 ProcBindKind getProcBindKind(StringRef);
+llvm::StringRef getOpenMPProcBindKindName(ProcBindKind);
 ScheduleKind getScheduleKind(StringRef);
+llvm::StringRef getOpenMPScheduleKindName(ScheduleKind);
 
 } // namespace omp
 } // namespace llvm

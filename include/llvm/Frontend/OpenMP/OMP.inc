@@ -2875,17 +2875,20 @@ namespace omp {
 EMPTY_CLASS(AcqRel);
 EMPTY_CLASS(Acquire);
 EMPTY_CLASS(Affinity);
+WRAPPER_CLASS(Allocate, OmpAllocateClause);
 WRAPPER_CLASS(Allocator, ScalarIntExpr);
 EMPTY_CLASS(AtomicDefaultMemOrder);
 EMPTY_CLASS(Capture);
 WRAPPER_CLASS(Collapse, ScalarIntConstantExpr);
 WRAPPER_CLASS(Copyprivate, OmpObjectList);
 WRAPPER_CLASS(Copyin, OmpObjectList);
+WRAPPER_CLASS(Default, OmpDefaultClause);
 EMPTY_CLASS(Depobj);
 EMPTY_CLASS(Destroy);
 EMPTY_CLASS(Detach);
 WRAPPER_CLASS(Device, ScalarIntExpr);
 EMPTY_CLASS(DeviceType);
+WRAPPER_CLASS(DistSchedule, std::optional<ScalarIntExpr>);
 EMPTY_CLASS(DynamicAllocators);
 EMPTY_CLASS(Exclusive);
 WRAPPER_CLASS(Final, ScalarLogicalExpr);
@@ -2903,6 +2906,7 @@ WRAPPER_CLASS(Link, OmpObjectList);
 EMPTY_CLASS(Match);
 EMPTY_CLASS(Mergeable);
 EMPTY_CLASS(Nogroup);
+EMPTY_CLASS(Nowait);
 EMPTY_CLASS(Nontemporal);
 EMPTY_CLASS(Notinbranch);
 WRAPPER_CLASS(NumTasks, ScalarIntExpr);
@@ -2912,7 +2916,9 @@ EMPTY_CLASS(Order);
 WRAPPER_CLASS(Ordered, std::optional<ScalarIntConstantExpr>);
 WRAPPER_CLASS(Priority, ScalarIntExpr);
 WRAPPER_CLASS(Private, OmpObjectList);
+WRAPPER_CLASS(ProcBind, OmpProcBindClause);
 EMPTY_CLASS(Read);
+WRAPPER_CLASS(Reduction, OmpReductionClause);
 EMPTY_CLASS(Relaxed);
 EMPTY_CLASS(Release);
 EMPTY_CLASS(ReverseOffload);
@@ -2921,7 +2927,7 @@ EMPTY_CLASS(SeqCst);
 WRAPPER_CLASS(Shared, OmpObjectList);
 EMPTY_CLASS(Simd);
 WRAPPER_CLASS(Simdlen, ScalarIntConstantExpr);
-EMPTY_CLASS(TaskReduction);
+WRAPPER_CLASS(TaskReduction, OmpReductionClause);
 WRAPPER_CLASS(ThreadLimit, ScalarIntExpr);
 EMPTY_CLASS(Threadprivate);
 EMPTY_CLASS(Threads);
@@ -2946,14 +2952,14 @@ AcqRel
 , Acquire
 , Affinity
 , OmpAlignedClause
-, OmpAllocateClause
+, Allocate
 , Allocator
 , AtomicDefaultMemOrder
 , Capture
 , Collapse
 , Copyprivate
 , Copyin
-, OmpDefaultClause
+, Default
 , OmpDefaultmapClause
 , OmpDependClause
 , Depobj
@@ -2961,7 +2967,7 @@ AcqRel
 , Detach
 , Device
 , DeviceType
-, OmpDistScheduleClause
+, DistSchedule
 , DynamicAllocators
 , Exclusive
 , Final
@@ -2982,7 +2988,7 @@ AcqRel
 , Match
 , Mergeable
 , Nogroup
-, OmpNowait
+, Nowait
 , Nontemporal
 , Notinbranch
 , NumTasks
@@ -2992,9 +2998,9 @@ AcqRel
 , Ordered
 , Priority
 , Private
-, OmpProcBindClause
+, ProcBind
 , Read
-, OmpReductionClause
+, Reduction
 , Relaxed
 , Release
 , ReverseOffload
@@ -3028,17 +3034,20 @@ AcqRel
 NODE(OmpClause, AcqRel)
 NODE(OmpClause, Acquire)
 NODE(OmpClause, Affinity)
+NODE(OmpClause, Allocate)
 NODE(OmpClause, Allocator)
 NODE(OmpClause, AtomicDefaultMemOrder)
 NODE(OmpClause, Capture)
 NODE(OmpClause, Collapse)
 NODE(OmpClause, Copyprivate)
 NODE(OmpClause, Copyin)
+NODE(OmpClause, Default)
 NODE(OmpClause, Depobj)
 NODE(OmpClause, Destroy)
 NODE(OmpClause, Detach)
 NODE(OmpClause, Device)
 NODE(OmpClause, DeviceType)
+NODE(OmpClause, DistSchedule)
 NODE(OmpClause, DynamicAllocators)
 NODE(OmpClause, Exclusive)
 NODE(OmpClause, Final)
@@ -3056,6 +3065,7 @@ NODE(OmpClause, Link)
 NODE(OmpClause, Match)
 NODE(OmpClause, Mergeable)
 NODE(OmpClause, Nogroup)
+NODE(OmpClause, Nowait)
 NODE(OmpClause, Nontemporal)
 NODE(OmpClause, Notinbranch)
 NODE(OmpClause, NumTasks)
@@ -3065,7 +3075,9 @@ NODE(OmpClause, Order)
 NODE(OmpClause, Ordered)
 NODE(OmpClause, Priority)
 NODE(OmpClause, Private)
+NODE(OmpClause, ProcBind)
 NODE(OmpClause, Read)
+NODE(OmpClause, Reduction)
 NODE(OmpClause, Relaxed)
 NODE(OmpClause, Release)
 NODE(OmpClause, ReverseOffload)
@@ -3098,6 +3110,12 @@ NODE(OmpClause, Write)
 void Before(const OmpClause::AcqRel &) { Word("ACQ_REL"); }
 void Before(const OmpClause::Acquire &) { Word("ACQUIRE"); }
 void Before(const OmpClause::Affinity &) { Word("AFFINITY"); }
+void Unparse(const OmpClause::Allocate &x) {
+  Word("ALLOCATE");
+  Put("(");
+  Walk(x.v);
+  Put(")");
+}
 void Unparse(const OmpClause::Allocator &x) {
   Word("ALLOCATOR");
   Put("(");
@@ -3124,6 +3142,12 @@ void Unparse(const OmpClause::Copyin &x) {
   Walk(x.v);
   Put(")");
 }
+void Unparse(const OmpClause::Default &x) {
+  Word("DEFAULT");
+  Put("(");
+  Walk(x.v);
+  Put(")");
+}
 void Before(const OmpClause::Depobj &) { Word("DEPOBJ"); }
 void Before(const OmpClause::Destroy &) { Word("DESTROY"); }
 void Before(const OmpClause::Detach &) { Word("DETACH"); }
@@ -3134,6 +3158,10 @@ void Unparse(const OmpClause::Device &x) {
   Put(")");
 }
 void Before(const OmpClause::DeviceType &) { Word("DEVICE_TYPE"); }
+void Unparse(const OmpClause::DistSchedule &x) {
+  Word("DIST_SCHEDULE");
+  Walk("(", x.v, ")");
+}
 void Before(const OmpClause::DynamicAllocators &) { Word("DYNAMIC_ALLOCATORS"); }
 void Before(const OmpClause::Exclusive &) { Word("EXCLUSIVE"); }
 void Unparse(const OmpClause::Final &x) {
@@ -3191,6 +3219,7 @@ void Unparse(const OmpClause::Link &x) {
 void Before(const OmpClause::Match &) { Word("MATCH"); }
 void Before(const OmpClause::Mergeable &) { Word("MERGEABLE"); }
 void Before(const OmpClause::Nogroup &) { Word("NOGROUP"); }
+void Before(const OmpClause::Nowait &) { Word("NOWAIT"); }
 void Before(const OmpClause::Nontemporal &) { Word("NONTEMPORAL"); }
 void Before(const OmpClause::Notinbranch &) { Word("NOTINBRANCH"); }
 void Unparse(const OmpClause::NumTasks &x) {
@@ -3228,7 +3257,19 @@ void Unparse(const OmpClause::Private &x) {
   Walk(x.v);
   Put(")");
 }
+void Unparse(const OmpClause::ProcBind &x) {
+  Word("PROC_BIND");
+  Put("(");
+  Walk(x.v);
+  Put(")");
+}
 void Before(const OmpClause::Read &) { Word("READ"); }
+void Unparse(const OmpClause::Reduction &x) {
+  Word("REDUCTION");
+  Put("(");
+  Walk(x.v);
+  Put(")");
+}
 void Before(const OmpClause::Relaxed &) { Word("RELAXED"); }
 void Before(const OmpClause::Release &) { Word("RELEASE"); }
 void Before(const OmpClause::ReverseOffload &) { Word("REVERSE_OFFLOAD"); }
@@ -3252,7 +3293,12 @@ void Unparse(const OmpClause::Simdlen &x) {
   Walk(x.v);
   Put(")");
 }
-void Before(const OmpClause::TaskReduction &) { Word("TASK_REDUCTION"); }
+void Unparse(const OmpClause::TaskReduction &x) {
+  Word("TASK_REDUCTION");
+  Put("(");
+  Walk(x.v);
+  Put(")");
+}
 void Unparse(const OmpClause::ThreadLimit &x) {
   Word("THREAD_LIMIT");
   Put("(");
@@ -3289,4 +3335,117 @@ void Before(const OmpClause::UsesAllocators &) { Word("USES_ALLOCATORS"); }
 void Before(const OmpClause::Write &) { Word("WRITE"); }
 
 #endif // GEN_FLANG_CLAUSE_UNPARSE
+
+#ifdef GEN_CLANG_CLAUSE_CLASS
+#undef GEN_CLANG_CLAUSE_CLASS
+
+#ifndef CLAUSE
+#define CLAUSE(Enum, Str, Implicit)
+#endif
+#ifndef CLAUSE_CLASS
+#define CLAUSE_CLASS(Enum, Str, Class)
+#endif
+#ifndef CLAUSE_NO_CLASS
+#define CLAUSE_NO_CLASS(Enum, Str)
+#endif
+
+#define __CLAUSE(Name, Class)                      \
+  CLAUSE(OMPC_##Name, #Name, /* Implicit */ false) \
+  CLAUSE_CLASS(OMPC_##Name, #Name, Class)
+#define __CLAUSE_NO_CLASS(Name)                    \
+  CLAUSE(OMPC_##Name, #Name, /* Implicit */ false) \
+  CLAUSE_NO_CLASS(OMPC_##Name, #Name)
+#define __IMPLICIT_CLAUSE_CLASS(Name, Str, Class)  \
+  CLAUSE(OMPC_##Name, Str, /* Implicit */ true)    \
+  CLAUSE_CLASS(OMPC_##Name, Str, Class)
+#define __IMPLICIT_CLAUSE_NO_CLASS(Name, Str)      \
+  CLAUSE(OMPC_##Name, Str, /* Implicit */ true)    \
+  CLAUSE_NO_CLASS(OMPC_##Name, Str)
+
+__CLAUSE(acq_rel, OMPAcqRelClause)
+__CLAUSE(acquire, OMPAcquireClause)
+__CLAUSE(affinity, OMPAffinityClause)
+__CLAUSE(aligned, OMPAlignedClause)
+__CLAUSE(allocate, OMPAllocateClause)
+__CLAUSE(allocator, OMPAllocatorClause)
+__CLAUSE(atomic_default_mem_order, OMPAtomicDefaultMemOrderClause)
+__CLAUSE(capture, OMPCaptureClause)
+__CLAUSE(collapse, OMPCollapseClause)
+__CLAUSE(copyprivate, OMPCopyprivateClause)
+__CLAUSE(copyin, OMPCopyinClause)
+__CLAUSE(default, OMPDefaultClause)
+__CLAUSE(defaultmap, OMPDefaultmapClause)
+__CLAUSE(depend, OMPDependClause)
+__IMPLICIT_CLAUSE_CLASS(depobj, "depobj", OMPDepobjClause)
+__CLAUSE(destroy, OMPDestroyClause)
+__CLAUSE(detach, OMPDetachClause)
+__CLAUSE(device, OMPDeviceClause)
+__CLAUSE_NO_CLASS(device_type)
+__CLAUSE(dist_schedule, OMPDistScheduleClause)
+__CLAUSE(dynamic_allocators, OMPDynamicAllocatorsClause)
+__CLAUSE(exclusive, OMPExclusiveClause)
+__CLAUSE(final, OMPFinalClause)
+__CLAUSE(firstprivate, OMPFirstprivateClause)
+__IMPLICIT_CLAUSE_CLASS(flush, "flush", OMPFlushClause)
+__CLAUSE(from, OMPFromClause)
+__CLAUSE(grainsize, OMPGrainsizeClause)
+__CLAUSE(hint, OMPHintClause)
+__CLAUSE(if, OMPIfClause)
+__CLAUSE(in_reduction, OMPInReductionClause)
+__CLAUSE_NO_CLASS(inbranch)
+__CLAUSE(inclusive, OMPInclusiveClause)
+__CLAUSE(is_device_ptr, OMPIsDevicePtrClause)
+__CLAUSE(lastprivate, OMPLastprivateClause)
+__CLAUSE(linear, OMPLinearClause)
+__CLAUSE_NO_CLASS(link)
+__CLAUSE(map, OMPMapClause)
+__CLAUSE_NO_CLASS(match)
+__CLAUSE(mergeable, OMPMergeableClause)
+__CLAUSE(nogroup, OMPNogroupClause)
+__CLAUSE(nowait, OMPNowaitClause)
+__CLAUSE(nontemporal, OMPNontemporalClause)
+__CLAUSE_NO_CLASS(notinbranch)
+__CLAUSE(num_tasks, OMPNumTasksClause)
+__CLAUSE(num_teams, OMPNumTeamsClause)
+__CLAUSE(num_threads, OMPNumThreadsClause)
+__CLAUSE(order, OMPOrderClause)
+__CLAUSE(ordered, OMPOrderedClause)
+__CLAUSE(priority, OMPPriorityClause)
+__CLAUSE(private, OMPPrivateClause)
+__CLAUSE(proc_bind, OMPProcBindClause)
+__CLAUSE(read, OMPReadClause)
+__CLAUSE(reduction, OMPReductionClause)
+__CLAUSE(relaxed, OMPRelaxedClause)
+__CLAUSE(release, OMPReleaseClause)
+__CLAUSE(reverse_offload, OMPReverseOffloadClause)
+__CLAUSE(safelen, OMPSafelenClause)
+__CLAUSE(schedule, OMPScheduleClause)
+__CLAUSE(seq_cst, OMPSeqCstClause)
+__CLAUSE(shared, OMPSharedClause)
+__CLAUSE(simd, OMPSIMDClause)
+__CLAUSE(simdlen, OMPSimdlenClause)
+__CLAUSE(task_reduction, OMPTaskReductionClause)
+__CLAUSE(thread_limit, OMPThreadLimitClause)
+__IMPLICIT_CLAUSE_NO_CLASS(threadprivate, "threadprivate")
+__CLAUSE(threads, OMPThreadsClause)
+__CLAUSE(to, OMPToClause)
+__CLAUSE(unified_address, OMPUnifiedAddressClause)
+__CLAUSE(unified_shared_memory, OMPUnifiedSharedMemoryClause)
+__CLAUSE_NO_CLASS(uniform)
+__IMPLICIT_CLAUSE_NO_CLASS(unknown, "unknown")
+__CLAUSE(untied, OMPUntiedClause)
+__CLAUSE(update, OMPUpdateClause)
+__CLAUSE(use_device_addr, OMPUseDeviceAddrClause)
+__CLAUSE(use_device_ptr, OMPUseDevicePtrClause)
+__CLAUSE(uses_allocators, OMPUsesAllocatorsClause)
+__CLAUSE(write, OMPWriteClause)
+
+#undef __IMPLICIT_CLAUSE_NO_CLASS
+#undef __IMPLICIT_CLAUSE_CLASS
+#undef __CLAUSE
+#undef CLAUSE_NO_CLASS
+#undef CLAUSE_CLASS
+#undef CLAUSE
+
+#endif // GEN_CLANG_CLAUSE_CLASS
 

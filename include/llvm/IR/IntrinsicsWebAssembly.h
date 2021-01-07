@@ -13,7 +13,7 @@ namespace llvm {
 namespace Intrinsic {
 enum WASMIntrinsics : unsigned {
 // Enum values for intrinsics
-    wasm_alltrue = 8151,                              // llvm.wasm.alltrue
+    wasm_alltrue = 8420,                              // llvm.wasm.alltrue
     wasm_anytrue,                              // llvm.wasm.anytrue
     wasm_avgr_unsigned,                        // llvm.wasm.avgr.unsigned
     wasm_bitmask,                              // llvm.wasm.bitmask
@@ -21,6 +21,8 @@ enum WASMIntrinsics : unsigned {
     wasm_ceil,                                 // llvm.wasm.ceil
     wasm_dot,                                  // llvm.wasm.dot
     wasm_eq,                                   // llvm.wasm.eq
+    wasm_extadd_pairwise_signed,               // llvm.wasm.extadd.pairwise.signed
+    wasm_extadd_pairwise_unsigned,             // llvm.wasm.extadd.pairwise.unsigned
     wasm_extmul_high_signed,                   // llvm.wasm.extmul.high.signed
     wasm_extmul_high_unsigned,                 // llvm.wasm.extmul.high.unsigned
     wasm_extmul_low_signed,                    // llvm.wasm.extmul.low.signed
@@ -48,6 +50,8 @@ enum WASMIntrinsics : unsigned {
     wasm_pmax,                                 // llvm.wasm.pmax
     wasm_pmin,                                 // llvm.wasm.pmin
     wasm_popcnt,                               // llvm.wasm.popcnt
+    wasm_prefetch_nt,                          // llvm.wasm.prefetch.nt
+    wasm_prefetch_t,                           // llvm.wasm.prefetch.t
     wasm_q15mulr_saturate_signed,              // llvm.wasm.q15mulr.saturate.signed
     wasm_qfma,                                 // llvm.wasm.qfma
     wasm_qfms,                                 // llvm.wasm.qfms

@@ -13,7 +13,7 @@ namespace llvm {
 namespace Intrinsic {
 enum PPCIntrinsics : unsigned {
 // Enum values for intrinsics
-    ppc_addf128_round_to_odd = 6064,                  // llvm.ppc.addf128.round.to.odd
+    ppc_addf128_round_to_odd = 6067,                  // llvm.ppc.addf128.round.to.odd
     ppc_altivec_crypto_vcipher,                // llvm.ppc.altivec.crypto.vcipher
     ppc_altivec_crypto_vcipherlast,            // llvm.ppc.altivec.crypto.vcipherlast
     ppc_altivec_crypto_vncipher,               // llvm.ppc.altivec.crypto.vncipher
@@ -354,10 +354,7 @@ enum PPCIntrinsics : unsigned {
     ppc_isync,                                 // llvm.ppc.isync
     ppc_lwsync,                                // llvm.ppc.lwsync
     ppc_mma_assemble_acc,                      // llvm.ppc.mma.assemble.acc
-    ppc_mma_assemble_pair,                     // llvm.ppc.mma.assemble.pair
     ppc_mma_disassemble_acc,                   // llvm.ppc.mma.disassemble.acc
-    ppc_mma_disassemble_pair,                  // llvm.ppc.mma.disassemble.pair
-    ppc_mma_lxvp,                              // llvm.ppc.mma.lxvp
     ppc_mma_pmxvbf16ger2,                      // llvm.ppc.mma.pmxvbf16ger2
     ppc_mma_pmxvbf16ger2nn,                    // llvm.ppc.mma.pmxvbf16ger2nn
     ppc_mma_pmxvbf16ger2np,                    // llvm.ppc.mma.pmxvbf16ger2np
@@ -387,7 +384,6 @@ enum PPCIntrinsics : unsigned {
     ppc_mma_pmxvi8ger4,                        // llvm.ppc.mma.pmxvi8ger4
     ppc_mma_pmxvi8ger4pp,                      // llvm.ppc.mma.pmxvi8ger4pp
     ppc_mma_pmxvi8ger4spp,                     // llvm.ppc.mma.pmxvi8ger4spp
-    ppc_mma_stxvp,                             // llvm.ppc.mma.stxvp
     ppc_mma_xvbf16ger2,                        // llvm.ppc.mma.xvbf16ger2
     ppc_mma_xvbf16ger2nn,                      // llvm.ppc.mma.xvbf16ger2nn
     ppc_mma_xvbf16ger2np,                      // llvm.ppc.mma.xvbf16ger2np
@@ -452,16 +448,20 @@ enum PPCIntrinsics : unsigned {
     ppc_tsr,                                   // llvm.ppc.tsr
     ppc_tsuspend,                              // llvm.ppc.tsuspend
     ppc_ttest,                                 // llvm.ppc.ttest
+    ppc_vsx_assemble_pair,                     // llvm.ppc.vsx.assemble.pair
+    ppc_vsx_disassemble_pair,                  // llvm.ppc.vsx.disassemble.pair
     ppc_vsx_lxvd2x,                            // llvm.ppc.vsx.lxvd2x
     ppc_vsx_lxvd2x_be,                         // llvm.ppc.vsx.lxvd2x.be
     ppc_vsx_lxvl,                              // llvm.ppc.vsx.lxvl
     ppc_vsx_lxvll,                             // llvm.ppc.vsx.lxvll
+    ppc_vsx_lxvp,                              // llvm.ppc.vsx.lxvp
     ppc_vsx_lxvw4x,                            // llvm.ppc.vsx.lxvw4x
     ppc_vsx_lxvw4x_be,                         // llvm.ppc.vsx.lxvw4x.be
     ppc_vsx_stxvd2x,                           // llvm.ppc.vsx.stxvd2x
     ppc_vsx_stxvd2x_be,                        // llvm.ppc.vsx.stxvd2x.be
     ppc_vsx_stxvl,                             // llvm.ppc.vsx.stxvl
     ppc_vsx_stxvll,                            // llvm.ppc.vsx.stxvll
+    ppc_vsx_stxvp,                             // llvm.ppc.vsx.stxvp
     ppc_vsx_stxvw4x,                           // llvm.ppc.vsx.stxvw4x
     ppc_vsx_stxvw4x_be,                        // llvm.ppc.vsx.stxvw4x.be
     ppc_vsx_xsmaxdp,                           // llvm.ppc.vsx.xsmaxdp

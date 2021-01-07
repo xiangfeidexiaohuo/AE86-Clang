@@ -509,6 +509,15 @@
         return 2;
     break;
   }
+  case AT_CalledOnce: {
+    if (Name == "called_once" && getSyntax() == AttributeCommonInfo::AS_GNU && Scope == "")
+        return 0;
+    if (Name == "called_once" && getSyntax() == AttributeCommonInfo::AS_CXX11 && Scope == "clang")
+        return 1;
+    if (Name == "called_once" && getSyntax() == AttributeCommonInfo::AS_C2x && Scope == "clang")
+        return 2;
+    break;
+  }
   case AT_Capability: {
     if (Name == "capability" && getSyntax() == AttributeCommonInfo::AS_GNU && Scope == "")
         return 0;

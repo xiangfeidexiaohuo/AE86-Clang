@@ -2211,6 +2211,49 @@ void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectM
 static const ParsedAttrInfoCallback Instance;
 };
 const ParsedAttrInfoCallback ParsedAttrInfoCallback::Instance;
+static constexpr ParsedAttrInfo::Spelling CalledOnceSpellings[] = {
+  {AttributeCommonInfo::AS_GNU, "called_once"},
+  {AttributeCommonInfo::AS_CXX11, "clang::called_once"},
+  {AttributeCommonInfo::AS_C2x, "clang::called_once"},
+};
+struct ParsedAttrInfoCalledOnce final : public ParsedAttrInfo {
+  ParsedAttrInfoCalledOnce() {
+    AttrKind = ParsedAttr::AT_CalledOnce;
+    NumArgs = 0;
+    OptArgs = 0;
+    HasCustomParsing = 0;
+    IsTargetSpecific = 0;
+    IsType = 0;
+    IsStmt = 0;
+    IsKnownToGCC = 0;
+    IsSupportedByPragmaAttribute = 1;
+    Spellings = CalledOnceSpellings;
+  }
+bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const override {
+  if (!isa<ParmVarDecl>(D)) {
+    S.Diag(Attr.getLoc(), diag::warn_attribute_wrong_decl_type_str)
+      << Attr << "parameters";
+    return false;
+  }
+  return true;
+}
+
+bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
+  auto &LangOpts = S.LangOpts;
+  if (LangOpts.ObjC)
+    return true;
+
+  S.Diag(Attr.getLoc(), diag::warn_attribute_ignored) << Attr;
+  return false;
+}
+
+void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
+  MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable_is_parameter, /*IsSupported=*/true));
+}
+
+static const ParsedAttrInfoCalledOnce Instance;
+};
+const ParsedAttrInfoCalledOnce ParsedAttrInfoCalledOnce::Instance;
 static constexpr ParsedAttrInfo::Spelling CapabilitySpellings[] = {
   {AttributeCommonInfo::AS_GNU, "capability"},
   {AttributeCommonInfo::AS_CXX11, "clang::capability"},
@@ -5359,9 +5402,27 @@ struct ParsedAttrInfoNoMerge final : public ParsedAttrInfo {
     IsType = 0;
     IsStmt = 1;
     IsKnownToGCC = 0;
-    IsSupportedByPragmaAttribute = 0;
+    IsSupportedByPragmaAttribute = 1;
     Spellings = NoMergeSpellings;
   }
+bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const override {
+  if (!isa<FunctionDecl>(D)) {
+    S.Diag(Attr.getLoc(), diag::err_attribute_wrong_decl_type_str)
+      << Attr << "functions and statements";
+    return false;
+  }
+  return true;
+}
+
+void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
+  MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
+}
+
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) NoMergeAttr(S.Context, Attr));
+  return AttributeApplied;
+}
+
 static const ParsedAttrInfoNoMerge Instance;
 };
 const ParsedAttrInfoNoMerge ParsedAttrInfoNoMerge::Instance;
@@ -10794,6 +10855,7 @@ static const ParsedAttrInfo *AttrInfoMap[] = {
 &ParsedAttrInfoCXX11NoReturn::Instance,
 &ParsedAttrInfoCallableWhen::Instance,
 &ParsedAttrInfoCallback::Instance,
+&ParsedAttrInfoCalledOnce::Instance,
 &ParsedAttrInfoCapability::Instance,
 &ParsedAttrInfoCarriesDependency::Instance,
 &ParsedAttrInfoCleanup::Instance,

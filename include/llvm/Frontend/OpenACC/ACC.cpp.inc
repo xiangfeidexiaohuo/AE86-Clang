@@ -358,10 +358,10 @@ namespace acc {
     llvm::acc::Clause::ACCC_create,
     llvm::acc::Clause::ACCC_deviceptr,
     llvm::acc::Clause::ACCC_device_type,
-    llvm::acc::Clause::ACCC_firstprivate,
     llvm::acc::Clause::ACCC_no_create,
     llvm::acc::Clause::ACCC_present,
     llvm::acc::Clause::ACCC_private,
+    llvm::acc::Clause::ACCC_firstprivate,
     llvm::acc::Clause::ACCC_wait,
   };
 
@@ -694,7 +694,7 @@ namespace acc {
 WRAPPER_CLASS(Async, std::optional<ScalarIntExpr>);
 WRAPPER_CLASS(Attach, AccObjectList);
 EMPTY_CLASS(Auto);
-WRAPPER_CLASS(Bind, Name);
+WRAPPER_CLASS(Bind, AccBindClause);
 EMPTY_CLASS(Capture);
 WRAPPER_CLASS(Collapse, ScalarIntConstantExpr);
 WRAPPER_CLASS(Copy, AccObjectList);
@@ -1059,4 +1059,85 @@ void Unparse(const AccClause::Worker &x) {
 void Before(const AccClause::Write &) { Word("WRITE"); }
 
 #endif // GEN_FLANG_CLAUSE_UNPARSE
+
+#ifdef GEN_CLANG_CLAUSE_CLASS
+#undef GEN_CLANG_CLAUSE_CLASS
+
+#ifndef CLAUSE
+#define CLAUSE(Enum, Str, Implicit)
+#endif
+#ifndef CLAUSE_CLASS
+#define CLAUSE_CLASS(Enum, Str, Class)
+#endif
+#ifndef CLAUSE_NO_CLASS
+#define CLAUSE_NO_CLASS(Enum, Str)
+#endif
+
+#define __CLAUSE(Name, Class)                      \
+  CLAUSE(ACCC_##Name, #Name, /* Implicit */ false) \
+  CLAUSE_CLASS(ACCC_##Name, #Name, Class)
+#define __CLAUSE_NO_CLASS(Name)                    \
+  CLAUSE(ACCC_##Name, #Name, /* Implicit */ false) \
+  CLAUSE_NO_CLASS(ACCC_##Name, #Name)
+#define __IMPLICIT_CLAUSE_CLASS(Name, Str, Class)  \
+  CLAUSE(ACCC_##Name, Str, /* Implicit */ true)    \
+  CLAUSE_CLASS(ACCC_##Name, Str, Class)
+#define __IMPLICIT_CLAUSE_NO_CLASS(Name, Str)      \
+  CLAUSE(ACCC_##Name, Str, /* Implicit */ true)    \
+  CLAUSE_NO_CLASS(ACCC_##Name, Str)
+
+__CLAUSE_NO_CLASS(async)
+__CLAUSE_NO_CLASS(attach)
+__CLAUSE_NO_CLASS(auto)
+__CLAUSE_NO_CLASS(bind)
+__CLAUSE_NO_CLASS(capture)
+__CLAUSE_NO_CLASS(collapse)
+__CLAUSE_NO_CLASS(copy)
+__CLAUSE_NO_CLASS(copyin)
+__CLAUSE_NO_CLASS(copyout)
+__CLAUSE_NO_CLASS(create)
+__CLAUSE_NO_CLASS(default)
+__CLAUSE_NO_CLASS(default_async)
+__CLAUSE_NO_CLASS(delete)
+__CLAUSE_NO_CLASS(detach)
+__CLAUSE_NO_CLASS(device)
+__CLAUSE_NO_CLASS(device_num)
+__CLAUSE_NO_CLASS(deviceptr)
+__CLAUSE_NO_CLASS(device_resident)
+__CLAUSE_NO_CLASS(device_type)
+__CLAUSE_NO_CLASS(finalize)
+__CLAUSE_NO_CLASS(firstprivate)
+__CLAUSE_NO_CLASS(gang)
+__CLAUSE_NO_CLASS(host)
+__CLAUSE_NO_CLASS(if)
+__CLAUSE_NO_CLASS(if_present)
+__CLAUSE_NO_CLASS(independent)
+__CLAUSE_NO_CLASS(link)
+__CLAUSE_NO_CLASS(no_create)
+__CLAUSE_NO_CLASS(nohost)
+__CLAUSE_NO_CLASS(num_gangs)
+__CLAUSE_NO_CLASS(num_workers)
+__CLAUSE_NO_CLASS(present)
+__CLAUSE_NO_CLASS(private)
+__CLAUSE_NO_CLASS(read)
+__CLAUSE_NO_CLASS(reduction)
+__CLAUSE_NO_CLASS(self)
+__CLAUSE_NO_CLASS(seq)
+__CLAUSE_NO_CLASS(tile)
+__CLAUSE_NO_CLASS(unknown)
+__CLAUSE_NO_CLASS(use_device)
+__CLAUSE_NO_CLASS(vector)
+__CLAUSE_NO_CLASS(vector_length)
+__CLAUSE_NO_CLASS(wait)
+__CLAUSE_NO_CLASS(worker)
+__CLAUSE_NO_CLASS(write)
+
+#undef __IMPLICIT_CLAUSE_NO_CLASS
+#undef __IMPLICIT_CLAUSE_CLASS
+#undef __CLAUSE
+#undef CLAUSE_NO_CLASS
+#undef CLAUSE_CLASS
+#undef CLAUSE
+
+#endif // GEN_CLANG_CLAUSE_CLASS
 

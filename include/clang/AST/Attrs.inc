@@ -2468,6 +2468,35 @@ public:
   static bool classof(const Attr *A) { return A->getKind() == attr::Callback; }
 };
 
+class CalledOnceAttr : public Attr {
+public:
+  enum Spelling {
+    GNU_called_once = 0,
+    CXX11_clang_called_once = 1,
+    C2x_clang_called_once = 2,
+  SpellingNotCalculated = 15
+
+  };
+
+  // Factory methods
+  static CalledOnceAttr *CreateImplicit(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo = {SourceRange{}});
+  static CalledOnceAttr *Create(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo);
+  static CalledOnceAttr *CreateImplicit(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax);
+  static CalledOnceAttr *Create(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax);
+
+  // Constructors
+  CalledOnceAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+             );
+
+  CalledOnceAttr *clone(ASTContext &C) const;
+  void printPretty(raw_ostream &OS,
+                   const PrintingPolicy &Policy) const;
+  const char *getSpelling() const;
+
+
+  static bool classof(const Attr *A) { return A->getKind() == attr::CalledOnce; }
+};
+
 class CapabilityAttr : public InheritableAttr {
 unsigned nameLength;
 char *name;
@@ -5602,7 +5631,7 @@ public:
   static bool classof(const Attr *A) { return A->getKind() == attr::NoInstrumentFunction; }
 };
 
-class NoMergeAttr : public StmtAttr {
+class NoMergeAttr : public DeclOrStmtAttr {
 public:
   enum Spelling {
     GNU_nomerge = 0,

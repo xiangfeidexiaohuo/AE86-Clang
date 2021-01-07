@@ -14,6 +14,10 @@
 #define STMT_ATTR(NAME) ATTR(NAME)
 #endif
 
+#ifndef DECL_OR_STMT_ATTR
+#define DECL_OR_STMT_ATTR(NAME) INHERITABLE_ATTR(NAME)
+#endif
+
 #ifndef INHERITABLE_ATTR
 #define INHERITABLE_ATTR(NAME) ATTR(NAME)
 #endif
@@ -58,9 +62,9 @@ TYPE_ATTR(TypeNullableResult)
 TYPE_ATTR(UPtr)
 STMT_ATTR(FallThrough)
 STMT_ATTR(Likely)
-STMT_ATTR(NoMerge)
 STMT_ATTR(Suppress)
 STMT_ATTR(Unlikely)
+DECL_OR_STMT_ATTR(NoMerge)
 DECL_OR_TYPE_ATTR(AArch64VectorPcs)
 DECL_OR_TYPE_ATTR(AcquireHandle)
 DECL_OR_TYPE_ATTR(AnyX86NoCfCheck)
@@ -336,6 +340,7 @@ INHERITABLE_ATTR(XRayLogArgs)
 ATTR(AbiTag)
 ATTR(Alias)
 ATTR(AlignValue)
+ATTR(CalledOnce)
 ATTR(IFunc)
 ATTR(InitSeg)
 ATTR(LoaderUninitialized)
@@ -369,7 +374,8 @@ PRAGMA_SPELLING_ATTR(OMPDeclareVariant)
 ATTR_RANGE(Attr, AddressSpace, Thread)
 ATTR_RANGE(TypeAttr, AddressSpace, UPtr)
 ATTR_RANGE(StmtAttr, FallThrough, Unlikely)
-ATTR_RANGE(InheritableAttr, AArch64VectorPcs, XRayLogArgs)
+ATTR_RANGE(DeclOrStmtAttr, NoMerge, NoMerge)
+ATTR_RANGE(InheritableAttr, NoMerge, XRayLogArgs)
 ATTR_RANGE(DeclOrTypeAttr, AArch64VectorPcs, VectorCall)
 ATTR_RANGE(InheritableParamAttr, SwiftContext, UseHandle)
 ATTR_RANGE(ParameterABIAttr, SwiftContext, SwiftIndirectResult)
@@ -378,6 +384,7 @@ ATTR_RANGE(ParameterABIAttr, SwiftContext, SwiftIndirectResult)
 #undef ATTR
 #undef TYPE_ATTR
 #undef STMT_ATTR
+#undef DECL_OR_STMT_ATTR
 #undef INHERITABLE_ATTR
 #undef DECL_OR_TYPE_ATTR
 #undef INHERITABLE_PARAM_ATTR
