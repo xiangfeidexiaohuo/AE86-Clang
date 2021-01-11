@@ -10400,6 +10400,8 @@ bool LoopHintAttr::ConvertStrToLoopHintState(StringRef Val, LoopHintState &Out) 
     .Case("enable", LoopHintAttr::Enable)
     .Case("disable", LoopHintAttr::Disable)
     .Case("numeric", LoopHintAttr::Numeric)
+    .Case("fixed_width", LoopHintAttr::FixedWidth)
+    .Case("scalable_width", LoopHintAttr::ScalableWidth)
     .Case("assume_safety", LoopHintAttr::AssumeSafety)
     .Case("full", LoopHintAttr::Full)
     .Default(Optional<LoopHintState>());
@@ -10415,6 +10417,8 @@ const char *LoopHintAttr::ConvertLoopHintStateToStr(LoopHintState Val) {
   case LoopHintAttr::Enable: return "enable";
   case LoopHintAttr::Disable: return "disable";
   case LoopHintAttr::Numeric: return "numeric";
+  case LoopHintAttr::FixedWidth: return "fixed_width";
+  case LoopHintAttr::ScalableWidth: return "scalable_width";
   case LoopHintAttr::AssumeSafety: return "assume_safety";
   case LoopHintAttr::Full: return "full";
   }

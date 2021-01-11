@@ -13,7 +13,7 @@ namespace llvm {
 namespace Intrinsic {
 enum VEIntrinsics : unsigned {
 // Enum values for intrinsics
-    ve_vl_andm_MMM = 7207,                            // llvm.ve.vl.andm.MMM
+    ve_vl_andm_MMM = 7209,                            // llvm.ve.vl.andm.MMM
     ve_vl_andm_mmm,                            // llvm.ve.vl.andm.mmm
     ve_vl_eqvm_MMM,                            // llvm.ve.vl.eqvm.MMM
     ve_vl_eqvm_mmm,                            // llvm.ve.vl.eqvm.mmm
@@ -30,6 +30,8 @@ enum VEIntrinsics : unsigned {
     ve_vl_nndm_mmm,                            // llvm.ve.vl.nndm.mmm
     ve_vl_orm_MMM,                             // llvm.ve.vl.orm.MMM
     ve_vl_orm_mmm,                             // llvm.ve.vl.orm.mmm
+    ve_vl_pack_f32a,                           // llvm.ve.vl.pack.f32a
+    ve_vl_pack_f32p,                           // llvm.ve.vl.pack.f32p
     ve_vl_pcvm_sml,                            // llvm.ve.vl.pcvm.sml
     ve_vl_pfchv_ssl,                           // llvm.ve.vl.pfchv.ssl
     ve_vl_pfchvnc_ssl,                         // llvm.ve.vl.pfchvnc.ssl
@@ -396,6 +398,7 @@ enum VEIntrinsics : unsigned {
     ve_vl_pvxor_vvvvl,                         // llvm.ve.vl.pvxor.vvvvl
     ve_vl_svm_sMs,                             // llvm.ve.vl.svm.sMs
     ve_vl_svm_sms,                             // llvm.ve.vl.svm.sms
+    ve_vl_svob,                                // llvm.ve.vl.svob
     ve_vl_tovm_sml,                            // llvm.ve.vl.tovm.sml
     ve_vl_vaddsl_vsvl,                         // llvm.ve.vl.vaddsl.vsvl
     ve_vl_vaddsl_vsvmvl,                       // llvm.ve.vl.vaddsl.vsvmvl

@@ -4469,6 +4469,8 @@ public:
     Enable,
     Disable,
     Numeric,
+    FixedWidth,
+    ScalableWidth,
     AssumeSafety,
     Full
   };

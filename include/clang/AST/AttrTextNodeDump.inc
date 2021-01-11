@@ -337,6 +337,12 @@
     case LoopHintAttr::Numeric:
       OS << " Numeric";
       break;
+    case LoopHintAttr::FixedWidth:
+      OS << " FixedWidth";
+      break;
+    case LoopHintAttr::ScalableWidth:
+      OS << " ScalableWidth";
+      break;
     case LoopHintAttr::AssumeSafety:
       OS << " AssumeSafety";
       break;

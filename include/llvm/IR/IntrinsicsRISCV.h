@@ -131,6 +131,8 @@ enum RISCVIntrinsics : unsigned {
     riscv_vfslide1down_mask,                   // llvm.riscv.vfslide1down.mask
     riscv_vfslide1up,                          // llvm.riscv.vfslide1up
     riscv_vfslide1up_mask,                     // llvm.riscv.vfslide1up.mask
+    riscv_vfsqrt,                              // llvm.riscv.vfsqrt
+    riscv_vfsqrt_mask,                         // llvm.riscv.vfsqrt.mask
     riscv_vfsub,                               // llvm.riscv.vfsub
     riscv_vfsub_mask,                          // llvm.riscv.vfsub.mask
     riscv_vfwadd,                              // llvm.riscv.vfwadd
