@@ -619,7 +619,7 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       break;
     }
     break;
-  case 11:	 // 26 strings to match.
+  case 11:	 // 27 strings to match.
     switch (Name[0]) {
     default: break;
     case 'a':	 // 2 strings to match.
@@ -658,10 +658,19 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       if (memcmp(Name.data()+1, "iagnose_if", 10) != 0)
         break;
       return AttributeCommonInfo::AT_DiagnoseIf;	 // "diagnose_if"
-    case 'e':	 // 1 string to match.
-      if (memcmp(Name.data()+1, "xport_name", 10) != 0)
-        break;
-      return AttributeCommonInfo::AT_WebAssemblyExportName;	 // "export_name"
+    case 'e':	 // 2 strings to match.
+      switch (Name[1]) {
+      default: break;
+      case 'n':	 // 1 string to match.
+        if (memcmp(Name.data()+2, "force_tcb", 9) != 0)
+          break;
+        return AttributeCommonInfo::AT_EnforceTCB;	 // "enforce_tcb"
+      case 'x':	 // 1 string to match.
+        if (memcmp(Name.data()+2, "port_name", 9) != 0)
+          break;
+        return AttributeCommonInfo::AT_WebAssemblyExportName;	 // "export_name"
+      }
+      break;
     case 'f':	 // 1 string to match.
       if (memcmp(Name.data()+1, "allthrough", 10) != 0)
         break;
@@ -1170,9 +1179,13 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       return AttributeCommonInfo::AT_ReleaseCapability;	 // "unlock_function"
     }
     break;
-  case 16:	 // 8 strings to match.
+  case 16:	 // 9 strings to match.
     switch (Name[0]) {
     default: break;
+    case 'e':	 // 1 string to match.
+      if (memcmp(Name.data()+1, "nforce_tcb_leaf", 15) != 0)
+        break;
+      return AttributeCommonInfo::AT_EnforceTCBLeaf;	 // "enforce_tcb_leaf"
     case 'i':	 // 1 string to match.
       if (memcmp(Name.data()+1, "nternal_linkage", 15) != 0)
         break;
@@ -2780,17 +2793,17 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       return AttributeCommonInfo::AT_NoUniqueAddress;	 // "no_unique_address"
     }
     break;
-  case 18:	 // 22 strings to match.
+  case 18:	 // 23 strings to match.
     switch (Name[0]) {
     default: break;
-    case 'c':	 // 19 strings to match.
+    case 'c':	 // 20 strings to match.
       switch (Name[1]) {
       default: break;
       case 'a':	 // 1 string to match.
         if (memcmp(Name.data()+2, "rries_dependency", 16) != 0)
           break;
         return AttributeCommonInfo::AT_CarriesDependency;	 // "carries_dependency"
-      case 'l':	 // 18 strings to match.
+      case 'l':	 // 19 strings to match.
         if (memcmp(Name.data()+2, "ang::", 5) != 0)
           break;
         switch (Name[7]) {
@@ -2808,10 +2821,19 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
             return AttributeCommonInfo::AT_CFConsumed;	 // "clang::cf_consumed"
           }
           break;
-        case 'e':	 // 1 string to match.
-          if (memcmp(Name.data()+8, "xport_name", 10) != 0)
-            break;
-          return AttributeCommonInfo::AT_WebAssemblyExportName;	 // "clang::export_name"
+        case 'e':	 // 2 strings to match.
+          switch (Name[8]) {
+          default: break;
+          case 'n':	 // 1 string to match.
+            if (memcmp(Name.data()+9, "force_tcb", 9) != 0)
+              break;
+            return AttributeCommonInfo::AT_EnforceTCB;	 // "clang::enforce_tcb"
+          case 'x':	 // 1 string to match.
+            if (memcmp(Name.data()+9, "port_name", 9) != 0)
+              break;
+            return AttributeCommonInfo::AT_WebAssemblyExportName;	 // "clang::export_name"
+          }
+          break;
         case 'f':	 // 1 string to match.
           if (memcmp(Name.data()+8, "allthrough", 10) != 0)
             break;
@@ -3226,14 +3248,18 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       return AttributeCommonInfo::AT_TransparentUnion;	 // "gnu::transparent_union"
     }
     break;
-  case 23:	 // 9 strings to match.
+  case 23:	 // 10 strings to match.
     switch (Name[0]) {
     default: break;
-    case 'c':	 // 7 strings to match.
+    case 'c':	 // 8 strings to match.
       if (memcmp(Name.data()+1, "lang::", 6) != 0)
         break;
       switch (Name[7]) {
       default: break;
+      case 'e':	 // 1 string to match.
+        if (memcmp(Name.data()+8, "nforce_tcb_leaf", 15) != 0)
+          break;
+        return AttributeCommonInfo::AT_EnforceTCBLeaf;	 // "clang::enforce_tcb_leaf"
       case 'i':	 // 1 string to match.
         if (memcmp(Name.data()+8, "nternal_linkage", 15) != 0)
           break;
@@ -4452,10 +4478,10 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       return AttributeCommonInfo::AT_VectorCall;	 // "clang::vectorcall"
     }
     break;
-  case 18:	 // 17 strings to match.
+  case 18:	 // 18 strings to match.
     switch (Name[0]) {
     default: break;
-    case 'c':	 // 15 strings to match.
+    case 'c':	 // 16 strings to match.
       if (memcmp(Name.data()+1, "lang::", 6) != 0)
         break;
       switch (Name[7]) {
@@ -4473,10 +4499,19 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
           return AttributeCommonInfo::AT_CFConsumed;	 // "clang::cf_consumed"
         }
         break;
-      case 'e':	 // 1 string to match.
-        if (memcmp(Name.data()+8, "xport_name", 10) != 0)
-          break;
-        return AttributeCommonInfo::AT_WebAssemblyExportName;	 // "clang::export_name"
+      case 'e':	 // 2 strings to match.
+        switch (Name[8]) {
+        default: break;
+        case 'n':	 // 1 string to match.
+          if (memcmp(Name.data()+9, "force_tcb", 9) != 0)
+            break;
+          return AttributeCommonInfo::AT_EnforceTCB;	 // "clang::enforce_tcb"
+        case 'x':	 // 1 string to match.
+          if (memcmp(Name.data()+9, "port_name", 9) != 0)
+            break;
+          return AttributeCommonInfo::AT_WebAssemblyExportName;	 // "clang::export_name"
+        }
+        break;
       case 'i':	 // 1 string to match.
         if (memcmp(Name.data()+8, "mport_name", 10) != 0)
           break;
@@ -4791,14 +4826,18 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       return AttributeCommonInfo::AT_TransparentUnion;	 // "gnu::transparent_union"
     }
     break;
-  case 23:	 // 8 strings to match.
+  case 23:	 // 9 strings to match.
     switch (Name[0]) {
     default: break;
-    case 'c':	 // 6 strings to match.
+    case 'c':	 // 7 strings to match.
       if (memcmp(Name.data()+1, "lang::", 6) != 0)
         break;
       switch (Name[7]) {
       default: break;
+      case 'e':	 // 1 string to match.
+        if (memcmp(Name.data()+8, "nforce_tcb_leaf", 15) != 0)
+          break;
+        return AttributeCommonInfo::AT_EnforceTCBLeaf;	 // "clang::enforce_tcb_leaf"
       case 'i':	 // 1 string to match.
         if (memcmp(Name.data()+8, "nternal_linkage", 15) != 0)
           break;

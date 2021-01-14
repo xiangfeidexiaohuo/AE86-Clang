@@ -138,6 +138,13 @@ Record.push_back(SA->getInterrupt());
     Record.push_back(A->isPackExpansion());
     break;
   }
+  case attr::AlignNatural: {
+    const auto *SA = cast<AlignNaturalAttr>(A);
+    Record.push_back(SA->isInherited());
+    Record.push_back(A->isImplicit());
+    Record.push_back(A->isPackExpansion());
+    break;
+  }
   case attr::AlignValue: {
     const auto *SA = cast<AlignValueAttr>(A);
     Record.push_back(A->isImplicit());
@@ -734,6 +741,22 @@ Record.push_back(SA->getDiagnosticType());
     Record.push_back(A->isPackExpansion());
     Record.AddStmt(SA->getCond());
     Record.AddString(SA->getMessage());
+    break;
+  }
+  case attr::EnforceTCB: {
+    const auto *SA = cast<EnforceTCBAttr>(A);
+    Record.push_back(SA->isInherited());
+    Record.push_back(A->isImplicit());
+    Record.push_back(A->isPackExpansion());
+    Record.AddString(SA->getTCBName());
+    break;
+  }
+  case attr::EnforceTCBLeaf: {
+    const auto *SA = cast<EnforceTCBLeafAttr>(A);
+    Record.push_back(SA->isInherited());
+    Record.push_back(A->isImplicit());
+    Record.push_back(A->isPackExpansion());
+    Record.AddString(SA->getTCBName());
     break;
   }
   case attr::EnumExtensibility: {

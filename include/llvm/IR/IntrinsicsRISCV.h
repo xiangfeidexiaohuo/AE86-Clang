@@ -13,7 +13,7 @@ namespace llvm {
 namespace Intrinsic {
 enum RISCVIntrinsics : unsigned {
 // Enum values for intrinsics
-    riscv_masked_atomicrmw_add_i32 = 6617,            // llvm.riscv.masked.atomicrmw.add.i32
+    riscv_masked_atomicrmw_add_i32 = 6621,            // llvm.riscv.masked.atomicrmw.add.i32
     riscv_masked_atomicrmw_add_i64,            // llvm.riscv.masked.atomicrmw.add.i64
     riscv_masked_atomicrmw_max_i32,            // llvm.riscv.masked.atomicrmw.max.i32
     riscv_masked_atomicrmw_max_i64,            // llvm.riscv.masked.atomicrmw.max.i64
@@ -44,13 +44,15 @@ enum RISCVIntrinsics : unsigned {
     riscv_vasub_mask,                          // llvm.riscv.vasub.mask
     riscv_vasubu,                              // llvm.riscv.vasubu
     riscv_vasubu_mask,                         // llvm.riscv.vasubu.mask
-    riscv_vcompress_mask,                      // llvm.riscv.vcompress.mask
+    riscv_vcompress,                           // llvm.riscv.vcompress
     riscv_vdiv,                                // llvm.riscv.vdiv
     riscv_vdiv_mask,                           // llvm.riscv.vdiv.mask
     riscv_vdivu,                               // llvm.riscv.vdivu
     riscv_vdivu_mask,                          // llvm.riscv.vdivu.mask
     riscv_vfadd,                               // llvm.riscv.vfadd
     riscv_vfadd_mask,                          // llvm.riscv.vfadd.mask
+    riscv_vfclass,                             // llvm.riscv.vfclass
+    riscv_vfclass_mask,                        // llvm.riscv.vfclass.mask
     riscv_vfcvt_f_x_v,                         // llvm.riscv.vfcvt.f.x.v
     riscv_vfcvt_f_x_v_mask,                    // llvm.riscv.vfcvt.f.x.v.mask
     riscv_vfcvt_f_xu_v,                        // llvm.riscv.vfcvt.f.xu.v

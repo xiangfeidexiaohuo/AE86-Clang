@@ -195,6 +195,16 @@
     New->setPackExpansion(isPackExpansion);
     break;
   }
+  case attr::AlignNatural: {
+    bool isInherited = Record.readInt();
+    bool isImplicit = Record.readInt();
+    bool isPackExpansion = Record.readInt();
+    New = new (Context) AlignNaturalAttr(Context, Info);
+    cast<InheritableAttr>(New)->setInherited(isInherited);
+    New->setImplicit(isImplicit);
+    New->setPackExpansion(isPackExpansion);
+    break;
+  }
   case attr::AlignValue: {
     bool isImplicit = Record.readInt();
     bool isPackExpansion = Record.readInt();
@@ -1032,6 +1042,28 @@
     Expr * cond = Record.readExpr();
     std::string message= Record.readString();
     New = new (Context) EnableIfAttr(Context, Info, cond, message);
+    cast<InheritableAttr>(New)->setInherited(isInherited);
+    New->setImplicit(isImplicit);
+    New->setPackExpansion(isPackExpansion);
+    break;
+  }
+  case attr::EnforceTCB: {
+    bool isInherited = Record.readInt();
+    bool isImplicit = Record.readInt();
+    bool isPackExpansion = Record.readInt();
+    std::string tCBName= Record.readString();
+    New = new (Context) EnforceTCBAttr(Context, Info, tCBName);
+    cast<InheritableAttr>(New)->setInherited(isInherited);
+    New->setImplicit(isImplicit);
+    New->setPackExpansion(isPackExpansion);
+    break;
+  }
+  case attr::EnforceTCBLeaf: {
+    bool isInherited = Record.readInt();
+    bool isImplicit = Record.readInt();
+    bool isPackExpansion = Record.readInt();
+    std::string tCBName= Record.readString();
+    New = new (Context) EnforceTCBLeafAttr(Context, Info, tCBName);
     cast<InheritableAttr>(New)->setInherited(isInherited);
     New->setImplicit(isImplicit);
     New->setPackExpansion(isPackExpansion);

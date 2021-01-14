@@ -1382,6 +1382,55 @@ const char *AlignMac68kAttr::getSpelling() const {
 }
 
 
+// AlignNaturalAttr implementation
+
+AlignNaturalAttr *AlignNaturalAttr::CreateImplicit(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo) {
+  auto *A = new (Ctx) AlignNaturalAttr(Ctx, CommonInfo);
+  A->setImplicit(true);
+  if (!A->isAttributeSpellingListCalculated() && !A->getAttrName())
+    A->setAttributeSpellingListIndex(0);
+  return A;
+}
+
+AlignNaturalAttr *AlignNaturalAttr::Create(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo) {
+  auto *A = new (Ctx) AlignNaturalAttr(Ctx, CommonInfo);
+  if (!A->isAttributeSpellingListCalculated() && !A->getAttrName())
+    A->setAttributeSpellingListIndex(0);
+  return A;
+}
+
+AlignNaturalAttr *AlignNaturalAttr::CreateImplicit(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax) {
+  AttributeCommonInfo I(Range, NoSemaHandlerAttribute, Syntax);
+  return CreateImplicit(Ctx, I);
+}
+
+AlignNaturalAttr *AlignNaturalAttr::Create(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax) {
+  AttributeCommonInfo I(Range, NoSemaHandlerAttribute, Syntax);
+  return Create(Ctx, I);
+}
+
+AlignNaturalAttr::AlignNaturalAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+             )
+  : InheritableAttr(Ctx, CommonInfo, attr::AlignNatural, false, false)
+  {
+}
+
+AlignNaturalAttr *AlignNaturalAttr::clone(ASTContext &C) const {
+  auto *A = new (C) AlignNaturalAttr(C, *this);
+  A->Inherited = Inherited;
+  A->IsPackExpansion = IsPackExpansion;
+  A->setImplicit(Implicit);
+  return A;
+}
+
+void AlignNaturalAttr::printPretty(raw_ostream &OS, const PrintingPolicy &Policy) const {
+}
+
+const char *AlignNaturalAttr::getSpelling() const {
+  return "(No spelling)";
+}
+
+
 // AlignValueAttr implementation
 
 AlignValueAttr *AlignValueAttr::CreateImplicit(ASTContext &Ctx, Expr * Alignment, const AttributeCommonInfo &CommonInfo) {
@@ -7828,6 +7877,170 @@ const char *EnableIfAttr::getSpelling() const {
     return "(No spelling)";
   case 0:
     return "enable_if";
+  }
+}
+
+
+// EnforceTCBAttr implementation
+
+EnforceTCBAttr *EnforceTCBAttr::CreateImplicit(ASTContext &Ctx, llvm::StringRef TCBName, const AttributeCommonInfo &CommonInfo) {
+  auto *A = new (Ctx) EnforceTCBAttr(Ctx, CommonInfo, TCBName);
+  A->setImplicit(true);
+  if (!A->isAttributeSpellingListCalculated() && !A->getAttrName())
+    A->setAttributeSpellingListIndex(0);
+  return A;
+}
+
+EnforceTCBAttr *EnforceTCBAttr::Create(ASTContext &Ctx, llvm::StringRef TCBName, const AttributeCommonInfo &CommonInfo) {
+  auto *A = new (Ctx) EnforceTCBAttr(Ctx, CommonInfo, TCBName);
+  if (!A->isAttributeSpellingListCalculated() && !A->getAttrName())
+    A->setAttributeSpellingListIndex(0);
+  return A;
+}
+
+EnforceTCBAttr *EnforceTCBAttr::CreateImplicit(ASTContext &Ctx, llvm::StringRef TCBName, SourceRange Range, AttributeCommonInfo::Syntax Syntax) {
+  AttributeCommonInfo I(Range, NoSemaHandlerAttribute, Syntax);
+  return CreateImplicit(Ctx, TCBName, I);
+}
+
+EnforceTCBAttr *EnforceTCBAttr::Create(ASTContext &Ctx, llvm::StringRef TCBName, SourceRange Range, AttributeCommonInfo::Syntax Syntax) {
+  AttributeCommonInfo I(Range, NoSemaHandlerAttribute, Syntax);
+  return Create(Ctx, TCBName, I);
+}
+
+EnforceTCBAttr::EnforceTCBAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+              , llvm::StringRef TCBName
+             )
+  : InheritableAttr(Ctx, CommonInfo, attr::EnforceTCB, false, true)
+              , tCBNameLength(TCBName.size()),tCBName(new (Ctx, 1) char[tCBNameLength])
+  {
+    if (!TCBName.empty())
+      std::memcpy(tCBName, TCBName.data(), tCBNameLength);
+}
+
+
+
+EnforceTCBAttr *EnforceTCBAttr::clone(ASTContext &C) const {
+  auto *A = new (C) EnforceTCBAttr(C, *this, getTCBName());
+  A->Inherited = Inherited;
+  A->IsPackExpansion = IsPackExpansion;
+  A->setImplicit(Implicit);
+  return A;
+}
+
+void EnforceTCBAttr::printPretty(raw_ostream &OS, const PrintingPolicy &Policy) const {
+  switch (getAttributeSpellingListIndex()) {
+  default:
+    llvm_unreachable("Unknown attribute spelling!");
+    break;
+  case 0 : {
+    OS << " __attribute__((enforce_tcb(\"" << getTCBName() << "\")))";
+    break;
+  }
+  case 1 : {
+    OS << " [[clang::enforce_tcb(\"" << getTCBName() << "\")]]";
+    break;
+  }
+  case 2 : {
+    OS << " [[clang::enforce_tcb(\"" << getTCBName() << "\")]]";
+    break;
+  }
+}
+}
+
+const char *EnforceTCBAttr::getSpelling() const {
+  switch (getAttributeSpellingListIndex()) {
+  default:
+    llvm_unreachable("Unknown attribute spelling!");
+    return "(No spelling)";
+  case 0:
+    return "enforce_tcb";
+  case 1:
+    return "enforce_tcb";
+  case 2:
+    return "enforce_tcb";
+  }
+}
+
+
+// EnforceTCBLeafAttr implementation
+
+EnforceTCBLeafAttr *EnforceTCBLeafAttr::CreateImplicit(ASTContext &Ctx, llvm::StringRef TCBName, const AttributeCommonInfo &CommonInfo) {
+  auto *A = new (Ctx) EnforceTCBLeafAttr(Ctx, CommonInfo, TCBName);
+  A->setImplicit(true);
+  if (!A->isAttributeSpellingListCalculated() && !A->getAttrName())
+    A->setAttributeSpellingListIndex(0);
+  return A;
+}
+
+EnforceTCBLeafAttr *EnforceTCBLeafAttr::Create(ASTContext &Ctx, llvm::StringRef TCBName, const AttributeCommonInfo &CommonInfo) {
+  auto *A = new (Ctx) EnforceTCBLeafAttr(Ctx, CommonInfo, TCBName);
+  if (!A->isAttributeSpellingListCalculated() && !A->getAttrName())
+    A->setAttributeSpellingListIndex(0);
+  return A;
+}
+
+EnforceTCBLeafAttr *EnforceTCBLeafAttr::CreateImplicit(ASTContext &Ctx, llvm::StringRef TCBName, SourceRange Range, AttributeCommonInfo::Syntax Syntax) {
+  AttributeCommonInfo I(Range, NoSemaHandlerAttribute, Syntax);
+  return CreateImplicit(Ctx, TCBName, I);
+}
+
+EnforceTCBLeafAttr *EnforceTCBLeafAttr::Create(ASTContext &Ctx, llvm::StringRef TCBName, SourceRange Range, AttributeCommonInfo::Syntax Syntax) {
+  AttributeCommonInfo I(Range, NoSemaHandlerAttribute, Syntax);
+  return Create(Ctx, TCBName, I);
+}
+
+EnforceTCBLeafAttr::EnforceTCBLeafAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+              , llvm::StringRef TCBName
+             )
+  : InheritableAttr(Ctx, CommonInfo, attr::EnforceTCBLeaf, false, true)
+              , tCBNameLength(TCBName.size()),tCBName(new (Ctx, 1) char[tCBNameLength])
+  {
+    if (!TCBName.empty())
+      std::memcpy(tCBName, TCBName.data(), tCBNameLength);
+}
+
+
+
+EnforceTCBLeafAttr *EnforceTCBLeafAttr::clone(ASTContext &C) const {
+  auto *A = new (C) EnforceTCBLeafAttr(C, *this, getTCBName());
+  A->Inherited = Inherited;
+  A->IsPackExpansion = IsPackExpansion;
+  A->setImplicit(Implicit);
+  return A;
+}
+
+void EnforceTCBLeafAttr::printPretty(raw_ostream &OS, const PrintingPolicy &Policy) const {
+  switch (getAttributeSpellingListIndex()) {
+  default:
+    llvm_unreachable("Unknown attribute spelling!");
+    break;
+  case 0 : {
+    OS << " __attribute__((enforce_tcb_leaf(\"" << getTCBName() << "\")))";
+    break;
+  }
+  case 1 : {
+    OS << " [[clang::enforce_tcb_leaf(\"" << getTCBName() << "\")]]";
+    break;
+  }
+  case 2 : {
+    OS << " [[clang::enforce_tcb_leaf(\"" << getTCBName() << "\")]]";
+    break;
+  }
+}
+}
+
+const char *EnforceTCBLeafAttr::getSpelling() const {
+  switch (getAttributeSpellingListIndex()) {
+  default:
+    llvm_unreachable("Unknown attribute spelling!");
+    return "(No spelling)";
+  case 0:
+    return "enforce_tcb_leaf";
+  case 1:
+    return "enforce_tcb_leaf";
+  case 2:
+    return "enforce_tcb_leaf";
   }
 }
 
@@ -27072,6 +27285,8 @@ const char *Attr::getSpelling() const {
     return cast<AliasAttr>(this)->getSpelling();
   case attr::AlignMac68k:
     return cast<AlignMac68kAttr>(this)->getSpelling();
+  case attr::AlignNatural:
+    return cast<AlignNaturalAttr>(this)->getSpelling();
   case attr::AlignValue:
     return cast<AlignValueAttr>(this)->getSpelling();
   case attr::Aligned:
@@ -27224,6 +27439,10 @@ const char *Attr::getSpelling() const {
     return cast<EmptyBasesAttr>(this)->getSpelling();
   case attr::EnableIf:
     return cast<EnableIfAttr>(this)->getSpelling();
+  case attr::EnforceTCB:
+    return cast<EnforceTCBAttr>(this)->getSpelling();
+  case attr::EnforceTCBLeaf:
+    return cast<EnforceTCBLeafAttr>(this)->getSpelling();
   case attr::EnumExtensibility:
     return cast<EnumExtensibilityAttr>(this)->getSpelling();
   case attr::ExcludeFromExplicitInstantiation:
@@ -27732,6 +27951,8 @@ Attr *Attr::clone(ASTContext &C) const {
     return cast<AliasAttr>(this)->clone(C);
   case attr::AlignMac68k:
     return cast<AlignMac68kAttr>(this)->clone(C);
+  case attr::AlignNatural:
+    return cast<AlignNaturalAttr>(this)->clone(C);
   case attr::AlignValue:
     return cast<AlignValueAttr>(this)->clone(C);
   case attr::Aligned:
@@ -27884,6 +28105,10 @@ Attr *Attr::clone(ASTContext &C) const {
     return cast<EmptyBasesAttr>(this)->clone(C);
   case attr::EnableIf:
     return cast<EnableIfAttr>(this)->clone(C);
+  case attr::EnforceTCB:
+    return cast<EnforceTCBAttr>(this)->clone(C);
+  case attr::EnforceTCBLeaf:
+    return cast<EnforceTCBLeafAttr>(this)->clone(C);
   case attr::EnumExtensibility:
     return cast<EnumExtensibilityAttr>(this)->clone(C);
   case attr::ExcludeFromExplicitInstantiation:
@@ -28392,6 +28617,8 @@ void Attr::printPretty(raw_ostream &OS, const PrintingPolicy &Policy) const {
     return cast<AliasAttr>(this)->printPretty(OS, Policy);
   case attr::AlignMac68k:
     return cast<AlignMac68kAttr>(this)->printPretty(OS, Policy);
+  case attr::AlignNatural:
+    return cast<AlignNaturalAttr>(this)->printPretty(OS, Policy);
   case attr::AlignValue:
     return cast<AlignValueAttr>(this)->printPretty(OS, Policy);
   case attr::Aligned:
@@ -28544,6 +28771,10 @@ void Attr::printPretty(raw_ostream &OS, const PrintingPolicy &Policy) const {
     return cast<EmptyBasesAttr>(this)->printPretty(OS, Policy);
   case attr::EnableIf:
     return cast<EnableIfAttr>(this)->printPretty(OS, Policy);
+  case attr::EnforceTCB:
+    return cast<EnforceTCBAttr>(this)->printPretty(OS, Policy);
+  case attr::EnforceTCBLeaf:
+    return cast<EnforceTCBLeafAttr>(this)->printPretty(OS, Policy);
   case attr::EnumExtensibility:
     return cast<EnumExtensibilityAttr>(this)->printPretty(OS, Policy);
   case attr::ExcludeFromExplicitInstantiation:

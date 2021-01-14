@@ -610,6 +610,27 @@ public:
   static bool classof(const Attr *A) { return A->getKind() == attr::AlignMac68k; }
 };
 
+class AlignNaturalAttr : public InheritableAttr {
+public:
+  // Factory methods
+  static AlignNaturalAttr *CreateImplicit(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo = {SourceRange{}});
+  static AlignNaturalAttr *Create(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo);
+  static AlignNaturalAttr *CreateImplicit(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax);
+  static AlignNaturalAttr *Create(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax);
+
+  // Constructors
+  AlignNaturalAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+             );
+
+  AlignNaturalAttr *clone(ASTContext &C) const;
+  void printPretty(raw_ostream &OS,
+                   const PrintingPolicy &Policy) const;
+  const char *getSpelling() const;
+
+
+  static bool classof(const Attr *A) { return A->getKind() == attr::AlignNatural; }
+};
+
 class AlignValueAttr : public Attr {
 Expr * alignment;
 
@@ -3395,6 +3416,98 @@ public:
 
 
   static bool classof(const Attr *A) { return A->getKind() == attr::EnableIf; }
+};
+
+class EnforceTCBAttr : public InheritableAttr {
+unsigned tCBNameLength;
+char *tCBName;
+
+public:
+  enum Spelling {
+    GNU_enforce_tcb = 0,
+    CXX11_clang_enforce_tcb = 1,
+    C2x_clang_enforce_tcb = 2,
+  SpellingNotCalculated = 15
+
+  };
+
+  // Factory methods
+  static EnforceTCBAttr *CreateImplicit(ASTContext &Ctx, llvm::StringRef TCBName, const AttributeCommonInfo &CommonInfo = {SourceRange{}});
+  static EnforceTCBAttr *Create(ASTContext &Ctx, llvm::StringRef TCBName, const AttributeCommonInfo &CommonInfo);
+  static EnforceTCBAttr *CreateImplicit(ASTContext &Ctx, llvm::StringRef TCBName, SourceRange Range, AttributeCommonInfo::Syntax Syntax);
+  static EnforceTCBAttr *Create(ASTContext &Ctx, llvm::StringRef TCBName, SourceRange Range, AttributeCommonInfo::Syntax Syntax);
+
+  // Constructors
+  EnforceTCBAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+              , llvm::StringRef TCBName
+             );
+
+  EnforceTCBAttr *clone(ASTContext &C) const;
+  void printPretty(raw_ostream &OS,
+                   const PrintingPolicy &Policy) const;
+  const char *getSpelling() const;
+  llvm::StringRef getTCBName() const {
+    return llvm::StringRef(tCBName, tCBNameLength);
+  }
+  unsigned getTCBNameLength() const {
+    return tCBNameLength;
+  }
+  void setTCBName(ASTContext &C, llvm::StringRef S) {
+    tCBNameLength = S.size();
+    this->tCBName = new (C, 1) char [tCBNameLength];
+    if (!S.empty())
+      std::memcpy(this->tCBName, S.data(), tCBNameLength);
+  }
+
+
+
+  static bool classof(const Attr *A) { return A->getKind() == attr::EnforceTCB; }
+};
+
+class EnforceTCBLeafAttr : public InheritableAttr {
+unsigned tCBNameLength;
+char *tCBName;
+
+public:
+  enum Spelling {
+    GNU_enforce_tcb_leaf = 0,
+    CXX11_clang_enforce_tcb_leaf = 1,
+    C2x_clang_enforce_tcb_leaf = 2,
+  SpellingNotCalculated = 15
+
+  };
+
+  // Factory methods
+  static EnforceTCBLeafAttr *CreateImplicit(ASTContext &Ctx, llvm::StringRef TCBName, const AttributeCommonInfo &CommonInfo = {SourceRange{}});
+  static EnforceTCBLeafAttr *Create(ASTContext &Ctx, llvm::StringRef TCBName, const AttributeCommonInfo &CommonInfo);
+  static EnforceTCBLeafAttr *CreateImplicit(ASTContext &Ctx, llvm::StringRef TCBName, SourceRange Range, AttributeCommonInfo::Syntax Syntax);
+  static EnforceTCBLeafAttr *Create(ASTContext &Ctx, llvm::StringRef TCBName, SourceRange Range, AttributeCommonInfo::Syntax Syntax);
+
+  // Constructors
+  EnforceTCBLeafAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+              , llvm::StringRef TCBName
+             );
+
+  EnforceTCBLeafAttr *clone(ASTContext &C) const;
+  void printPretty(raw_ostream &OS,
+                   const PrintingPolicy &Policy) const;
+  const char *getSpelling() const;
+  llvm::StringRef getTCBName() const {
+    return llvm::StringRef(tCBName, tCBNameLength);
+  }
+  unsigned getTCBNameLength() const {
+    return tCBNameLength;
+  }
+  void setTCBName(ASTContext &C, llvm::StringRef S) {
+    tCBNameLength = S.size();
+    this->tCBName = new (C, 1) char [tCBNameLength];
+    if (!S.empty())
+      std::memcpy(this->tCBName, S.data(), tCBNameLength);
+  }
+
+
+
+  static bool classof(const Attr *A) { return A->getKind() == attr::EnforceTCBLeaf; }
 };
 
 class EnumExtensibilityAttr : public InheritableAttr {

@@ -13,10 +13,14 @@ namespace llvm {
 namespace Intrinsic {
 enum VEIntrinsics : unsigned {
 // Enum values for intrinsics
-    ve_vl_andm_MMM = 7209,                            // llvm.ve.vl.andm.MMM
+    ve_vl_andm_MMM = 7215,                            // llvm.ve.vl.andm.MMM
     ve_vl_andm_mmm,                            // llvm.ve.vl.andm.mmm
     ve_vl_eqvm_MMM,                            // llvm.ve.vl.eqvm.MMM
     ve_vl_eqvm_mmm,                            // llvm.ve.vl.eqvm.mmm
+    ve_vl_extract_vm512l,                      // llvm.ve.vl.extract.vm512l
+    ve_vl_extract_vm512u,                      // llvm.ve.vl.extract.vm512u
+    ve_vl_insert_vm512l,                       // llvm.ve.vl.insert.vm512l
+    ve_vl_insert_vm512u,                       // llvm.ve.vl.insert.vm512u
     ve_vl_lsv_vvss,                            // llvm.ve.vl.lsv.vvss
     ve_vl_lvm_MMss,                            // llvm.ve.vl.lvm.MMss
     ve_vl_lvm_mmss,                            // llvm.ve.vl.lvm.mmss

@@ -72,6 +72,10 @@
   bool VisitAlignMac68kAttr(AlignMac68kAttr *A) {
     return true; 
   }
+  bool TraverseAlignNaturalAttr(AlignNaturalAttr *A);
+  bool VisitAlignNaturalAttr(AlignNaturalAttr *A) {
+    return true; 
+  }
   bool TraverseAlignValueAttr(AlignValueAttr *A);
   bool VisitAlignValueAttr(AlignValueAttr *A) {
     return true; 
@@ -374,6 +378,14 @@
   }
   bool TraverseEnableIfAttr(EnableIfAttr *A);
   bool VisitEnableIfAttr(EnableIfAttr *A) {
+    return true; 
+  }
+  bool TraverseEnforceTCBAttr(EnforceTCBAttr *A);
+  bool VisitEnforceTCBAttr(EnforceTCBAttr *A) {
+    return true; 
+  }
+  bool TraverseEnforceTCBLeafAttr(EnforceTCBLeafAttr *A);
+  bool VisitEnforceTCBLeafAttr(EnforceTCBLeafAttr *A) {
     return true; 
   }
   bool TraverseEnumExtensibilityAttr(EnumExtensibilityAttr *A);
@@ -1496,6 +1508,15 @@ bool VISITORCLASS<Derived>::TraverseAlignMac68kAttr(AlignMac68kAttr *A) {
 }
 
 template <typename Derived>
+bool VISITORCLASS<Derived>::TraverseAlignNaturalAttr(AlignNaturalAttr *A) {
+  if (!getDerived().VisitAttr(A))
+    return false;
+  if (!getDerived().VisitAlignNaturalAttr(A))
+    return false;
+  return true;
+}
+
+template <typename Derived>
 bool VISITORCLASS<Derived>::TraverseAlignValueAttr(AlignValueAttr *A) {
   if (!getDerived().VisitAttr(A))
     return false;
@@ -2228,6 +2249,24 @@ bool VISITORCLASS<Derived>::TraverseEnableIfAttr(EnableIfAttr *A) {
   if (!getDerived().VisitEnableIfAttr(A))
     return false;
   if (!getDerived().TraverseStmt(A->getCond()))
+    return false;
+  return true;
+}
+
+template <typename Derived>
+bool VISITORCLASS<Derived>::TraverseEnforceTCBAttr(EnforceTCBAttr *A) {
+  if (!getDerived().VisitAttr(A))
+    return false;
+  if (!getDerived().VisitEnforceTCBAttr(A))
+    return false;
+  return true;
+}
+
+template <typename Derived>
+bool VISITORCLASS<Derived>::TraverseEnforceTCBLeafAttr(EnforceTCBLeafAttr *A) {
+  if (!getDerived().VisitAttr(A))
+    return false;
+  if (!getDerived().VisitEnforceTCBLeafAttr(A))
     return false;
   return true;
 }
@@ -4513,6 +4552,8 @@ bool VISITORCLASS<Derived>::TraverseAttr(Attr *A) {
       return getDerived().TraverseAliasAttr(cast<AliasAttr>(A));
     case attr::AlignMac68k:
       return getDerived().TraverseAlignMac68kAttr(cast<AlignMac68kAttr>(A));
+    case attr::AlignNatural:
+      return getDerived().TraverseAlignNaturalAttr(cast<AlignNaturalAttr>(A));
     case attr::AlignValue:
       return getDerived().TraverseAlignValueAttr(cast<AlignValueAttr>(A));
     case attr::Aligned:
@@ -4665,6 +4706,10 @@ bool VISITORCLASS<Derived>::TraverseAttr(Attr *A) {
       return getDerived().TraverseEmptyBasesAttr(cast<EmptyBasesAttr>(A));
     case attr::EnableIf:
       return getDerived().TraverseEnableIfAttr(cast<EnableIfAttr>(A));
+    case attr::EnforceTCB:
+      return getDerived().TraverseEnforceTCBAttr(cast<EnforceTCBAttr>(A));
+    case attr::EnforceTCBLeaf:
+      return getDerived().TraverseEnforceTCBLeafAttr(cast<EnforceTCBLeafAttr>(A));
     case attr::EnumExtensibility:
       return getDerived().TraverseEnumExtensibilityAttr(cast<EnumExtensibilityAttr>(A));
     case attr::ExcludeFromExplicitInstantiation:

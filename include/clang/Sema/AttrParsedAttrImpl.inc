@@ -3166,6 +3166,74 @@ void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectM
 static const ParsedAttrInfoEnableIf Instance;
 };
 const ParsedAttrInfoEnableIf ParsedAttrInfoEnableIf::Instance;
+static constexpr ParsedAttrInfo::Spelling EnforceTCBSpellings[] = {
+  {AttributeCommonInfo::AS_GNU, "enforce_tcb"},
+  {AttributeCommonInfo::AS_CXX11, "clang::enforce_tcb"},
+  {AttributeCommonInfo::AS_C2x, "clang::enforce_tcb"},
+};
+struct ParsedAttrInfoEnforceTCB final : public ParsedAttrInfo {
+  ParsedAttrInfoEnforceTCB() {
+    AttrKind = ParsedAttr::AT_EnforceTCB;
+    NumArgs = 1;
+    OptArgs = 0;
+    HasCustomParsing = 0;
+    IsTargetSpecific = 0;
+    IsType = 0;
+    IsStmt = 0;
+    IsKnownToGCC = 0;
+    IsSupportedByPragmaAttribute = 1;
+    Spellings = EnforceTCBSpellings;
+  }
+bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const override {
+  if (!isa<FunctionDecl>(D)) {
+    S.Diag(Attr.getLoc(), diag::warn_attribute_wrong_decl_type_str)
+      << Attr << "functions";
+    return false;
+  }
+  return true;
+}
+
+void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
+  MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
+}
+
+static const ParsedAttrInfoEnforceTCB Instance;
+};
+const ParsedAttrInfoEnforceTCB ParsedAttrInfoEnforceTCB::Instance;
+static constexpr ParsedAttrInfo::Spelling EnforceTCBLeafSpellings[] = {
+  {AttributeCommonInfo::AS_GNU, "enforce_tcb_leaf"},
+  {AttributeCommonInfo::AS_CXX11, "clang::enforce_tcb_leaf"},
+  {AttributeCommonInfo::AS_C2x, "clang::enforce_tcb_leaf"},
+};
+struct ParsedAttrInfoEnforceTCBLeaf final : public ParsedAttrInfo {
+  ParsedAttrInfoEnforceTCBLeaf() {
+    AttrKind = ParsedAttr::AT_EnforceTCBLeaf;
+    NumArgs = 1;
+    OptArgs = 0;
+    HasCustomParsing = 0;
+    IsTargetSpecific = 0;
+    IsType = 0;
+    IsStmt = 0;
+    IsKnownToGCC = 0;
+    IsSupportedByPragmaAttribute = 1;
+    Spellings = EnforceTCBLeafSpellings;
+  }
+bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const override {
+  if (!isa<FunctionDecl>(D)) {
+    S.Diag(Attr.getLoc(), diag::warn_attribute_wrong_decl_type_str)
+      << Attr << "functions";
+    return false;
+  }
+  return true;
+}
+
+void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
+  MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
+}
+
+static const ParsedAttrInfoEnforceTCBLeaf Instance;
+};
+const ParsedAttrInfoEnforceTCBLeaf ParsedAttrInfoEnforceTCBLeaf::Instance;
 static constexpr ParsedAttrInfo::Spelling EnumExtensibilitySpellings[] = {
   {AttributeCommonInfo::AS_GNU, "enum_extensibility"},
   {AttributeCommonInfo::AS_CXX11, "clang::enum_extensibility"},
@@ -10881,6 +10949,8 @@ static const ParsedAttrInfo *AttrInfoMap[] = {
 &ParsedAttrInfoDisableTailCalls::Instance,
 &ParsedAttrInfoEmptyBases::Instance,
 &ParsedAttrInfoEnableIf::Instance,
+&ParsedAttrInfoEnforceTCB::Instance,
+&ParsedAttrInfoEnforceTCBLeaf::Instance,
 &ParsedAttrInfoEnumExtensibility::Instance,
 &ParsedAttrInfoExcludeFromExplicitInstantiation::Instance,
 &ParsedAttrInfoExclusiveTrylockFunction::Instance,

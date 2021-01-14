@@ -235,6 +235,14 @@
     const auto *SA = cast<EnableIfAttr>(A); (void)SA;
     OS << " \"" << SA->getMessage() << "\"";
   }
+  void VisitEnforceTCBAttr(const EnforceTCBAttr *A) {
+    const auto *SA = cast<EnforceTCBAttr>(A); (void)SA;
+    OS << " \"" << SA->getTCBName() << "\"";
+  }
+  void VisitEnforceTCBLeafAttr(const EnforceTCBLeafAttr *A) {
+    const auto *SA = cast<EnforceTCBLeafAttr>(A); (void)SA;
+    OS << " \"" << SA->getTCBName() << "\"";
+  }
   void VisitEnumExtensibilityAttr(const EnumExtensibilityAttr *A) {
     const auto *SA = cast<EnumExtensibilityAttr>(A); (void)SA;
     switch(SA->getExtensibility()) {

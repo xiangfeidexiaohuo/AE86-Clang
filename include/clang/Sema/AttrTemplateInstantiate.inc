@@ -115,6 +115,10 @@ Attr *instantiateTemplateAttribute(const Attr *At, ASTContext &C, Sema &S,
       const auto *A = cast<AlignMac68kAttr>(At);
       return A->clone(C);
     }
+    case attr::AlignNatural: {
+      const auto *A = cast<AlignNaturalAttr>(At);
+      return A->clone(C);
+    }
     case attr::AlignValue: {
       const auto *A = cast<AlignValueAttr>(At);
       return A->clone(C);
@@ -473,6 +477,14 @@ Attr *instantiateTemplateAttribute(const Attr *At, ASTContext &C, Sema &S,
         tempInstCond = Result.get();
       }
       return new (C) EnableIfAttr(C, *A, tempInstCond, A->getMessage());
+    }
+    case attr::EnforceTCB: {
+      const auto *A = cast<EnforceTCBAttr>(At);
+      return A->clone(C);
+    }
+    case attr::EnforceTCBLeaf: {
+      const auto *A = cast<EnforceTCBLeafAttr>(At);
+      return A->clone(C);
     }
     case attr::EnumExtensibility: {
       const auto *A = cast<EnumExtensibilityAttr>(At);
@@ -1600,6 +1612,9 @@ Attr *instantiateTemplateAttributeForDecl(const Attr *At,
     case attr::AlignMac68k: {
       return nullptr;
     }
+    case attr::AlignNatural: {
+      return nullptr;
+    }
     case attr::AlignValue: {
       return nullptr;
     }
@@ -1829,6 +1844,12 @@ Attr *instantiateTemplateAttributeForDecl(const Attr *At,
       return nullptr;
     }
     case attr::EnableIf: {
+      return nullptr;
+    }
+    case attr::EnforceTCB: {
+      return nullptr;
+    }
+    case attr::EnforceTCBLeaf: {
       return nullptr;
     }
     case attr::EnumExtensibility: {
