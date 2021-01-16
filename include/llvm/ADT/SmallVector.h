@@ -223,16 +223,19 @@ protected:
   /// Reserve enough space to add one element, and return the updated element
   /// pointer in case it was a reference to the storage.
   template <class U>
-  static const T *reserveForAndGetAddressImpl(U *This, const T &Elt, size_t N) {
+  static const T *reserveForParamAndGetAddressImpl(U *This, const T &Elt,
+                                                   size_t N) {
     size_t NewSize = This->size() + N;
     if (LLVM_LIKELY(NewSize <= This->capacity()))
       return &Elt;
 
     bool ReferencesStorage = false;
     int64_t Index = -1;
-    if (LLVM_UNLIKELY(This->isReferenceToStorage(&Elt))) {
-      ReferencesStorage = true;
-      Index = &Elt - This->begin();
+    if (!U::TakesParamByValue) {
+      if (LLVM_UNLIKELY(This->isReferenceToStorage(&Elt))) {
+        ReferencesStorage = true;
+        Index = &Elt - This->begin();
+      }
     }
     This->grow(NewSize);
     return ReferencesStorage ? This->begin() + Index : &Elt;
@@ -358,14 +361,15 @@ protected:
 
   /// Reserve enough space to add one element, and return the updated element
   /// pointer in case it was a reference to the storage.
-  const T *reserveForAndGetAddress(const T &Elt, size_t N = 1) {
-    return this->reserveForAndGetAddressImpl(this, Elt, N);
+  const T *reserveForParamAndGetAddress(const T &Elt, size_t N = 1) {
+    return this->reserveForParamAndGetAddressImpl(this, Elt, N);
   }
 
   /// Reserve enough space to add one element, and return the updated element
   /// pointer in case it was a reference to the storage.
-  T *reserveForAndGetAddress(T &Elt, size_t N = 1) {
-    return const_cast<T *>(this->reserveForAndGetAddressImpl(this, Elt, N));
+  T *reserveForParamAndGetAddress(T &Elt, size_t N = 1) {
+    return const_cast<T *>(
+        this->reserveForParamAndGetAddressImpl(this, Elt, N));
   }
 
   static T &&forward_value_param(T &&V) { return std::move(V); }
@@ -373,13 +377,13 @@ protected:
 
 public:
   void push_back(const T &Elt) {
-    const T *EltPtr = reserveForAndGetAddress(Elt);
+    const T *EltPtr = reserveForParamAndGetAddress(Elt);
     ::new ((void *)this->end()) T(*EltPtr);
     this->set_size(this->size() + 1);
   }
 
   void push_back(T &&Elt) {
-    T *EltPtr = reserveForAndGetAddress(Elt);
+    T *EltPtr = reserveForParamAndGetAddress(Elt);
     ::new ((void *)this->end()) T(::std::move(*EltPtr));
     this->set_size(this->size() + 1);
   }
@@ -484,14 +488,15 @@ protected:
 
   /// Reserve enough space to add one element, and return the updated element
   /// pointer in case it was a reference to the storage.
-  const T *reserveForAndGetAddress(const T &Elt, size_t N = 1) {
-    return this->reserveForAndGetAddressImpl(this, Elt, N);
+  const T *reserveForParamAndGetAddress(const T &Elt, size_t N = 1) {
+    return this->reserveForParamAndGetAddressImpl(this, Elt, N);
   }
 
   /// Reserve enough space to add one element, and return the updated element
   /// pointer in case it was a reference to the storage.
-  T *reserveForAndGetAddress(T &Elt, size_t N = 1) {
-    return const_cast<T *>(this->reserveForAndGetAddressImpl(this, Elt, N));
+  T *reserveForParamAndGetAddress(T &Elt, size_t N = 1) {
+    return const_cast<T *>(
+        this->reserveForParamAndGetAddressImpl(this, Elt, N));
   }
 
   /// Copy \p V or return a reference, depending on \a ValueParamT.
@@ -499,7 +504,7 @@ protected:
 
 public:
   void push_back(ValueParamT Elt) {
-    const T *EltPtr = reserveForAndGetAddress(Elt);
+    const T *EltPtr = reserveForParamAndGetAddress(Elt);
     memcpy(reinterpret_cast<void *>(this->end()), EltPtr, sizeof(T));
     this->set_size(this->size() + 1);
   }
@@ -610,7 +615,7 @@ public:
 
   /// Append \p NumInputs copies of \p Elt to the end.
   void append(size_type NumInputs, ValueParamT Elt) {
-    const T *EltPtr = this->reserveForAndGetAddress(Elt, NumInputs);
+    const T *EltPtr = this->reserveForParamAndGetAddress(Elt, NumInputs);
     std::uninitialized_fill_n(this->end(), NumInputs, *EltPtr);
     this->set_size(this->size() + NumInputs);
   }
@@ -693,7 +698,7 @@ private:
     // Grow if necessary.
     size_t Index = I - this->begin();
     std::remove_reference_t<ArgType> *EltPtr =
-        this->reserveForAndGetAddress(Elt);
+        this->reserveForParamAndGetAddress(Elt);
     I = this->begin() + Index;
 
     ::new ((void*) this->end()) T(::std::move(this->back()));
@@ -734,7 +739,7 @@ public:
 
     // Ensure there is enough space, and get the (maybe updated) address of
     // Elt.
-    const T *EltPtr = this->reserveForAndGetAddress(Elt, NumToInsert);
+    const T *EltPtr = this->reserveForParamAndGetAddress(Elt, NumToInsert);
 
     // Uninvalidate the iterator.
     I = this->begin()+InsertElt;

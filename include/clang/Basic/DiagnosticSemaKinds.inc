@@ -3439,7 +3439,7 @@ DIAG(warn_fortify_source_overflow, CLASS_WARNING, (unsigned)diag::Severity::Warn
 DIAG(warn_fortify_source_size_mismatch, CLASS_WARNING, (unsigned)diag::Severity::Warning, "'%0' size argument is too large; destination buffer has size %1, but size argument is %2", 289, SFINAE_Suppress, false, false, false, 2)
 DIAG(warn_forward_class_redefinition, CLASS_WARNING, (unsigned)diag::Severity::Warning, "redefinition of forward class %0 of a typedef name of an object type is ignored", 539, SFINAE_Suppress, false, false, false, 2)
 DIAG(warn_frame_address, CLASS_WARNING, (unsigned)diag::Severity::Ignored, "calling '%0' with a nonzero argument is unsafe", 291, SFINAE_Suppress, false, false, false, 2)
-DIAG(warn_free_nonheap_object, CLASS_WARNING, (unsigned)diag::Severity::Ignored, "attempt to call %0 on non-heap object %1", 294, SFINAE_Suppress, false, false, false, 2)
+DIAG(warn_free_nonheap_object, CLASS_WARNING, (unsigned)diag::Severity::Warning, "attempt to call %0 on non-heap object %1", 294, SFINAE_Suppress, false, false, false, 2)
 DIAG(warn_fun_excludes_mutex, CLASS_WARNING, (unsigned)diag::Severity::Ignored, "cannot call function '%1' while %0 '%2' is held", 762, SFINAE_Suppress, false, false, false, 2)
 DIAG(warn_fun_requires_lock, CLASS_WARNING, (unsigned)diag::Severity::Ignored, "calling function %1 requires holding %0 %select{'%2'|'%2' exclusively}3", 762, SFINAE_Suppress, false, false, false, 2)
 DIAG(warn_fun_requires_lock_precise, CLASS_WARNING, (unsigned)diag::Severity::Ignored, "calling function %1 requires holding %0 %select{'%2'|'%2' exclusively}3", 766, SFINAE_Suppress, false, false, false, 2)

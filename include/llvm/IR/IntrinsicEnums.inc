@@ -127,6 +127,7 @@
     experimental_gc_result,                    // llvm.experimental.gc.result
     experimental_gc_statepoint,                // llvm.experimental.gc.statepoint
     experimental_guard,                        // llvm.experimental.guard
+    experimental_noalias_scope_decl,           // llvm.experimental.noalias.scope.decl
     experimental_patchpoint_i64,               // llvm.experimental.patchpoint.i64
     experimental_patchpoint_void,              // llvm.experimental.patchpoint.void
     experimental_stackmap,                     // llvm.experimental.stackmap
@@ -321,4 +322,4 @@
     write_register,                            // llvm.write_register
     xray_customevent,                          // llvm.xray.customevent
     xray_typedevent,                           // llvm.xray.typedevent
-    num_intrinsics = 9759
+    num_intrinsics = 9760
