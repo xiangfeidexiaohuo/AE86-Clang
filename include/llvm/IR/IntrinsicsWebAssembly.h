@@ -13,13 +13,16 @@ namespace llvm {
 namespace Intrinsic {
 enum WASMIntrinsics : unsigned {
 // Enum values for intrinsics
-    wasm_alltrue = 8436,                              // llvm.wasm.alltrue
+    wasm_alltrue = 8518,                              // llvm.wasm.alltrue
     wasm_anytrue,                              // llvm.wasm.anytrue
     wasm_avgr_unsigned,                        // llvm.wasm.avgr.unsigned
     wasm_bitmask,                              // llvm.wasm.bitmask
     wasm_bitselect,                            // llvm.wasm.bitselect
     wasm_catch,                                // llvm.wasm.catch
     wasm_ceil,                                 // llvm.wasm.ceil
+    wasm_convert_low_signed,                   // llvm.wasm.convert.low.signed
+    wasm_convert_low_unsigned,                 // llvm.wasm.convert.low.unsigned
+    wasm_demote_zero,                          // llvm.wasm.demote.zero
     wasm_dot,                                  // llvm.wasm.dot
     wasm_eq,                                   // llvm.wasm.eq
     wasm_extadd_pairwise_signed,               // llvm.wasm.extadd.pairwise.signed
@@ -52,6 +55,7 @@ enum WASMIntrinsics : unsigned {
     wasm_popcnt,                               // llvm.wasm.popcnt
     wasm_prefetch_nt,                          // llvm.wasm.prefetch.nt
     wasm_prefetch_t,                           // llvm.wasm.prefetch.t
+    wasm_promote_low,                          // llvm.wasm.promote.low
     wasm_q15mulr_saturate_signed,              // llvm.wasm.q15mulr.saturate.signed
     wasm_qfma,                                 // llvm.wasm.qfma
     wasm_qfms,                                 // llvm.wasm.qfms
@@ -72,6 +76,8 @@ enum WASMIntrinsics : unsigned {
     wasm_trunc,                                // llvm.wasm.trunc
     wasm_trunc_saturate_signed,                // llvm.wasm.trunc.saturate.signed
     wasm_trunc_saturate_unsigned,              // llvm.wasm.trunc.saturate.unsigned
+    wasm_trunc_saturate_zero_signed,           // llvm.wasm.trunc.saturate.zero.signed
+    wasm_trunc_saturate_zero_unsigned,         // llvm.wasm.trunc.saturate.zero.unsigned
     wasm_trunc_signed,                         // llvm.wasm.trunc.signed
     wasm_trunc_unsigned,                       // llvm.wasm.trunc.unsigned
     wasm_widen_high_signed,                    // llvm.wasm.widen.high.signed

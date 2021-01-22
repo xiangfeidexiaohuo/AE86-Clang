@@ -654,7 +654,7 @@ DIAG(err_destructor_return_type, CLASS_ERROR, (unsigned)diag::Severity::Error, "
 DIAG(err_destructor_template, CLASS_ERROR, (unsigned)diag::Severity::Error, "destructor cannot be declared as a template", 0, SFINAE_SubstitutionFailure, false, true, false, 2)
 DIAG(err_destructor_variadic, CLASS_ERROR, (unsigned)diag::Severity::Error, "destructor cannot be variadic", 0, SFINAE_SubstitutionFailure, false, true, false, 2)
 DIAG(err_destructor_with_params, CLASS_ERROR, (unsigned)diag::Severity::Error, "destructor cannot have any parameters", 0, SFINAE_SubstitutionFailure, false, true, false, 2)
-DIAG(err_device_unsupported_type, CLASS_ERROR, (unsigned)diag::Severity::Error, "%0 requires %1 bit size %2 type support, but device '%3' does not support it", 0, SFINAE_SubstitutionFailure, false, true, false, 11)
+DIAG(err_device_unsupported_type, CLASS_ERROR, (unsigned)diag::Severity::Error, "%0 requires %select{|%2 bit size}1 %3 type support, but device '%4' does not support it", 0, SFINAE_SubstitutionFailure, false, true, false, 11)
 DIAG(err_diagnose_if_invalid_diagnostic_type, CLASS_ERROR, (unsigned)diag::Severity::Error, "invalid diagnostic type for 'diagnose_if'; use \"error\" or \"warning\" instead", 0, SFINAE_SubstitutionFailure, false, true, false, 2)
 DIAG(err_diagnose_if_succeeded, CLASS_ERROR, (unsigned)diag::Severity::Error, "%0", 0, SFINAE_SubstitutionFailure, false, true, true, 2)
 DIAG(err_different_asm_label, CLASS_ERROR, (unsigned)diag::Severity::Error, "conflicting asm label", 0, SFINAE_SubstitutionFailure, false, true, false, 2)

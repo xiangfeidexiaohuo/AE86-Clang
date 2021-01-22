@@ -2875,6 +2875,7 @@ namespace omp {
 EMPTY_CLASS(AcqRel);
 EMPTY_CLASS(Acquire);
 EMPTY_CLASS(Affinity);
+WRAPPER_CLASS(Aligned, OmpAlignedClause);
 WRAPPER_CLASS(Allocate, OmpAllocateClause);
 WRAPPER_CLASS(Allocator, ScalarIntExpr);
 EMPTY_CLASS(AtomicDefaultMemOrder);
@@ -2883,6 +2884,8 @@ WRAPPER_CLASS(Collapse, ScalarIntConstantExpr);
 WRAPPER_CLASS(Copyprivate, OmpObjectList);
 WRAPPER_CLASS(Copyin, OmpObjectList);
 WRAPPER_CLASS(Default, OmpDefaultClause);
+WRAPPER_CLASS(Defaultmap, OmpDefaultmapClause);
+WRAPPER_CLASS(Depend, OmpDependClause);
 EMPTY_CLASS(Depobj);
 EMPTY_CLASS(Destroy);
 EMPTY_CLASS(Detach);
@@ -2897,12 +2900,15 @@ EMPTY_CLASS(Flush);
 WRAPPER_CLASS(From, OmpObjectList);
 WRAPPER_CLASS(Grainsize, ScalarIntExpr);
 WRAPPER_CLASS(Hint, ConstantExpr);
+WRAPPER_CLASS(If, OmpIfClause);
 EMPTY_CLASS(InReduction);
 EMPTY_CLASS(Inbranch);
 EMPTY_CLASS(Inclusive);
 WRAPPER_CLASS(IsDevicePtr, std::list<Name>);
 WRAPPER_CLASS(Lastprivate, OmpObjectList);
+WRAPPER_CLASS(Linear, OmpLinearClause);
 WRAPPER_CLASS(Link, OmpObjectList);
+WRAPPER_CLASS(Map, OmpMapClause);
 EMPTY_CLASS(Match);
 EMPTY_CLASS(Mergeable);
 EMPTY_CLASS(Nogroup);
@@ -2923,6 +2929,7 @@ EMPTY_CLASS(Relaxed);
 EMPTY_CLASS(Release);
 EMPTY_CLASS(ReverseOffload);
 WRAPPER_CLASS(Safelen, ScalarIntConstantExpr);
+WRAPPER_CLASS(Schedule, OmpScheduleClause);
 EMPTY_CLASS(SeqCst);
 WRAPPER_CLASS(Shared, OmpObjectList);
 EMPTY_CLASS(Simd);
@@ -2951,7 +2958,7 @@ EMPTY_CLASS(Write);
 AcqRel
 , Acquire
 , Affinity
-, OmpAlignedClause
+, Aligned
 , Allocate
 , Allocator
 , AtomicDefaultMemOrder
@@ -2960,8 +2967,8 @@ AcqRel
 , Copyprivate
 , Copyin
 , Default
-, OmpDefaultmapClause
-, OmpDependClause
+, Defaultmap
+, Depend
 , Depobj
 , Destroy
 , Detach
@@ -2976,15 +2983,15 @@ AcqRel
 , From
 , Grainsize
 , Hint
-, OmpIfClause
+, If
 , InReduction
 , Inbranch
 , Inclusive
 , IsDevicePtr
 , Lastprivate
-, OmpLinearClause
+, Linear
 , Link
-, OmpMapClause
+, Map
 , Match
 , Mergeable
 , Nogroup
@@ -3005,7 +3012,7 @@ AcqRel
 , Release
 , ReverseOffload
 , Safelen
-, OmpScheduleClause
+, Schedule
 , SeqCst
 , Shared
 , Simd
@@ -3034,6 +3041,7 @@ AcqRel
 NODE(OmpClause, AcqRel)
 NODE(OmpClause, Acquire)
 NODE(OmpClause, Affinity)
+NODE(OmpClause, Aligned)
 NODE(OmpClause, Allocate)
 NODE(OmpClause, Allocator)
 NODE(OmpClause, AtomicDefaultMemOrder)
@@ -3042,6 +3050,8 @@ NODE(OmpClause, Collapse)
 NODE(OmpClause, Copyprivate)
 NODE(OmpClause, Copyin)
 NODE(OmpClause, Default)
+NODE(OmpClause, Defaultmap)
+NODE(OmpClause, Depend)
 NODE(OmpClause, Depobj)
 NODE(OmpClause, Destroy)
 NODE(OmpClause, Detach)
@@ -3056,12 +3066,15 @@ NODE(OmpClause, Flush)
 NODE(OmpClause, From)
 NODE(OmpClause, Grainsize)
 NODE(OmpClause, Hint)
+NODE(OmpClause, If)
 NODE(OmpClause, InReduction)
 NODE(OmpClause, Inbranch)
 NODE(OmpClause, Inclusive)
 NODE(OmpClause, IsDevicePtr)
 NODE(OmpClause, Lastprivate)
+NODE(OmpClause, Linear)
 NODE(OmpClause, Link)
+NODE(OmpClause, Map)
 NODE(OmpClause, Match)
 NODE(OmpClause, Mergeable)
 NODE(OmpClause, Nogroup)
@@ -3082,6 +3095,7 @@ NODE(OmpClause, Relaxed)
 NODE(OmpClause, Release)
 NODE(OmpClause, ReverseOffload)
 NODE(OmpClause, Safelen)
+NODE(OmpClause, Schedule)
 NODE(OmpClause, SeqCst)
 NODE(OmpClause, Shared)
 NODE(OmpClause, Simd)
@@ -3110,6 +3124,12 @@ NODE(OmpClause, Write)
 void Before(const OmpClause::AcqRel &) { Word("ACQ_REL"); }
 void Before(const OmpClause::Acquire &) { Word("ACQUIRE"); }
 void Before(const OmpClause::Affinity &) { Word("AFFINITY"); }
+void Unparse(const OmpClause::Aligned &x) {
+  Word("ALIGNED");
+  Put("(");
+  Walk(x.v);
+  Put(")");
+}
 void Unparse(const OmpClause::Allocate &x) {
   Word("ALLOCATE");
   Put("(");
@@ -3144,6 +3164,18 @@ void Unparse(const OmpClause::Copyin &x) {
 }
 void Unparse(const OmpClause::Default &x) {
   Word("DEFAULT");
+  Put("(");
+  Walk(x.v);
+  Put(")");
+}
+void Unparse(const OmpClause::Defaultmap &x) {
+  Word("DEFAULTMAP");
+  Put("(");
+  Walk(x.v);
+  Put(")");
+}
+void Unparse(const OmpClause::Depend &x) {
+  Word("DEPEND");
   Put("(");
   Walk(x.v);
   Put(")");
@@ -3195,6 +3227,12 @@ void Unparse(const OmpClause::Hint &x) {
   Walk(x.v);
   Put(")");
 }
+void Unparse(const OmpClause::If &x) {
+  Word("IF");
+  Put("(");
+  Walk(x.v);
+  Put(")");
+}
 void Before(const OmpClause::InReduction &) { Word("IN_REDUCTION"); }
 void Before(const OmpClause::Inbranch &) { Word("INBRANCH"); }
 void Before(const OmpClause::Inclusive &) { Word("INCLUSIVE"); }
@@ -3210,8 +3248,20 @@ void Unparse(const OmpClause::Lastprivate &x) {
   Walk(x.v);
   Put(")");
 }
+void Unparse(const OmpClause::Linear &x) {
+  Word("LINEAR");
+  Put("(");
+  Walk(x.v);
+  Put(")");
+}
 void Unparse(const OmpClause::Link &x) {
   Word("LINK");
+  Put("(");
+  Walk(x.v);
+  Put(")");
+}
+void Unparse(const OmpClause::Map &x) {
+  Word("MAP");
   Put("(");
   Walk(x.v);
   Put(")");
@@ -3275,6 +3325,12 @@ void Before(const OmpClause::Release &) { Word("RELEASE"); }
 void Before(const OmpClause::ReverseOffload &) { Word("REVERSE_OFFLOAD"); }
 void Unparse(const OmpClause::Safelen &x) {
   Word("SAFELEN");
+  Put("(");
+  Walk(x.v);
+  Put(")");
+}
+void Unparse(const OmpClause::Schedule &x) {
+  Word("SCHEDULE");
   Put("(");
   Walk(x.v);
   Put(")");
