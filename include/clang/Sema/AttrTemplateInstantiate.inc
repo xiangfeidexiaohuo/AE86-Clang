@@ -571,6 +571,10 @@ Attr *instantiateTemplateAttribute(const Attr *At, ASTContext &C, Sema &S,
       const auto *A = cast<GuardedVarAttr>(At);
       return A->clone(C);
     }
+    case attr::HIPManaged: {
+      const auto *A = cast<HIPManagedAttr>(At);
+      return A->clone(C);
+    }
     case attr::Hot: {
       const auto *A = cast<HotAttr>(At);
       return A->clone(C);
@@ -1893,6 +1897,9 @@ Attr *instantiateTemplateAttributeForDecl(const Attr *At,
       return nullptr;
     }
     case attr::GuardedVar: {
+      return nullptr;
+    }
+    case attr::HIPManaged: {
       return nullptr;
     }
     case attr::Hot: {

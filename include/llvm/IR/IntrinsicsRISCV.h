@@ -205,6 +205,20 @@ enum RISCVIntrinsics : unsigned {
     riscv_vleff_mask,                          // llvm.riscv.vleff.mask
     riscv_vloxei,                              // llvm.riscv.vloxei
     riscv_vloxei_mask,                         // llvm.riscv.vloxei.mask
+    riscv_vloxseg2,                            // llvm.riscv.vloxseg2
+    riscv_vloxseg2_mask,                       // llvm.riscv.vloxseg2.mask
+    riscv_vloxseg3,                            // llvm.riscv.vloxseg3
+    riscv_vloxseg3_mask,                       // llvm.riscv.vloxseg3.mask
+    riscv_vloxseg4,                            // llvm.riscv.vloxseg4
+    riscv_vloxseg4_mask,                       // llvm.riscv.vloxseg4.mask
+    riscv_vloxseg5,                            // llvm.riscv.vloxseg5
+    riscv_vloxseg5_mask,                       // llvm.riscv.vloxseg5.mask
+    riscv_vloxseg6,                            // llvm.riscv.vloxseg6
+    riscv_vloxseg6_mask,                       // llvm.riscv.vloxseg6.mask
+    riscv_vloxseg7,                            // llvm.riscv.vloxseg7
+    riscv_vloxseg7_mask,                       // llvm.riscv.vloxseg7.mask
+    riscv_vloxseg8,                            // llvm.riscv.vloxseg8
+    riscv_vloxseg8_mask,                       // llvm.riscv.vloxseg8.mask
     riscv_vlse,                                // llvm.riscv.vlse
     riscv_vlse_mask,                           // llvm.riscv.vlse.mask
     riscv_vlseg2,                              // llvm.riscv.vlseg2
@@ -237,6 +251,20 @@ enum RISCVIntrinsics : unsigned {
     riscv_vlsseg8_mask,                        // llvm.riscv.vlsseg8.mask
     riscv_vluxei,                              // llvm.riscv.vluxei
     riscv_vluxei_mask,                         // llvm.riscv.vluxei.mask
+    riscv_vluxseg2,                            // llvm.riscv.vluxseg2
+    riscv_vluxseg2_mask,                       // llvm.riscv.vluxseg2.mask
+    riscv_vluxseg3,                            // llvm.riscv.vluxseg3
+    riscv_vluxseg3_mask,                       // llvm.riscv.vluxseg3.mask
+    riscv_vluxseg4,                            // llvm.riscv.vluxseg4
+    riscv_vluxseg4_mask,                       // llvm.riscv.vluxseg4.mask
+    riscv_vluxseg5,                            // llvm.riscv.vluxseg5
+    riscv_vluxseg5_mask,                       // llvm.riscv.vluxseg5.mask
+    riscv_vluxseg6,                            // llvm.riscv.vluxseg6
+    riscv_vluxseg6_mask,                       // llvm.riscv.vluxseg6.mask
+    riscv_vluxseg7,                            // llvm.riscv.vluxseg7
+    riscv_vluxseg7_mask,                       // llvm.riscv.vluxseg7.mask
+    riscv_vluxseg8,                            // llvm.riscv.vluxseg8
+    riscv_vluxseg8_mask,                       // llvm.riscv.vluxseg8.mask
     riscv_vmacc,                               // llvm.riscv.vmacc
     riscv_vmacc_mask,                          // llvm.riscv.vmacc.mask
     riscv_vmadc,                               // llvm.riscv.vmadc
@@ -377,6 +405,20 @@ enum RISCVIntrinsics : unsigned {
     riscv_vsmul_mask,                          // llvm.riscv.vsmul.mask
     riscv_vsoxei,                              // llvm.riscv.vsoxei
     riscv_vsoxei_mask,                         // llvm.riscv.vsoxei.mask
+    riscv_vsoxseg2,                            // llvm.riscv.vsoxseg2
+    riscv_vsoxseg2_mask,                       // llvm.riscv.vsoxseg2.mask
+    riscv_vsoxseg3,                            // llvm.riscv.vsoxseg3
+    riscv_vsoxseg3_mask,                       // llvm.riscv.vsoxseg3.mask
+    riscv_vsoxseg4,                            // llvm.riscv.vsoxseg4
+    riscv_vsoxseg4_mask,                       // llvm.riscv.vsoxseg4.mask
+    riscv_vsoxseg5,                            // llvm.riscv.vsoxseg5
+    riscv_vsoxseg5_mask,                       // llvm.riscv.vsoxseg5.mask
+    riscv_vsoxseg6,                            // llvm.riscv.vsoxseg6
+    riscv_vsoxseg6_mask,                       // llvm.riscv.vsoxseg6.mask
+    riscv_vsoxseg7,                            // llvm.riscv.vsoxseg7
+    riscv_vsoxseg7_mask,                       // llvm.riscv.vsoxseg7.mask
+    riscv_vsoxseg8,                            // llvm.riscv.vsoxseg8
+    riscv_vsoxseg8_mask,                       // llvm.riscv.vsoxseg8.mask
     riscv_vsra,                                // llvm.riscv.vsra
     riscv_vsra_mask,                           // llvm.riscv.vsra.mask
     riscv_vsrl,                                // llvm.riscv.vsrl
@@ -423,6 +465,20 @@ enum RISCVIntrinsics : unsigned {
     riscv_vsub_mask,                           // llvm.riscv.vsub.mask
     riscv_vsuxei,                              // llvm.riscv.vsuxei
     riscv_vsuxei_mask,                         // llvm.riscv.vsuxei.mask
+    riscv_vsuxseg2,                            // llvm.riscv.vsuxseg2
+    riscv_vsuxseg2_mask,                       // llvm.riscv.vsuxseg2.mask
+    riscv_vsuxseg3,                            // llvm.riscv.vsuxseg3
+    riscv_vsuxseg3_mask,                       // llvm.riscv.vsuxseg3.mask
+    riscv_vsuxseg4,                            // llvm.riscv.vsuxseg4
+    riscv_vsuxseg4_mask,                       // llvm.riscv.vsuxseg4.mask
+    riscv_vsuxseg5,                            // llvm.riscv.vsuxseg5
+    riscv_vsuxseg5_mask,                       // llvm.riscv.vsuxseg5.mask
+    riscv_vsuxseg6,                            // llvm.riscv.vsuxseg6
+    riscv_vsuxseg6_mask,                       // llvm.riscv.vsuxseg6.mask
+    riscv_vsuxseg7,                            // llvm.riscv.vsuxseg7
+    riscv_vsuxseg7_mask,                       // llvm.riscv.vsuxseg7.mask
+    riscv_vsuxseg8,                            // llvm.riscv.vsuxseg8
+    riscv_vsuxseg8_mask,                       // llvm.riscv.vsuxseg8.mask
     riscv_vwadd,                               // llvm.riscv.vwadd
     riscv_vwadd_mask,                          // llvm.riscv.vwadd.mask
     riscv_vwadd_w,                             // llvm.riscv.vwadd.w

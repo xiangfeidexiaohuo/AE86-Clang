@@ -444,6 +444,10 @@
   bool VisitGuardedVarAttr(GuardedVarAttr *A) {
     return true; 
   }
+  bool TraverseHIPManagedAttr(HIPManagedAttr *A);
+  bool VisitHIPManagedAttr(HIPManagedAttr *A) {
+    return true; 
+  }
   bool TraverseHotAttr(HotAttr *A);
   bool VisitHotAttr(HotAttr *A) {
     return true; 
@@ -2405,6 +2409,15 @@ bool VISITORCLASS<Derived>::TraverseGuardedVarAttr(GuardedVarAttr *A) {
   if (!getDerived().VisitAttr(A))
     return false;
   if (!getDerived().VisitGuardedVarAttr(A))
+    return false;
+  return true;
+}
+
+template <typename Derived>
+bool VISITORCLASS<Derived>::TraverseHIPManagedAttr(HIPManagedAttr *A) {
+  if (!getDerived().VisitAttr(A))
+    return false;
+  if (!getDerived().VisitHIPManagedAttr(A))
     return false;
   return true;
 }
@@ -4738,6 +4751,8 @@ bool VISITORCLASS<Derived>::TraverseAttr(Attr *A) {
       return getDerived().TraverseGuardedByAttr(cast<GuardedByAttr>(A));
     case attr::GuardedVar:
       return getDerived().TraverseGuardedVarAttr(cast<GuardedVarAttr>(A));
+    case attr::HIPManaged:
+      return getDerived().TraverseHIPManagedAttr(cast<HIPManagedAttr>(A));
     case attr::Hot:
       return getDerived().TraverseHotAttr(cast<HotAttr>(A));
     case attr::IBAction:

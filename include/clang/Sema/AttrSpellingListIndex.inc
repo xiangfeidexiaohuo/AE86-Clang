@@ -857,6 +857,13 @@
         return 1;
     break;
   }
+  case AT_HIPManaged: {
+    if (Name == "managed" && getSyntax() == AttributeCommonInfo::AS_GNU && Scope == "")
+        return 0;
+    if (Name == "__managed__" && getSyntax() == AttributeCommonInfo::AS_Declspec && Scope == "")
+        return 1;
+    break;
+  }
   case AT_Hot: {
     if (Name == "hot" && getSyntax() == AttributeCommonInfo::AS_GNU && Scope == "")
         return 0;

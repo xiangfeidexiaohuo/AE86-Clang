@@ -4018,6 +4018,34 @@ public:
   static bool classof(const Attr *A) { return A->getKind() == attr::GuardedVar; }
 };
 
+class HIPManagedAttr : public InheritableAttr {
+public:
+  enum Spelling {
+    GNU_managed = 0,
+    Declspec_managed = 1,
+  SpellingNotCalculated = 15
+
+  };
+
+  // Factory methods
+  static HIPManagedAttr *CreateImplicit(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo = {SourceRange{}});
+  static HIPManagedAttr *Create(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo);
+  static HIPManagedAttr *CreateImplicit(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax);
+  static HIPManagedAttr *Create(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax);
+
+  // Constructors
+  HIPManagedAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+             );
+
+  HIPManagedAttr *clone(ASTContext &C) const;
+  void printPretty(raw_ostream &OS,
+                   const PrintingPolicy &Policy) const;
+  const char *getSpelling() const;
+
+
+  static bool classof(const Attr *A) { return A->getKind() == attr::HIPManaged; }
+};
+
 class HotAttr : public InheritableAttr {
 public:
   enum Spelling {

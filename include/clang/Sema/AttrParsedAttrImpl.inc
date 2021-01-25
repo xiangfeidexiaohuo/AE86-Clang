@@ -3694,6 +3694,48 @@ AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const 
 static const ParsedAttrInfoGuardedVar Instance;
 };
 const ParsedAttrInfoGuardedVar ParsedAttrInfoGuardedVar::Instance;
+static constexpr ParsedAttrInfo::Spelling HIPManagedSpellings[] = {
+  {AttributeCommonInfo::AS_GNU, "managed"},
+  {AttributeCommonInfo::AS_Declspec, "__managed__"},
+};
+struct ParsedAttrInfoHIPManaged final : public ParsedAttrInfo {
+  ParsedAttrInfoHIPManaged() {
+    AttrKind = ParsedAttr::AT_HIPManaged;
+    NumArgs = 0;
+    OptArgs = 0;
+    HasCustomParsing = 0;
+    IsTargetSpecific = 0;
+    IsType = 0;
+    IsStmt = 0;
+    IsKnownToGCC = 0;
+    IsSupportedByPragmaAttribute = 1;
+    Spellings = HIPManagedSpellings;
+  }
+bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const override {
+  if (!isa<VarDecl>(D)) {
+    S.Diag(Attr.getLoc(), diag::warn_attribute_wrong_decl_type_str)
+      << Attr << "variables";
+    return false;
+  }
+  return true;
+}
+
+bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
+  auto &LangOpts = S.LangOpts;
+  if (LangOpts.HIP)
+    return true;
+
+  S.Diag(Attr.getLoc(), diag::warn_attribute_ignored) << Attr;
+  return false;
+}
+
+void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
+  MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable, /*IsSupported=*/true));
+}
+
+static const ParsedAttrInfoHIPManaged Instance;
+};
+const ParsedAttrInfoHIPManaged ParsedAttrInfoHIPManaged::Instance;
 static constexpr ParsedAttrInfo::Spelling HotSpellings[] = {
   {AttributeCommonInfo::AS_GNU, "hot"},
   {AttributeCommonInfo::AS_CXX11, "gnu::hot"},
@@ -10965,6 +11007,7 @@ static const ParsedAttrInfo *AttrInfoMap[] = {
 &ParsedAttrInfoGNUInline::Instance,
 &ParsedAttrInfoGuardedBy::Instance,
 &ParsedAttrInfoGuardedVar::Instance,
+&ParsedAttrInfoHIPManaged::Instance,
 &ParsedAttrInfoHot::Instance,
 &ParsedAttrInfoIBAction::Instance,
 &ParsedAttrInfoIBOutlet::Instance,

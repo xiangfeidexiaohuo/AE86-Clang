@@ -868,6 +868,13 @@ Record.push_back(SA->getExtensibility());
     Record.push_back(A->isPackExpansion());
     break;
   }
+  case attr::HIPManaged: {
+    const auto *SA = cast<HIPManagedAttr>(A);
+    Record.push_back(SA->isInherited());
+    Record.push_back(A->isImplicit());
+    Record.push_back(A->isPackExpansion());
+    break;
+  }
   case attr::Hot: {
     const auto *SA = cast<HotAttr>(A);
     Record.push_back(SA->isInherited());

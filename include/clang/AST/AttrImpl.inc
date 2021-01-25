@@ -9201,6 +9201,76 @@ const char *GuardedVarAttr::getSpelling() const {
 }
 
 
+// HIPManagedAttr implementation
+
+HIPManagedAttr *HIPManagedAttr::CreateImplicit(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo) {
+  auto *A = new (Ctx) HIPManagedAttr(Ctx, CommonInfo);
+  A->setImplicit(true);
+  if (!A->isAttributeSpellingListCalculated() && !A->getAttrName())
+    A->setAttributeSpellingListIndex(0);
+  return A;
+}
+
+HIPManagedAttr *HIPManagedAttr::Create(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo) {
+  auto *A = new (Ctx) HIPManagedAttr(Ctx, CommonInfo);
+  if (!A->isAttributeSpellingListCalculated() && !A->getAttrName())
+    A->setAttributeSpellingListIndex(0);
+  return A;
+}
+
+HIPManagedAttr *HIPManagedAttr::CreateImplicit(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax) {
+  AttributeCommonInfo I(Range, NoSemaHandlerAttribute, Syntax);
+  return CreateImplicit(Ctx, I);
+}
+
+HIPManagedAttr *HIPManagedAttr::Create(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax) {
+  AttributeCommonInfo I(Range, NoSemaHandlerAttribute, Syntax);
+  return Create(Ctx, I);
+}
+
+HIPManagedAttr::HIPManagedAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+             )
+  : InheritableAttr(Ctx, CommonInfo, attr::HIPManaged, false, false)
+  {
+}
+
+HIPManagedAttr *HIPManagedAttr::clone(ASTContext &C) const {
+  auto *A = new (C) HIPManagedAttr(C, *this);
+  A->Inherited = Inherited;
+  A->IsPackExpansion = IsPackExpansion;
+  A->setImplicit(Implicit);
+  return A;
+}
+
+void HIPManagedAttr::printPretty(raw_ostream &OS, const PrintingPolicy &Policy) const {
+  switch (getAttributeSpellingListIndex()) {
+  default:
+    llvm_unreachable("Unknown attribute spelling!");
+    break;
+  case 0 : {
+    OS << " __attribute__((managed))";
+    break;
+  }
+  case 1 : {
+    OS << " __declspec(__managed__)";
+    break;
+  }
+}
+}
+
+const char *HIPManagedAttr::getSpelling() const {
+  switch (getAttributeSpellingListIndex()) {
+  default:
+    llvm_unreachable("Unknown attribute spelling!");
+    return "(No spelling)";
+  case 0:
+    return "managed";
+  case 1:
+    return "__managed__";
+  }
+}
+
+
 // HotAttr implementation
 
 HotAttr *HotAttr::CreateImplicit(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo) {
@@ -27471,6 +27541,8 @@ const char *Attr::getSpelling() const {
     return cast<GuardedByAttr>(this)->getSpelling();
   case attr::GuardedVar:
     return cast<GuardedVarAttr>(this)->getSpelling();
+  case attr::HIPManaged:
+    return cast<HIPManagedAttr>(this)->getSpelling();
   case attr::Hot:
     return cast<HotAttr>(this)->getSpelling();
   case attr::IBAction:
@@ -28137,6 +28209,8 @@ Attr *Attr::clone(ASTContext &C) const {
     return cast<GuardedByAttr>(this)->clone(C);
   case attr::GuardedVar:
     return cast<GuardedVarAttr>(this)->clone(C);
+  case attr::HIPManaged:
+    return cast<HIPManagedAttr>(this)->clone(C);
   case attr::Hot:
     return cast<HotAttr>(this)->clone(C);
   case attr::IBAction:
@@ -28803,6 +28877,8 @@ void Attr::printPretty(raw_ostream &OS, const PrintingPolicy &Policy) const {
     return cast<GuardedByAttr>(this)->printPretty(OS, Policy);
   case attr::GuardedVar:
     return cast<GuardedVarAttr>(this)->printPretty(OS, Policy);
+  case attr::HIPManaged:
+    return cast<HIPManagedAttr>(this)->printPretty(OS, Policy);
   case attr::Hot:
     return cast<HotAttr>(this)->printPretty(OS, Policy);
   case attr::IBAction:

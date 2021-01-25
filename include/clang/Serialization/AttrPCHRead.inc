@@ -1222,6 +1222,16 @@
     New->setPackExpansion(isPackExpansion);
     break;
   }
+  case attr::HIPManaged: {
+    bool isInherited = Record.readInt();
+    bool isImplicit = Record.readInt();
+    bool isPackExpansion = Record.readInt();
+    New = new (Context) HIPManagedAttr(Context, Info);
+    cast<InheritableAttr>(New)->setInherited(isInherited);
+    New->setImplicit(isImplicit);
+    New->setPackExpansion(isPackExpansion);
+    break;
+  }
   case attr::Hot: {
     bool isInherited = Record.readInt();
     bool isImplicit = Record.readInt();

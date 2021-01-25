@@ -189,7 +189,7 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       return AttributeCommonInfo::AT_Unused;	 // "unused"
     }
     break;
-  case 7:	 // 20 strings to match.
+  case 7:	 // 21 strings to match.
     switch (Name[0]) {
     default: break;
     case '_':	 // 1 string to match.
@@ -221,10 +221,19 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       if (memcmp(Name.data()+1, "latten", 6) != 0)
         break;
       return AttributeCommonInfo::AT_Flatten;	 // "flatten"
-    case 'm':	 // 1 string to match.
-      if (memcmp(Name.data()+1, "insize", 6) != 0)
-        break;
-      return AttributeCommonInfo::AT_MinSize;	 // "minsize"
+    case 'm':	 // 2 strings to match.
+      switch (Name[1]) {
+      default: break;
+      case 'a':	 // 1 string to match.
+        if (memcmp(Name.data()+2, "naged", 5) != 0)
+          break;
+        return AttributeCommonInfo::AT_HIPManaged;	 // "managed"
+      case 'i':	 // 1 string to match.
+        if (memcmp(Name.data()+2, "nsize", 5) != 0)
+          break;
+        return AttributeCommonInfo::AT_MinSize;	 // "minsize"
+      }
+      break;
     case 'n':	 // 6 strings to match.
       switch (Name[1]) {
       default: break;
@@ -2028,10 +2037,19 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       return AttributeCommonInfo::AT_Deprecated;	 // "deprecated"
     }
     break;
-  case 11:	 // 1 string to match.
-    if (memcmp(Name.data()+0, "empty_bases", 11) != 0)
-      break;
-    return AttributeCommonInfo::AT_EmptyBases;	 // "empty_bases"
+  case 11:	 // 2 strings to match.
+    switch (Name[0]) {
+    default: break;
+    case '_':	 // 1 string to match.
+      if (memcmp(Name.data()+1, "_managed__", 10) != 0)
+        break;
+      return AttributeCommonInfo::AT_HIPManaged;	 // "__managed__"
+    case 'e':	 // 1 string to match.
+      if (memcmp(Name.data()+1, "mpty_bases", 10) != 0)
+        break;
+      return AttributeCommonInfo::AT_EmptyBases;	 // "empty_bases"
+    }
+    break;
   case 12:	 // 3 strings to match.
     switch (Name[0]) {
     default: break;
