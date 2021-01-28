@@ -223,18 +223,32 @@ enum RISCVIntrinsics : unsigned {
     riscv_vlse_mask,                           // llvm.riscv.vlse.mask
     riscv_vlseg2,                              // llvm.riscv.vlseg2
     riscv_vlseg2_mask,                         // llvm.riscv.vlseg2.mask
+    riscv_vlseg2ff,                            // llvm.riscv.vlseg2ff
+    riscv_vlseg2ff_mask,                       // llvm.riscv.vlseg2ff.mask
     riscv_vlseg3,                              // llvm.riscv.vlseg3
     riscv_vlseg3_mask,                         // llvm.riscv.vlseg3.mask
+    riscv_vlseg3ff,                            // llvm.riscv.vlseg3ff
+    riscv_vlseg3ff_mask,                       // llvm.riscv.vlseg3ff.mask
     riscv_vlseg4,                              // llvm.riscv.vlseg4
     riscv_vlseg4_mask,                         // llvm.riscv.vlseg4.mask
+    riscv_vlseg4ff,                            // llvm.riscv.vlseg4ff
+    riscv_vlseg4ff_mask,                       // llvm.riscv.vlseg4ff.mask
     riscv_vlseg5,                              // llvm.riscv.vlseg5
     riscv_vlseg5_mask,                         // llvm.riscv.vlseg5.mask
+    riscv_vlseg5ff,                            // llvm.riscv.vlseg5ff
+    riscv_vlseg5ff_mask,                       // llvm.riscv.vlseg5ff.mask
     riscv_vlseg6,                              // llvm.riscv.vlseg6
     riscv_vlseg6_mask,                         // llvm.riscv.vlseg6.mask
+    riscv_vlseg6ff,                            // llvm.riscv.vlseg6ff
+    riscv_vlseg6ff_mask,                       // llvm.riscv.vlseg6ff.mask
     riscv_vlseg7,                              // llvm.riscv.vlseg7
     riscv_vlseg7_mask,                         // llvm.riscv.vlseg7.mask
+    riscv_vlseg7ff,                            // llvm.riscv.vlseg7ff
+    riscv_vlseg7ff_mask,                       // llvm.riscv.vlseg7ff.mask
     riscv_vlseg8,                              // llvm.riscv.vlseg8
     riscv_vlseg8_mask,                         // llvm.riscv.vlseg8.mask
+    riscv_vlseg8ff,                            // llvm.riscv.vlseg8ff
+    riscv_vlseg8ff_mask,                       // llvm.riscv.vlseg8ff.mask
     riscv_vlsseg2,                             // llvm.riscv.vlsseg2
     riscv_vlsseg2_mask,                        // llvm.riscv.vlsseg2.mask
     riscv_vlsseg3,                             // llvm.riscv.vlsseg3

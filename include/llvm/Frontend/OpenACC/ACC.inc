@@ -82,12 +82,12 @@ namespace acc {
   // Sets for enter data
 
   static AccClauseSet allowedClauses_ACCD_enter_data {
+    llvm::acc::Clause::ACCC_wait,
   };
 
   static AccClauseSet allowedOnceClauses_ACCD_enter_data {
     llvm::acc::Clause::ACCC_async,
     llvm::acc::Clause::ACCC_if,
-    llvm::acc::Clause::ACCC_wait,
   };
 
   static AccClauseSet allowedExclusiveClauses_ACCD_enter_data {
@@ -102,13 +102,13 @@ namespace acc {
   // Sets for exit data
 
   static AccClauseSet allowedClauses_ACCD_exit_data {
-    llvm::acc::Clause::ACCC_async,
-    llvm::acc::Clause::ACCC_if,
     llvm::acc::Clause::ACCC_wait,
-    llvm::acc::Clause::ACCC_finalize,
   };
 
   static AccClauseSet allowedOnceClauses_ACCD_exit_data {
+    llvm::acc::Clause::ACCC_async,
+    llvm::acc::Clause::ACCC_if,
+    llvm::acc::Clause::ACCC_finalize,
   };
 
   static AccClauseSet allowedExclusiveClauses_ACCD_exit_data {
@@ -123,11 +123,11 @@ namespace acc {
   // Sets for host_data
 
   static AccClauseSet allowedClauses_ACCD_host_data {
-    llvm::acc::Clause::ACCC_if,
-    llvm::acc::Clause::ACCC_if_present,
   };
 
   static AccClauseSet allowedOnceClauses_ACCD_host_data {
+    llvm::acc::Clause::ACCC_if,
+    llvm::acc::Clause::ACCC_if_present,
   };
 
   static AccClauseSet allowedExclusiveClauses_ACCD_host_data {
@@ -198,6 +198,7 @@ namespace acc {
     llvm::acc::Clause::ACCC_private,
     llvm::acc::Clause::ACCC_deviceptr,
     llvm::acc::Clause::ACCC_attach,
+    llvm::acc::Clause::ACCC_wait,
   };
 
   static AccClauseSet allowedOnceClauses_ACCD_kernels_loop {
@@ -213,7 +214,6 @@ namespace acc {
     llvm::acc::Clause::ACCC_tile,
     llvm::acc::Clause::ACCC_vector,
     llvm::acc::Clause::ACCC_vector_length,
-    llvm::acc::Clause::ACCC_wait,
     llvm::acc::Clause::ACCC_worker,
   };
 
