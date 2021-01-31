@@ -84,6 +84,8 @@ enum WASMIntrinsics : unsigned {
     wasm_widen_high_unsigned,                  // llvm.wasm.widen.high.unsigned
     wasm_widen_low_signed,                     // llvm.wasm.widen.low.signed
     wasm_widen_low_unsigned,                   // llvm.wasm.widen.low.unsigned
+    wasm_widen_signed,                         // llvm.wasm.widen.signed
+    wasm_widen_unsigned,                       // llvm.wasm.widen.unsigned
 }; // enum
 } // namespace Intrinsic
 } // namespace llvm

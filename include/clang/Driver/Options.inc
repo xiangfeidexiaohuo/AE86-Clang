@@ -3865,7 +3865,7 @@ OPTION(prefix_1, &"-stats-file="[1], stats_file, Joined, INVALID, INVALID, nullp
        "Filename to write statistics to", nullptr, nullptr)
 OPTION(prefix_1, &"-std-default="[1], std_default_EQ, Joined, INVALID, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_2, &"/std:"[1], _SLASH_std, Joined, cl_compile_Group, INVALID, nullptr, CLOption | NoXarchOption, 0,
-       "Set C++ version (c++14,c++17,c++latest)", nullptr, nullptr)
+       "Set language version (c++14,c++17,c++latest,c11,c17)", nullptr, nullptr)
 OPTION(prefix_4, &"-std="[1], std_EQ, Joined, CompileOnly_Group, INVALID, nullptr, CC1Option, 0,
        "Language standard to compile for", nullptr, nullptr)
 OPTION(prefix_1, &"-stdlib++-isystem"[1], stdlibxx_isystem, JoinedOrSeparate, clang_i_Group, INVALID, nullptr, NoXarchOption, 0,
@@ -3967,6 +3967,8 @@ OPTION(prefix_2, &"/validate-charset-"[1], _SLASH_validate_charset_, Flag, cl_Gr
 OPTION(prefix_2, &"/validate-charset"[1], _SLASH_validate_charset, Flag, cl_Group, W_Joined, "invalid-source-encoding\0", CLOption | NoXarchOption | CLOption, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_2, &"/vctoolsdir"[1], _SLASH_vctoolsdir, JoinedOrSeparate, cl_Group, INVALID, nullptr, CLOption | NoXarchOption | CLOption, 0,
        "Path to the VCToolChain", "<dir>", nullptr)
+OPTION(prefix_2, &"/vctoolsversion"[1], _SLASH_vctoolsversion, JoinedOrSeparate, cl_Group, INVALID, nullptr, CLOption | NoXarchOption | CLOption, 0,
+       "For use with /winsysroot, defaults to newest found", nullptr, nullptr)
 OPTION(prefix_2, &"/vd"[1], _SLASH_vd, Joined, cl_Group, vtordisp_mode_EQ, nullptr, CLOption | NoXarchOption | CLOption, 0,
        "Control vtordisp placement", nullptr, nullptr)
 OPTION(prefix_1, &"-vectorize-loops"[1], vectorize_loops, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
@@ -4047,7 +4049,9 @@ OPTION(prefix_1, &"-whyload"[1], whyload, Flag, INVALID, INVALID, nullptr, 0, 0,
 OPTION(prefix_2, &"/winsdkdir"[1], _SLASH_winsdkdir, JoinedOrSeparate, cl_Group, INVALID, nullptr, CLOption | NoXarchOption | CLOption, 0,
        "Path to the Windows SDK", "<dir>", nullptr)
 OPTION(prefix_2, &"/winsdkversion"[1], _SLASH_winsdkversion, JoinedOrSeparate, cl_Group, INVALID, nullptr, CLOption | NoXarchOption | CLOption, 0,
-       "Full version of the Windows SDK", nullptr, nullptr)
+       "Full version of the Windows SDK, defaults to newest found", nullptr, nullptr)
+OPTION(prefix_2, &"/winsysroot"[1], _SLASH_winsysroot, JoinedOrSeparate, cl_Group, INVALID, nullptr, CLOption | NoXarchOption | CLOption, 0,
+       "Same as /vctoolsdir <dir>/VC/Tools/MSVC/<vctoolsversion> /winsdkdir <dir>/Windows Kits/10", "<dir>", nullptr)
 OPTION(prefix_1, &"-Wl,"[1], Wl_COMMA, CommaJoined, Link_Group, INVALID, nullptr, LinkerInput | RenderAsInput, 0,
        "Pass the comma separated arguments in <arg> to the linker", "<arg>", nullptr)
 OPTION(prefix_1, &"-Wlarge-by-value-copy="[1], Wlarge_by_value_copy_EQ, Joined, INVALID, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, nullptr)
