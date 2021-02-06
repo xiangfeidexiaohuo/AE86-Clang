@@ -1717,7 +1717,6 @@ Record.push_back(SA->getFamily());
   }
   case attr::OpenCLUnrollHint: {
     const auto *SA = cast<OpenCLUnrollHintAttr>(A);
-    Record.push_back(SA->isInherited());
     Record.push_back(A->isImplicit());
     Record.push_back(A->isPackExpansion());
     Record.push_back(SA->getUnrollHint());

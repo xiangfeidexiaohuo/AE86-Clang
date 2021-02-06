@@ -7628,7 +7628,7 @@ struct ParsedAttrInfoOpenCLUnrollHint final : public ParsedAttrInfo {
     HasCustomParsing = 0;
     IsTargetSpecific = 0;
     IsType = 0;
-    IsStmt = 0;
+    IsStmt = 1;
     IsKnownToGCC = 0;
     IsSupportedByPragmaAttribute = 0;
     Spellings = OpenCLUnrollHintSpellings;

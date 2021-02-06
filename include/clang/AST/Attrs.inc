@@ -9,6 +9,13 @@
 #ifndef LLVM_CLANG_ATTR_CLASSES_INC
 #define LLVM_CLANG_ATTR_CLASSES_INC
 
+static inline void DelimitAttributeArgument(raw_ostream& OS, bool& IsFirst) {
+  if (IsFirst) {
+    IsFirst = false;
+    OS << "(";
+  } else
+    OS << ", ";
+}
 class AArch64VectorPcsAttr : public InheritableAttr {
 public:
   enum Spelling {
@@ -7922,7 +7929,7 @@ public:
   static bool classof(const Attr *A) { return A->getKind() == attr::OpenCLPrivateAddressSpace; }
 };
 
-class OpenCLUnrollHintAttr : public InheritableAttr {
+class OpenCLUnrollHintAttr : public StmtAttr {
 unsigned unrollHint;
 
 public:

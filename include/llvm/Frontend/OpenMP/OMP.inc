@@ -3392,6 +3392,89 @@ void Before(const OmpClause::Write &) { Word("WRITE"); }
 
 #endif // GEN_FLANG_CLAUSE_UNPARSE
 
+#ifdef GEN_FLANG_CLAUSE_CHECK_ENTER
+#undef GEN_FLANG_CLAUSE_CHECK_ENTER
+
+void Enter(const parser::OmpClause::AcqRel &);
+void Enter(const parser::OmpClause::Acquire &);
+void Enter(const parser::OmpClause::Affinity &);
+void Enter(const parser::OmpClause::Aligned &);
+void Enter(const parser::OmpClause::Allocate &);
+void Enter(const parser::OmpClause::Allocator &);
+void Enter(const parser::OmpClause::AtomicDefaultMemOrder &);
+void Enter(const parser::OmpClause::Capture &);
+void Enter(const parser::OmpClause::Collapse &);
+void Enter(const parser::OmpClause::Copyprivate &);
+void Enter(const parser::OmpClause::Copyin &);
+void Enter(const parser::OmpClause::Default &);
+void Enter(const parser::OmpClause::Defaultmap &);
+void Enter(const parser::OmpClause::Depend &);
+void Enter(const parser::OmpClause::Depobj &);
+void Enter(const parser::OmpClause::Destroy &);
+void Enter(const parser::OmpClause::Detach &);
+void Enter(const parser::OmpClause::Device &);
+void Enter(const parser::OmpClause::DeviceType &);
+void Enter(const parser::OmpClause::DistSchedule &);
+void Enter(const parser::OmpClause::DynamicAllocators &);
+void Enter(const parser::OmpClause::Exclusive &);
+void Enter(const parser::OmpClause::Final &);
+void Enter(const parser::OmpClause::Firstprivate &);
+void Enter(const parser::OmpClause::Flush &);
+void Enter(const parser::OmpClause::From &);
+void Enter(const parser::OmpClause::Grainsize &);
+void Enter(const parser::OmpClause::Hint &);
+void Enter(const parser::OmpClause::If &);
+void Enter(const parser::OmpClause::InReduction &);
+void Enter(const parser::OmpClause::Inbranch &);
+void Enter(const parser::OmpClause::Inclusive &);
+void Enter(const parser::OmpClause::IsDevicePtr &);
+void Enter(const parser::OmpClause::Lastprivate &);
+void Enter(const parser::OmpClause::Linear &);
+void Enter(const parser::OmpClause::Link &);
+void Enter(const parser::OmpClause::Map &);
+void Enter(const parser::OmpClause::Match &);
+void Enter(const parser::OmpClause::Mergeable &);
+void Enter(const parser::OmpClause::Nogroup &);
+void Enter(const parser::OmpClause::Nowait &);
+void Enter(const parser::OmpClause::Nontemporal &);
+void Enter(const parser::OmpClause::Notinbranch &);
+void Enter(const parser::OmpClause::NumTasks &);
+void Enter(const parser::OmpClause::NumTeams &);
+void Enter(const parser::OmpClause::NumThreads &);
+void Enter(const parser::OmpClause::Order &);
+void Enter(const parser::OmpClause::Ordered &);
+void Enter(const parser::OmpClause::Priority &);
+void Enter(const parser::OmpClause::Private &);
+void Enter(const parser::OmpClause::ProcBind &);
+void Enter(const parser::OmpClause::Read &);
+void Enter(const parser::OmpClause::Reduction &);
+void Enter(const parser::OmpClause::Relaxed &);
+void Enter(const parser::OmpClause::Release &);
+void Enter(const parser::OmpClause::ReverseOffload &);
+void Enter(const parser::OmpClause::Safelen &);
+void Enter(const parser::OmpClause::Schedule &);
+void Enter(const parser::OmpClause::SeqCst &);
+void Enter(const parser::OmpClause::Shared &);
+void Enter(const parser::OmpClause::Simd &);
+void Enter(const parser::OmpClause::Simdlen &);
+void Enter(const parser::OmpClause::TaskReduction &);
+void Enter(const parser::OmpClause::ThreadLimit &);
+void Enter(const parser::OmpClause::Threadprivate &);
+void Enter(const parser::OmpClause::Threads &);
+void Enter(const parser::OmpClause::To &);
+void Enter(const parser::OmpClause::UnifiedAddress &);
+void Enter(const parser::OmpClause::UnifiedSharedMemory &);
+void Enter(const parser::OmpClause::Uniform &);
+void Enter(const parser::OmpClause::Unknown &);
+void Enter(const parser::OmpClause::Untied &);
+void Enter(const parser::OmpClause::Update &);
+void Enter(const parser::OmpClause::UseDeviceAddr &);
+void Enter(const parser::OmpClause::UseDevicePtr &);
+void Enter(const parser::OmpClause::UsesAllocators &);
+void Enter(const parser::OmpClause::Write &);
+
+#endif // GEN_FLANG_CLAUSE_CHECK_ENTER
+
 #ifdef GEN_CLANG_CLAUSE_CLASS
 #undef GEN_CLANG_CLAUSE_CLASS
 

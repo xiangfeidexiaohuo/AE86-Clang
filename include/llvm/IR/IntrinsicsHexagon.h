@@ -13,7 +13,7 @@ namespace llvm {
 namespace Intrinsic {
 enum HEXAGONIntrinsics : unsigned {
 // Enum values for intrinsics
-    hexagon_A2_abs = 2355,                            // llvm.hexagon.A2.abs
+    hexagon_A2_abs = 2357,                            // llvm.hexagon.A2.abs
     hexagon_A2_absp,                           // llvm.hexagon.A2.absp
     hexagon_A2_abssat,                         // llvm.hexagon.A2.abssat
     hexagon_A2_add,                            // llvm.hexagon.A2.add
@@ -972,6 +972,14 @@ enum HEXAGONIntrinsics : unsigned {
     hexagon_V6_shuffeqh_128B,                  // llvm.hexagon.V6.shuffeqh.128B
     hexagon_V6_shuffeqw,                       // llvm.hexagon.V6.shuffeqw
     hexagon_V6_shuffeqw_128B,                  // llvm.hexagon.V6.shuffeqw.128B
+    hexagon_V6_v6mpyhubs10,                    // llvm.hexagon.V6.v6mpyhubs10
+    hexagon_V6_v6mpyhubs10_128B,               // llvm.hexagon.V6.v6mpyhubs10.128B
+    hexagon_V6_v6mpyhubs10_vxx,                // llvm.hexagon.V6.v6mpyhubs10.vxx
+    hexagon_V6_v6mpyhubs10_vxx_128B,           // llvm.hexagon.V6.v6mpyhubs10.vxx.128B
+    hexagon_V6_v6mpyvubs10,                    // llvm.hexagon.V6.v6mpyvubs10
+    hexagon_V6_v6mpyvubs10_128B,               // llvm.hexagon.V6.v6mpyvubs10.128B
+    hexagon_V6_v6mpyvubs10_vxx,                // llvm.hexagon.V6.v6mpyvubs10.vxx
+    hexagon_V6_v6mpyvubs10_vxx_128B,           // llvm.hexagon.V6.v6mpyvubs10.vxx.128B
     hexagon_V6_vS32b_nqpred_ai,                // llvm.hexagon.V6.vS32b.nqpred.ai
     hexagon_V6_vS32b_nqpred_ai_128B,           // llvm.hexagon.V6.vS32b.nqpred.ai.128B
     hexagon_V6_vS32b_nt_nqpred_ai,             // llvm.hexagon.V6.vS32b.nt.nqpred.ai
@@ -1749,6 +1757,12 @@ enum HEXAGONIntrinsics : unsigned {
     hexagon_Y2_dczeroa,                        // llvm.hexagon.Y2.dczeroa
     hexagon_Y4_l2fetch,                        // llvm.hexagon.Y4.l2fetch
     hexagon_Y5_l2fetch,                        // llvm.hexagon.Y5.l2fetch
+    hexagon_Y6_dmlink,                         // llvm.hexagon.Y6.dmlink
+    hexagon_Y6_dmpause,                        // llvm.hexagon.Y6.dmpause
+    hexagon_Y6_dmpoll,                         // llvm.hexagon.Y6.dmpoll
+    hexagon_Y6_dmresume,                       // llvm.hexagon.Y6.dmresume
+    hexagon_Y6_dmstart,                        // llvm.hexagon.Y6.dmstart
+    hexagon_Y6_dmwait,                         // llvm.hexagon.Y6.dmwait
     hexagon_circ_ldb,                          // llvm.hexagon.circ.ldb
     hexagon_circ_ldd,                          // llvm.hexagon.circ.ldd
     hexagon_circ_ldh,                          // llvm.hexagon.circ.ldh

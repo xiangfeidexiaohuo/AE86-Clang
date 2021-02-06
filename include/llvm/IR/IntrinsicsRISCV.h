@@ -13,7 +13,7 @@ namespace llvm {
 namespace Intrinsic {
 enum RISCVIntrinsics : unsigned {
 // Enum values for intrinsics
-    riscv_masked_atomicrmw_add_i32 = 6622,            // llvm.riscv.masked.atomicrmw.add.i32
+    riscv_masked_atomicrmw_add_i32 = 6638,            // llvm.riscv.masked.atomicrmw.add.i32
     riscv_masked_atomicrmw_add_i64,            // llvm.riscv.masked.atomicrmw.add.i64
     riscv_masked_atomicrmw_max_i32,            // llvm.riscv.masked.atomicrmw.max.i32
     riscv_masked_atomicrmw_max_i64,            // llvm.riscv.masked.atomicrmw.max.i64
@@ -131,8 +131,8 @@ enum RISCVIntrinsics : unsigned {
     riscv_vfnmsub_mask,                        // llvm.riscv.vfnmsub.mask
     riscv_vfrdiv,                              // llvm.riscv.vfrdiv
     riscv_vfrdiv_mask,                         // llvm.riscv.vfrdiv.mask
-    riscv_vfrece7,                             // llvm.riscv.vfrece7
-    riscv_vfrece7_mask,                        // llvm.riscv.vfrece7.mask
+    riscv_vfrec7,                              // llvm.riscv.vfrec7
+    riscv_vfrec7_mask,                         // llvm.riscv.vfrec7.mask
     riscv_vfredmax,                            // llvm.riscv.vfredmax
     riscv_vfredmax_mask,                       // llvm.riscv.vfredmax.mask
     riscv_vfredmin,                            // llvm.riscv.vfredmin
@@ -141,8 +141,8 @@ enum RISCVIntrinsics : unsigned {
     riscv_vfredosum_mask,                      // llvm.riscv.vfredosum.mask
     riscv_vfredsum,                            // llvm.riscv.vfredsum
     riscv_vfredsum_mask,                       // llvm.riscv.vfredsum.mask
-    riscv_vfrsqrte7,                           // llvm.riscv.vfrsqrte7
-    riscv_vfrsqrte7_mask,                      // llvm.riscv.vfrsqrte7.mask
+    riscv_vfrsqrt7,                            // llvm.riscv.vfrsqrt7
+    riscv_vfrsqrt7_mask,                       // llvm.riscv.vfrsqrt7.mask
     riscv_vfrsub,                              // llvm.riscv.vfrsub
     riscv_vfrsub_mask,                         // llvm.riscv.vfrsub.mask
     riscv_vfsgnj,                              // llvm.riscv.vfsgnj
@@ -201,6 +201,7 @@ enum RISCVIntrinsics : unsigned {
     riscv_viota_mask,                          // llvm.riscv.viota.mask
     riscv_vle,                                 // llvm.riscv.vle
     riscv_vle_mask,                            // llvm.riscv.vle.mask
+    riscv_vle1,                                // llvm.riscv.vle1
     riscv_vleff,                               // llvm.riscv.vleff
     riscv_vleff_mask,                          // llvm.riscv.vleff.mask
     riscv_vloxei,                              // llvm.riscv.vloxei
@@ -388,10 +389,12 @@ enum RISCVIntrinsics : unsigned {
     riscv_vrem_mask,                           // llvm.riscv.vrem.mask
     riscv_vremu,                               // llvm.riscv.vremu
     riscv_vremu_mask,                          // llvm.riscv.vremu.mask
-    riscv_vrgather,                            // llvm.riscv.vrgather
-    riscv_vrgather_mask,                       // llvm.riscv.vrgather.mask
-    riscv_vrgatherei16,                        // llvm.riscv.vrgatherei16
-    riscv_vrgatherei16_mask,                   // llvm.riscv.vrgatherei16.mask
+    riscv_vrgather_vv,                         // llvm.riscv.vrgather.vv
+    riscv_vrgather_vv_mask,                    // llvm.riscv.vrgather.vv.mask
+    riscv_vrgather_vx,                         // llvm.riscv.vrgather.vx
+    riscv_vrgather_vx_mask,                    // llvm.riscv.vrgather.vx.mask
+    riscv_vrgatherei16_vv,                     // llvm.riscv.vrgatherei16.vv
+    riscv_vrgatherei16_vv_mask,                // llvm.riscv.vrgatherei16.vv.mask
     riscv_vrsub,                               // llvm.riscv.vrsub
     riscv_vrsub_mask,                          // llvm.riscv.vrsub.mask
     riscv_vsadd,                               // llvm.riscv.vsadd
@@ -401,6 +404,7 @@ enum RISCVIntrinsics : unsigned {
     riscv_vsbc,                                // llvm.riscv.vsbc
     riscv_vse,                                 // llvm.riscv.vse
     riscv_vse_mask,                            // llvm.riscv.vse.mask
+    riscv_vse1,                                // llvm.riscv.vse1
     riscv_vsetvli,                             // llvm.riscv.vsetvli
     riscv_vsetvlimax,                          // llvm.riscv.vsetvlimax
     riscv_vsext,                               // llvm.riscv.vsext

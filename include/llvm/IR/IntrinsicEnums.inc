@@ -205,6 +205,7 @@
     objc_autoreleasePoolPop,                   // llvm.objc.autoreleasePoolPop
     objc_autoreleasePoolPush,                  // llvm.objc.autoreleasePoolPush
     objc_autoreleaseReturnValue,               // llvm.objc.autoreleaseReturnValue
+    objc_clang_arc_noop_use,                   // llvm.objc.clang.arc.noop.use
     objc_clang_arc_use,                        // llvm.objc.clang.arc.use
     objc_copyWeak,                             // llvm.objc.copyWeak
     objc_destroyWeak,                          // llvm.objc.destroyWeak
@@ -250,6 +251,7 @@
     sdiv_fix,                                  // llvm.sdiv.fix
     sdiv_fix_sat,                              // llvm.sdiv.fix.sat
     set_loop_iterations,                       // llvm.set.loop.iterations
+    set_rounding,                              // llvm.set.rounding
     sideeffect,                                // llvm.sideeffect
     sin,                                       // llvm.sin
     smax,                                      // llvm.smax
@@ -322,4 +324,4 @@
     write_register,                            // llvm.write_register
     xray_customevent,                          // llvm.xray.customevent
     xray_typedevent,                           // llvm.xray.typedevent
-    num_intrinsics = 9920
+    num_intrinsics = 9940

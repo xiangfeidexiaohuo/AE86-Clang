@@ -2445,12 +2445,10 @@
     break;
   }
   case attr::OpenCLUnrollHint: {
-    bool isInherited = Record.readInt();
     bool isImplicit = Record.readInt();
     bool isPackExpansion = Record.readInt();
     unsigned unrollHint = Record.readInt();
     New = new (Context) OpenCLUnrollHintAttr(Context, Info, unrollHint);
-    cast<InheritableAttr>(New)->setInherited(isInherited);
     New->setImplicit(isImplicit);
     New->setPackExpansion(isPackExpansion);
     break;
