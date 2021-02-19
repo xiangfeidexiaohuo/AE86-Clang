@@ -2125,6 +2125,21 @@ namespace omp {
   static OmpClauseSet requiredClauses_OMPD_threadprivate {
   };
 
+  // Sets for tile
+
+  static OmpClauseSet allowedClauses_OMPD_tile {
+  };
+
+  static OmpClauseSet allowedOnceClauses_OMPD_tile {
+    llvm::omp::Clause::OMPC_sizes,
+  };
+
+  static OmpClauseSet allowedExclusiveClauses_OMPD_tile {
+  };
+
+  static OmpClauseSet requiredClauses_OMPD_tile {
+  };
+
   // Sets for unknown
 
   static OmpClauseSet allowedClauses_OMPD_unknown {
@@ -2849,6 +2864,14 @@ namespace omp {
       llvm::omp::requiredClauses_OMPD_threadprivate,
     }
   },
+  {llvm::omp::Directive::OMPD_tile,
+    {
+      llvm::omp::allowedClauses_OMPD_tile,
+      llvm::omp::allowedOnceClauses_OMPD_tile,
+      llvm::omp::allowedExclusiveClauses_OMPD_tile,
+      llvm::omp::requiredClauses_OMPD_tile,
+    }
+  },
   {llvm::omp::Directive::OMPD_unknown,
     {
       llvm::omp::allowedClauses_OMPD_unknown,
@@ -2934,6 +2957,7 @@ EMPTY_CLASS(SeqCst);
 WRAPPER_CLASS(Shared, OmpObjectList);
 EMPTY_CLASS(Simd);
 WRAPPER_CLASS(Simdlen, ScalarIntConstantExpr);
+EMPTY_CLASS(Sizes);
 WRAPPER_CLASS(TaskReduction, OmpReductionClause);
 WRAPPER_CLASS(ThreadLimit, ScalarIntExpr);
 EMPTY_CLASS(Threadprivate);
@@ -3017,6 +3041,7 @@ AcqRel
 , Shared
 , Simd
 , Simdlen
+, Sizes
 , TaskReduction
 , ThreadLimit
 , Threadprivate
@@ -3100,6 +3125,7 @@ NODE(OmpClause, SeqCst)
 NODE(OmpClause, Shared)
 NODE(OmpClause, Simd)
 NODE(OmpClause, Simdlen)
+NODE(OmpClause, Sizes)
 NODE(OmpClause, TaskReduction)
 NODE(OmpClause, ThreadLimit)
 NODE(OmpClause, Threadprivate)
@@ -3349,6 +3375,7 @@ void Unparse(const OmpClause::Simdlen &x) {
   Walk(x.v);
   Put(")");
 }
+void Before(const OmpClause::Sizes &) { Word("SIZES"); }
 void Unparse(const OmpClause::TaskReduction &x) {
   Word("TASK_REDUCTION");
   Put("(");
@@ -3457,6 +3484,7 @@ void Enter(const parser::OmpClause::SeqCst &);
 void Enter(const parser::OmpClause::Shared &);
 void Enter(const parser::OmpClause::Simd &);
 void Enter(const parser::OmpClause::Simdlen &);
+void Enter(const parser::OmpClause::Sizes &);
 void Enter(const parser::OmpClause::TaskReduction &);
 void Enter(const parser::OmpClause::ThreadLimit &);
 void Enter(const parser::OmpClause::Threadprivate &);
@@ -3563,6 +3591,7 @@ __CLAUSE(seq_cst, OMPSeqCstClause)
 __CLAUSE(shared, OMPSharedClause)
 __CLAUSE(simd, OMPSIMDClause)
 __CLAUSE(simdlen, OMPSimdlenClause)
+__CLAUSE(sizes, OMPSizesClause)
 __CLAUSE(task_reduction, OMPTaskReductionClause)
 __CLAUSE(thread_limit, OMPThreadLimitClause)
 __IMPLICIT_CLAUSE_NO_CLASS(threadprivate, "threadprivate")

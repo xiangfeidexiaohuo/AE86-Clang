@@ -2104,6 +2104,15 @@ Record.push_back(SA->getKind());
     Record.push_back(SA->getCompletionHandlerIndex().serialize());
     break;
   }
+  case attr::SwiftAsyncError: {
+    const auto *SA = cast<SwiftAsyncErrorAttr>(A);
+    Record.push_back(SA->isInherited());
+    Record.push_back(A->isImplicit());
+    Record.push_back(A->isPackExpansion());
+Record.push_back(SA->getConvention());
+    Record.push_back(SA->getHandlerParamIdx());
+    break;
+  }
   case attr::SwiftAsyncName: {
     const auto *SA = cast<SwiftAsyncNameAttr>(A);
     Record.push_back(SA->isInherited());

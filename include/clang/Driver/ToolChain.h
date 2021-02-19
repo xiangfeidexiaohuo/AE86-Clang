@@ -166,6 +166,10 @@ private:
     EffectiveTriple = std::move(ET);
   }
 
+  mutable llvm::Optional<CXXStdlibType> cxxStdlibType;
+  mutable llvm::Optional<RuntimeLibType> runtimeLibType;
+  mutable llvm::Optional<UnwindLibType> unwindLibType;
+
 protected:
   MultilibSet Multilibs;
   Multilib SelectedMultilib;
@@ -658,6 +662,10 @@ public:
   /// On Windows, returns the MSVC compatibility version.
   virtual VersionTuple computeMSVCVersion(const Driver *D,
                                           const llvm::opt::ArgList &Args) const;
+
+  /// Get paths of HIP device libraries.
+  virtual llvm::SmallVector<std::string, 12>
+  getHIPDeviceLibs(const llvm::opt::ArgList &Args) const;
 
   /// Return sanitizers which are available in this toolchain.
   virtual SanitizerMask getSupportedSanitizers() const;

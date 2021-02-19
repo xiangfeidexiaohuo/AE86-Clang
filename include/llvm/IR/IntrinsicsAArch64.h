@@ -13,7 +13,7 @@ namespace llvm {
 namespace Intrinsic {
 enum AARCH64Intrinsics : unsigned {
 // Enum values for intrinsics
-    aarch64_addg = 318,                              // llvm.aarch64.addg
+    aarch64_addg = 319,                              // llvm.aarch64.addg
     aarch64_clrex,                             // llvm.aarch64.clrex
     aarch64_cls,                               // llvm.aarch64.cls
     aarch64_cls64,                             // llvm.aarch64.cls64
@@ -39,6 +39,15 @@ enum AARCH64Intrinsics : unsigned {
     aarch64_crypto_sha256h2,                   // llvm.aarch64.crypto.sha256h2
     aarch64_crypto_sha256su0,                  // llvm.aarch64.crypto.sha256su0
     aarch64_crypto_sha256su1,                  // llvm.aarch64.crypto.sha256su1
+    aarch64_crypto_sm3partw1,                  // llvm.aarch64.crypto.sm3partw1
+    aarch64_crypto_sm3partw2,                  // llvm.aarch64.crypto.sm3partw2
+    aarch64_crypto_sm3ss1,                     // llvm.aarch64.crypto.sm3ss1
+    aarch64_crypto_sm3tt1a,                    // llvm.aarch64.crypto.sm3tt1a
+    aarch64_crypto_sm3tt1b,                    // llvm.aarch64.crypto.sm3tt1b
+    aarch64_crypto_sm3tt2a,                    // llvm.aarch64.crypto.sm3tt2a
+    aarch64_crypto_sm3tt2b,                    // llvm.aarch64.crypto.sm3tt2b
+    aarch64_crypto_sm4e,                       // llvm.aarch64.crypto.sm4e
+    aarch64_crypto_sm4ekey,                    // llvm.aarch64.crypto.sm4ekey
     aarch64_dmb,                               // llvm.aarch64.dmb
     aarch64_dsb,                               // llvm.aarch64.dsb
     aarch64_fjcvtzs,                           // llvm.aarch64.fjcvtzs

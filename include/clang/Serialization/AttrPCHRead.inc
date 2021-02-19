@@ -2998,6 +2998,18 @@
     New->setPackExpansion(isPackExpansion);
     break;
   }
+  case attr::SwiftAsyncError: {
+    bool isInherited = Record.readInt();
+    bool isImplicit = Record.readInt();
+    bool isPackExpansion = Record.readInt();
+    SwiftAsyncErrorAttr::ConventionKind convention(static_cast<SwiftAsyncErrorAttr::ConventionKind>(Record.readInt()));
+    unsigned handlerParamIdx = Record.readInt();
+    New = new (Context) SwiftAsyncErrorAttr(Context, Info, convention, handlerParamIdx);
+    cast<InheritableAttr>(New)->setInherited(isInherited);
+    New->setImplicit(isImplicit);
+    New->setPackExpansion(isPackExpansion);
+    break;
+  }
   case attr::SwiftAsyncName: {
     bool isInherited = Record.readInt();
     bool isImplicit = Record.readInt();

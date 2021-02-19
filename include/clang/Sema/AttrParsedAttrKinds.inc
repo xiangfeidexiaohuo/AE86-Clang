@@ -1234,7 +1234,7 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       return AttributeCommonInfo::AT_SwiftAsyncName;	 // "swift_async_name"
     }
     break;
-  case 17:	 // 6 strings to match.
+  case 17:	 // 7 strings to match.
     switch (Name[0]) {
     default: break;
     case 'a':	 // 2 strings to match.
@@ -1263,10 +1263,19 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
         return AttributeCommonInfo::AT_Ownership;	 // "ownership_returns"
       }
       break;
-    case 's':	 // 1 string to match.
-      if (memcmp(Name.data()+1, "hared_capability", 16) != 0)
-        break;
-      return AttributeCommonInfo::AT_Capability;	 // "shared_capability"
+    case 's':	 // 2 strings to match.
+      switch (Name[1]) {
+      default: break;
+      case 'h':	 // 1 string to match.
+        if (memcmp(Name.data()+2, "ared_capability", 15) != 0)
+          break;
+        return AttributeCommonInfo::AT_Capability;	 // "shared_capability"
+      case 'w':	 // 1 string to match.
+        if (memcmp(Name.data()+2, "ift_async_error", 15) != 0)
+          break;
+        return AttributeCommonInfo::AT_SwiftAsyncError;	 // "swift_async_error"
+      }
+      break;
     case 't':	 // 1 string to match.
       if (memcmp(Name.data()+1, "ransparent_union", 16) != 0)
         break;
@@ -3330,10 +3339,10 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       break;
     }
     break;
-  case 24:	 // 5 strings to match.
+  case 24:	 // 6 strings to match.
     switch (Name[0]) {
     default: break;
-    case 'c':	 // 4 strings to match.
+    case 'c':	 // 5 strings to match.
       if (memcmp(Name.data()+1, "lang::", 6) != 0)
         break;
       switch (Name[7]) {
@@ -3355,10 +3364,19 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
           return AttributeCommonInfo::AT_Ownership;	 // "clang::ownership_returns"
         }
         break;
-      case 's':	 // 1 string to match.
-        if (memcmp(Name.data()+8, "hared_capability", 16) != 0)
-          break;
-        return AttributeCommonInfo::AT_Capability;	 // "clang::shared_capability"
+      case 's':	 // 2 strings to match.
+        switch (Name[8]) {
+        default: break;
+        case 'h':	 // 1 string to match.
+          if (memcmp(Name.data()+9, "ared_capability", 15) != 0)
+            break;
+          return AttributeCommonInfo::AT_Capability;	 // "clang::shared_capability"
+        case 'w':	 // 1 string to match.
+          if (memcmp(Name.data()+9, "ift_async_error", 15) != 0)
+            break;
+          return AttributeCommonInfo::AT_SwiftAsyncError;	 // "clang::swift_async_error"
+        }
+        break;
       }
       break;
     case 'g':	 // 1 string to match.
@@ -4904,22 +4922,31 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       break;
     }
     break;
-  case 24:	 // 3 strings to match.
+  case 24:	 // 4 strings to match.
     switch (Name[0]) {
     default: break;
-    case 'c':	 // 2 strings to match.
-      if (memcmp(Name.data()+1, "lang::o", 7) != 0)
+    case 'c':	 // 3 strings to match.
+      if (memcmp(Name.data()+1, "lang::", 6) != 0)
         break;
-      switch (Name[8]) {
+      switch (Name[7]) {
       default: break;
-      case 'b':	 // 1 string to match.
-        if (memcmp(Name.data()+9, "jc_runtime_name", 15) != 0)
+      case 'o':	 // 2 strings to match.
+        switch (Name[8]) {
+        default: break;
+        case 'b':	 // 1 string to match.
+          if (memcmp(Name.data()+9, "jc_runtime_name", 15) != 0)
+            break;
+          return AttributeCommonInfo::AT_ObjCRuntimeName;	 // "clang::objc_runtime_name"
+        case 'w':	 // 1 string to match.
+          if (memcmp(Name.data()+9, "nership_returns", 15) != 0)
+            break;
+          return AttributeCommonInfo::AT_Ownership;	 // "clang::ownership_returns"
+        }
+        break;
+      case 's':	 // 1 string to match.
+        if (memcmp(Name.data()+8, "wift_async_error", 16) != 0)
           break;
-        return AttributeCommonInfo::AT_ObjCRuntimeName;	 // "clang::objc_runtime_name"
-      case 'w':	 // 1 string to match.
-        if (memcmp(Name.data()+9, "nership_returns", 15) != 0)
-          break;
-        return AttributeCommonInfo::AT_Ownership;	 // "clang::ownership_returns"
+        return AttributeCommonInfo::AT_SwiftAsyncError;	 // "clang::swift_async_error"
       }
       break;
     case 'g':	 // 1 string to match.

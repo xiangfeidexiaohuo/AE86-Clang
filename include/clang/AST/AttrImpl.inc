@@ -25165,6 +25165,145 @@ const char *SwiftAsyncAttr::getSpelling() const {
 }
 
 
+// SwiftAsyncErrorAttr implementation
+
+SwiftAsyncErrorAttr *SwiftAsyncErrorAttr::CreateImplicit(ASTContext &Ctx, ConventionKind Convention, unsigned HandlerParamIdx, const AttributeCommonInfo &CommonInfo) {
+  auto *A = new (Ctx) SwiftAsyncErrorAttr(Ctx, CommonInfo, Convention, HandlerParamIdx);
+  A->setImplicit(true);
+  if (!A->isAttributeSpellingListCalculated() && !A->getAttrName())
+    A->setAttributeSpellingListIndex(0);
+  return A;
+}
+
+SwiftAsyncErrorAttr *SwiftAsyncErrorAttr::Create(ASTContext &Ctx, ConventionKind Convention, unsigned HandlerParamIdx, const AttributeCommonInfo &CommonInfo) {
+  auto *A = new (Ctx) SwiftAsyncErrorAttr(Ctx, CommonInfo, Convention, HandlerParamIdx);
+  if (!A->isAttributeSpellingListCalculated() && !A->getAttrName())
+    A->setAttributeSpellingListIndex(0);
+  return A;
+}
+
+SwiftAsyncErrorAttr *SwiftAsyncErrorAttr::CreateImplicit(ASTContext &Ctx, ConventionKind Convention, unsigned HandlerParamIdx, SourceRange Range, AttributeCommonInfo::Syntax Syntax) {
+  AttributeCommonInfo I(Range, NoSemaHandlerAttribute, Syntax);
+  return CreateImplicit(Ctx, Convention, HandlerParamIdx, I);
+}
+
+SwiftAsyncErrorAttr *SwiftAsyncErrorAttr::Create(ASTContext &Ctx, ConventionKind Convention, unsigned HandlerParamIdx, SourceRange Range, AttributeCommonInfo::Syntax Syntax) {
+  AttributeCommonInfo I(Range, NoSemaHandlerAttribute, Syntax);
+  return Create(Ctx, Convention, HandlerParamIdx, I);
+}
+
+SwiftAsyncErrorAttr::SwiftAsyncErrorAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+              , ConventionKind Convention
+              , unsigned HandlerParamIdx
+             )
+  : InheritableAttr(Ctx, CommonInfo, attr::SwiftAsyncError, false, false)
+              , convention(Convention)
+              , handlerParamIdx(HandlerParamIdx)
+  {
+}
+
+SwiftAsyncErrorAttr::SwiftAsyncErrorAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+              , ConventionKind Convention
+             )
+  : InheritableAttr(Ctx, CommonInfo, attr::SwiftAsyncError, false, false)
+              , convention(Convention)
+              , handlerParamIdx()
+  {
+}
+
+
+
+bool SwiftAsyncErrorAttr::ConvertStrToConventionKind(StringRef Val, ConventionKind &Out) {
+  Optional<ConventionKind> R = llvm::StringSwitch<Optional<ConventionKind>>(Val)
+    .Case("none", SwiftAsyncErrorAttr::None)
+    .Case("nonnull_error", SwiftAsyncErrorAttr::NonNullError)
+    .Case("zero_argument", SwiftAsyncErrorAttr::ZeroArgument)
+    .Case("nonzero_argument", SwiftAsyncErrorAttr::NonZeroArgument)
+    .Default(Optional<ConventionKind>());
+  if (R) {
+    Out = *R;
+      return true;
+    }
+  return false;
+}
+
+const char *SwiftAsyncErrorAttr::ConvertConventionKindToStr(ConventionKind Val) {
+  switch(Val) {
+  case SwiftAsyncErrorAttr::None: return "none";
+  case SwiftAsyncErrorAttr::NonNullError: return "nonnull_error";
+  case SwiftAsyncErrorAttr::ZeroArgument: return "zero_argument";
+  case SwiftAsyncErrorAttr::NonZeroArgument: return "nonzero_argument";
+  }
+  llvm_unreachable("No enumerator with that value");
+}
+
+
+SwiftAsyncErrorAttr *SwiftAsyncErrorAttr::clone(ASTContext &C) const {
+  auto *A = new (C) SwiftAsyncErrorAttr(C, *this, convention, handlerParamIdx);
+  A->Inherited = Inherited;
+  A->IsPackExpansion = IsPackExpansion;
+  A->setImplicit(Implicit);
+  return A;
+}
+
+void SwiftAsyncErrorAttr::printPretty(raw_ostream &OS, const PrintingPolicy &Policy) const {
+  bool IsFirstArgument = true; (void)IsFirstArgument;
+  unsigned TrailingOmittedArgs = 0; (void)TrailingOmittedArgs;
+  switch (getAttributeSpellingListIndex()) {
+  default:
+    llvm_unreachable("Unknown attribute spelling!");
+    break;
+  case 0 : {
+    OS << " __attribute__((swift_async_error";
+    DelimitAttributeArgument(OS, IsFirstArgument);
+    OS << "\"" << SwiftAsyncErrorAttr::ConvertConventionKindToStr(getConvention()) << "\"";
+    DelimitAttributeArgument(OS, IsFirstArgument);
+    OS << "" << getHandlerParamIdx() << "";
+    if (!IsFirstArgument)
+      OS << ")";
+    OS << "))";
+    break;
+  }
+  case 1 : {
+    OS << " [[clang::swift_async_error";
+    DelimitAttributeArgument(OS, IsFirstArgument);
+    OS << "\"" << SwiftAsyncErrorAttr::ConvertConventionKindToStr(getConvention()) << "\"";
+    DelimitAttributeArgument(OS, IsFirstArgument);
+    OS << "" << getHandlerParamIdx() << "";
+    if (!IsFirstArgument)
+      OS << ")";
+    OS << "]]";
+    break;
+  }
+  case 2 : {
+    OS << " [[clang::swift_async_error";
+    DelimitAttributeArgument(OS, IsFirstArgument);
+    OS << "\"" << SwiftAsyncErrorAttr::ConvertConventionKindToStr(getConvention()) << "\"";
+    DelimitAttributeArgument(OS, IsFirstArgument);
+    OS << "" << getHandlerParamIdx() << "";
+    if (!IsFirstArgument)
+      OS << ")";
+    OS << "]]";
+    break;
+  }
+}
+}
+
+const char *SwiftAsyncErrorAttr::getSpelling() const {
+  switch (getAttributeSpellingListIndex()) {
+  default:
+    llvm_unreachable("Unknown attribute spelling!");
+    return "(No spelling)";
+  case 0:
+    return "swift_async_error";
+  case 1:
+    return "swift_async_error";
+  case 2:
+    return "swift_async_error";
+  }
+}
+
+
 // SwiftAsyncNameAttr implementation
 
 SwiftAsyncNameAttr *SwiftAsyncNameAttr::CreateImplicit(ASTContext &Ctx, llvm::StringRef Name, const AttributeCommonInfo &CommonInfo) {
@@ -30441,6 +30580,8 @@ const char *Attr::getSpelling() const {
     return cast<SuppressAttr>(this)->getSpelling();
   case attr::SwiftAsync:
     return cast<SwiftAsyncAttr>(this)->getSpelling();
+  case attr::SwiftAsyncError:
+    return cast<SwiftAsyncErrorAttr>(this)->getSpelling();
   case attr::SwiftAsyncName:
     return cast<SwiftAsyncNameAttr>(this)->getSpelling();
   case attr::SwiftAttr:
@@ -31109,6 +31250,8 @@ Attr *Attr::clone(ASTContext &C) const {
     return cast<SuppressAttr>(this)->clone(C);
   case attr::SwiftAsync:
     return cast<SwiftAsyncAttr>(this)->clone(C);
+  case attr::SwiftAsyncError:
+    return cast<SwiftAsyncErrorAttr>(this)->clone(C);
   case attr::SwiftAsyncName:
     return cast<SwiftAsyncNameAttr>(this)->clone(C);
   case attr::SwiftAttr:
@@ -31777,6 +31920,8 @@ void Attr::printPretty(raw_ostream &OS, const PrintingPolicy &Policy) const {
     return cast<SuppressAttr>(this)->printPretty(OS, Policy);
   case attr::SwiftAsync:
     return cast<SwiftAsyncAttr>(this)->printPretty(OS, Policy);
+  case attr::SwiftAsyncError:
+    return cast<SwiftAsyncErrorAttr>(this)->printPretty(OS, Policy);
   case attr::SwiftAsyncName:
     return cast<SwiftAsyncNameAttr>(this)->printPretty(OS, Policy);
   case attr::SwiftAttr:

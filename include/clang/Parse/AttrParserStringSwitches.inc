@@ -71,6 +71,7 @@
 .Case("return_typestate", true)
 .Case("set_typestate", true)
 .Case("swift_async", true)
+.Case("swift_async_error", true)
 .Case("swift_error", true)
 .Case("swift_newtype", true)
 .Case("swift_wrapper", true)

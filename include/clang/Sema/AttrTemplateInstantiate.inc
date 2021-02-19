@@ -1331,6 +1331,10 @@ Attr *instantiateTemplateAttribute(const Attr *At, ASTContext &C, Sema &S,
       const auto *A = cast<SwiftAsyncAttr>(At);
       return A->clone(C);
     }
+    case attr::SwiftAsyncError: {
+      const auto *A = cast<SwiftAsyncErrorAttr>(At);
+      return A->clone(C);
+    }
     case attr::SwiftAsyncName: {
       const auto *A = cast<SwiftAsyncNameAttr>(At);
       return A->clone(C);
@@ -2412,6 +2416,9 @@ Attr *instantiateTemplateAttributeForDecl(const Attr *At,
       return nullptr;
     }
     case attr::SwiftAsync: {
+      return nullptr;
+    }
+    case attr::SwiftAsyncError: {
       return nullptr;
     }
     case attr::SwiftAsyncName: {

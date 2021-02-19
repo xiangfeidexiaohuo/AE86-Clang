@@ -96,11 +96,12 @@ enum class Directive {
   OMPD_teams_distribute_parallel_for_simd,
   OMPD_teams_distribute_simd,
   OMPD_threadprivate,
+  OMPD_tile,
   OMPD_unknown,
   OMPD_workshare,
 };
 
-static constexpr std::size_t Directive_enumSize = 88;
+static constexpr std::size_t Directive_enumSize = 89;
 
 constexpr auto OMPD_allocate = llvm::omp::Directive::OMPD_allocate;
 constexpr auto OMPD_assumes = llvm::omp::Directive::OMPD_assumes;
@@ -188,6 +189,7 @@ constexpr auto OMPD_teams_distribute_parallel_for = llvm::omp::Directive::OMPD_t
 constexpr auto OMPD_teams_distribute_parallel_for_simd = llvm::omp::Directive::OMPD_teams_distribute_parallel_for_simd;
 constexpr auto OMPD_teams_distribute_simd = llvm::omp::Directive::OMPD_teams_distribute_simd;
 constexpr auto OMPD_threadprivate = llvm::omp::Directive::OMPD_threadprivate;
+constexpr auto OMPD_tile = llvm::omp::Directive::OMPD_tile;
 constexpr auto OMPD_unknown = llvm::omp::Directive::OMPD_unknown;
 constexpr auto OMPD_workshare = llvm::omp::Directive::OMPD_workshare;
 
@@ -254,6 +256,7 @@ enum class Clause {
   OMPC_shared,
   OMPC_simd,
   OMPC_simdlen,
+  OMPC_sizes,
   OMPC_task_reduction,
   OMPC_thread_limit,
   OMPC_threadprivate,
@@ -271,7 +274,7 @@ enum class Clause {
   OMPC_write,
 };
 
-static constexpr std::size_t Clause_enumSize = 77;
+static constexpr std::size_t Clause_enumSize = 78;
 
 constexpr auto OMPC_acq_rel = llvm::omp::Clause::OMPC_acq_rel;
 constexpr auto OMPC_acquire = llvm::omp::Clause::OMPC_acquire;
@@ -335,6 +338,7 @@ constexpr auto OMPC_seq_cst = llvm::omp::Clause::OMPC_seq_cst;
 constexpr auto OMPC_shared = llvm::omp::Clause::OMPC_shared;
 constexpr auto OMPC_simd = llvm::omp::Clause::OMPC_simd;
 constexpr auto OMPC_simdlen = llvm::omp::Clause::OMPC_simdlen;
+constexpr auto OMPC_sizes = llvm::omp::Clause::OMPC_sizes;
 constexpr auto OMPC_task_reduction = llvm::omp::Clause::OMPC_task_reduction;
 constexpr auto OMPC_thread_limit = llvm::omp::Clause::OMPC_thread_limit;
 constexpr auto OMPC_threadprivate = llvm::omp::Clause::OMPC_threadprivate;

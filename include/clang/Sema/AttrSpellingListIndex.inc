@@ -2279,6 +2279,15 @@
         return 2;
     break;
   }
+  case AT_SwiftAsyncError: {
+    if (Name == "swift_async_error" && getSyntax() == AttributeCommonInfo::AS_GNU && Scope == "")
+        return 0;
+    if (Name == "swift_async_error" && getSyntax() == AttributeCommonInfo::AS_CXX11 && Scope == "clang")
+        return 1;
+    if (Name == "swift_async_error" && getSyntax() == AttributeCommonInfo::AS_C2x && Scope == "clang")
+        return 2;
+    break;
+  }
   case AT_SwiftAsyncName: {
     if (Name == "swift_async_name" && getSyntax() == AttributeCommonInfo::AS_GNU && Scope == "")
         return 0;

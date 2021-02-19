@@ -9228,6 +9228,41 @@ void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectM
 static const ParsedAttrInfoSwiftAsync Instance;
 };
 const ParsedAttrInfoSwiftAsync ParsedAttrInfoSwiftAsync::Instance;
+static constexpr ParsedAttrInfo::Spelling SwiftAsyncErrorSpellings[] = {
+  {AttributeCommonInfo::AS_GNU, "swift_async_error"},
+  {AttributeCommonInfo::AS_CXX11, "clang::swift_async_error"},
+  {AttributeCommonInfo::AS_C2x, "clang::swift_async_error"},
+};
+struct ParsedAttrInfoSwiftAsyncError final : public ParsedAttrInfo {
+  ParsedAttrInfoSwiftAsyncError() {
+    AttrKind = ParsedAttr::AT_SwiftAsyncError;
+    NumArgs = 1;
+    OptArgs = 1;
+    HasCustomParsing = 0;
+    IsTargetSpecific = 0;
+    IsType = 0;
+    IsStmt = 0;
+    IsKnownToGCC = 0;
+    IsSupportedByPragmaAttribute = 1;
+    Spellings = SwiftAsyncErrorSpellings;
+  }
+bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const override {
+  if (!isa<FunctionDecl>(D) && !isa<ObjCMethodDecl>(D)) {
+    S.Diag(Attr.getLoc(), diag::warn_attribute_wrong_decl_type_str)
+      << Attr << "functions and Objective-C methods";
+    return false;
+  }
+  return true;
+}
+
+void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
+  MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
+  MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_method, /*IsSupported=*/LangOpts.ObjC));
+}
+
+static const ParsedAttrInfoSwiftAsyncError Instance;
+};
+const ParsedAttrInfoSwiftAsyncError ParsedAttrInfoSwiftAsyncError::Instance;
 static constexpr ParsedAttrInfo::Spelling SwiftAsyncNameSpellings[] = {
   {AttributeCommonInfo::AS_GNU, "swift_async_name"},
 };
@@ -11169,6 +11204,7 @@ static const ParsedAttrInfo *AttrInfoMap[] = {
 &ParsedAttrInfoStrictFP::Instance,
 &ParsedAttrInfoSuppress::Instance,
 &ParsedAttrInfoSwiftAsync::Instance,
+&ParsedAttrInfoSwiftAsyncError::Instance,
 &ParsedAttrInfoSwiftAsyncName::Instance,
 &ParsedAttrInfoSwiftAttr::Instance,
 &ParsedAttrInfoSwiftBridge::Instance,

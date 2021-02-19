@@ -776,6 +776,24 @@
     if (SA->getCompletionHandlerIndex().isValid())
       OS << " " << SA->getCompletionHandlerIndex().getSourceIndex();
   }
+  void VisitSwiftAsyncErrorAttr(const SwiftAsyncErrorAttr *A) {
+    const auto *SA = cast<SwiftAsyncErrorAttr>(A); (void)SA;
+    switch(SA->getConvention()) {
+    case SwiftAsyncErrorAttr::None:
+      OS << " None";
+      break;
+    case SwiftAsyncErrorAttr::NonNullError:
+      OS << " NonNullError";
+      break;
+    case SwiftAsyncErrorAttr::ZeroArgument:
+      OS << " ZeroArgument";
+      break;
+    case SwiftAsyncErrorAttr::NonZeroArgument:
+      OS << " NonZeroArgument";
+      break;
+    }
+    OS << " " << SA->getHandlerParamIdx();
+  }
   void VisitSwiftAsyncNameAttr(const SwiftAsyncNameAttr *A) {
     const auto *SA = cast<SwiftAsyncNameAttr>(A); (void)SA;
     OS << " \"" << SA->getName() << "\"";

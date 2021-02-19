@@ -9736,6 +9736,62 @@ public:
   static bool classof(const Attr *A) { return A->getKind() == attr::SwiftAsync; }
 };
 
+class SwiftAsyncErrorAttr : public InheritableAttr {
+public:
+  enum ConventionKind {
+    None,
+    NonNullError,
+    ZeroArgument,
+    NonZeroArgument
+  };
+private:
+  ConventionKind convention;
+
+unsigned handlerParamIdx;
+
+public:
+  enum Spelling {
+    GNU_swift_async_error = 0,
+    CXX11_clang_swift_async_error = 1,
+    C2x_clang_swift_async_error = 2,
+  SpellingNotCalculated = 15
+
+  };
+
+  // Factory methods
+  static SwiftAsyncErrorAttr *CreateImplicit(ASTContext &Ctx, ConventionKind Convention, unsigned HandlerParamIdx, const AttributeCommonInfo &CommonInfo = {SourceRange{}});
+  static SwiftAsyncErrorAttr *Create(ASTContext &Ctx, ConventionKind Convention, unsigned HandlerParamIdx, const AttributeCommonInfo &CommonInfo);
+  static SwiftAsyncErrorAttr *CreateImplicit(ASTContext &Ctx, ConventionKind Convention, unsigned HandlerParamIdx, SourceRange Range, AttributeCommonInfo::Syntax Syntax);
+  static SwiftAsyncErrorAttr *Create(ASTContext &Ctx, ConventionKind Convention, unsigned HandlerParamIdx, SourceRange Range, AttributeCommonInfo::Syntax Syntax);
+
+  // Constructors
+  SwiftAsyncErrorAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+              , ConventionKind Convention
+              , unsigned HandlerParamIdx
+             );
+  SwiftAsyncErrorAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+              , ConventionKind Convention
+             );
+
+  SwiftAsyncErrorAttr *clone(ASTContext &C) const;
+  void printPretty(raw_ostream &OS,
+                   const PrintingPolicy &Policy) const;
+  const char *getSpelling() const;
+  ConventionKind getConvention() const {
+    return convention;
+  }
+
+  static bool ConvertStrToConventionKind(StringRef Val, ConventionKind &Out);
+  static const char *ConvertConventionKindToStr(ConventionKind Val);
+  unsigned getHandlerParamIdx() const {
+    return handlerParamIdx;
+  }
+
+
+
+  static bool classof(const Attr *A) { return A->getKind() == attr::SwiftAsyncError; }
+};
+
 class SwiftAsyncNameAttr : public InheritableAttr {
 unsigned nameLength;
 char *name;

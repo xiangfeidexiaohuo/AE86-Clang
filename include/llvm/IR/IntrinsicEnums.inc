@@ -133,6 +133,7 @@
     experimental_stackmap,                     // llvm.experimental.stackmap
     experimental_vector_extract,               // llvm.experimental.vector.extract
     experimental_vector_insert,                // llvm.experimental.vector.insert
+    experimental_vector_reverse,               // llvm.experimental.vector.reverse
     experimental_widenable_condition,          // llvm.experimental.widenable.condition
     fabs,                                      // llvm.fabs
     floor,                                     // llvm.floor
@@ -324,4 +325,4 @@
     write_register,                            // llvm.write_register
     xray_customevent,                          // llvm.xray.customevent
     xray_typedevent,                           // llvm.xray.typedevent
-    num_intrinsics = 9940
+    num_intrinsics = 9968
