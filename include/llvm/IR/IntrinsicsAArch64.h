@@ -13,7 +13,7 @@ namespace llvm {
 namespace Intrinsic {
 enum AARCH64Intrinsics : unsigned {
 // Enum values for intrinsics
-    aarch64_addg = 319,                              // llvm.aarch64.addg
+    aarch64_addg = 320,                              // llvm.aarch64.addg
     aarch64_clrex,                             // llvm.aarch64.clrex
     aarch64_cls,                               // llvm.aarch64.cls
     aarch64_cls64,                             // llvm.aarch64.cls64
@@ -29,6 +29,11 @@ enum AARCH64Intrinsics : unsigned {
     aarch64_crypto_aese,                       // llvm.aarch64.crypto.aese
     aarch64_crypto_aesimc,                     // llvm.aarch64.crypto.aesimc
     aarch64_crypto_aesmc,                      // llvm.aarch64.crypto.aesmc
+    aarch64_crypto_bcaxs,                      // llvm.aarch64.crypto.bcaxs
+    aarch64_crypto_bcaxu,                      // llvm.aarch64.crypto.bcaxu
+    aarch64_crypto_eor3s,                      // llvm.aarch64.crypto.eor3s
+    aarch64_crypto_eor3u,                      // llvm.aarch64.crypto.eor3u
+    aarch64_crypto_rax1,                       // llvm.aarch64.crypto.rax1
     aarch64_crypto_sha1c,                      // llvm.aarch64.crypto.sha1c
     aarch64_crypto_sha1h,                      // llvm.aarch64.crypto.sha1h
     aarch64_crypto_sha1m,                      // llvm.aarch64.crypto.sha1m
@@ -39,6 +44,10 @@ enum AARCH64Intrinsics : unsigned {
     aarch64_crypto_sha256h2,                   // llvm.aarch64.crypto.sha256h2
     aarch64_crypto_sha256su0,                  // llvm.aarch64.crypto.sha256su0
     aarch64_crypto_sha256su1,                  // llvm.aarch64.crypto.sha256su1
+    aarch64_crypto_sha512h,                    // llvm.aarch64.crypto.sha512h
+    aarch64_crypto_sha512h2,                   // llvm.aarch64.crypto.sha512h2
+    aarch64_crypto_sha512su0,                  // llvm.aarch64.crypto.sha512su0
+    aarch64_crypto_sha512su1,                  // llvm.aarch64.crypto.sha512su1
     aarch64_crypto_sm3partw1,                  // llvm.aarch64.crypto.sm3partw1
     aarch64_crypto_sm3partw2,                  // llvm.aarch64.crypto.sm3partw2
     aarch64_crypto_sm3ss1,                     // llvm.aarch64.crypto.sm3ss1
@@ -48,6 +57,7 @@ enum AARCH64Intrinsics : unsigned {
     aarch64_crypto_sm3tt2b,                    // llvm.aarch64.crypto.sm3tt2b
     aarch64_crypto_sm4e,                       // llvm.aarch64.crypto.sm4e
     aarch64_crypto_sm4ekey,                    // llvm.aarch64.crypto.sm4ekey
+    aarch64_crypto_xar,                        // llvm.aarch64.crypto.xar
     aarch64_dmb,                               // llvm.aarch64.dmb
     aarch64_dsb,                               // llvm.aarch64.dsb
     aarch64_fjcvtzs,                           // llvm.aarch64.fjcvtzs
@@ -242,6 +252,7 @@ enum AARCH64Intrinsics : unsigned {
     aarch64_neon_vsli,                         // llvm.aarch64.neon.vsli
     aarch64_neon_vsri,                         // llvm.aarch64.neon.vsri
     aarch64_sdiv,                              // llvm.aarch64.sdiv
+    aarch64_set_fpcr,                          // llvm.aarch64.set.fpcr
     aarch64_settag,                            // llvm.aarch64.settag
     aarch64_settag_zero,                       // llvm.aarch64.settag.zero
     aarch64_sisd_fabd,                         // llvm.aarch64.sisd.fabd

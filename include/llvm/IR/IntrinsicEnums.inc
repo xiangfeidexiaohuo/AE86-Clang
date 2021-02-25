@@ -31,6 +31,7 @@
     coro_async_context_alloc,                  // llvm.coro.async.context.alloc
     coro_async_context_dealloc,                // llvm.coro.async.context.dealloc
     coro_async_resume,                         // llvm.coro.async.resume
+    coro_async_size_replace,                   // llvm.coro.async.size.replace
     coro_begin,                                // llvm.coro.begin
     coro_destroy,                              // llvm.coro.destroy
     coro_done,                                 // llvm.coro.done
@@ -325,4 +326,4 @@
     write_register,                            // llvm.write_register
     xray_customevent,                          // llvm.xray.customevent
     xray_typedevent,                           // llvm.xray.typedevent
-    num_intrinsics = 9968
+    num_intrinsics = 9984

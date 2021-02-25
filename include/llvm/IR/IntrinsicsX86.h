@@ -13,7 +13,7 @@ namespace llvm {
 namespace Intrinsic {
 enum X86Intrinsics : unsigned {
 // Enum values for intrinsics
-    x86_3dnow_pavgusb = 8709,                         // llvm.x86.3dnow.pavgusb
+    x86_3dnow_pavgusb = 8721,                         // llvm.x86.3dnow.pavgusb
     x86_3dnow_pf2id,                           // llvm.x86.3dnow.pf2id
     x86_3dnow_pfacc,                           // llvm.x86.3dnow.pfacc
     x86_3dnow_pfadd,                           // llvm.x86.3dnow.pfadd
@@ -1114,11 +1114,15 @@ enum X86Intrinsics : unsigned {
     x86_tbm_bextri_u32,                        // llvm.x86.tbm.bextri.u32
     x86_tbm_bextri_u64,                        // llvm.x86.tbm.bextri.u64
     x86_tdpbf16ps,                             // llvm.x86.tdpbf16ps
+    x86_tdpbf16ps_internal,                    // llvm.x86.tdpbf16ps.internal
     x86_tdpbssd,                               // llvm.x86.tdpbssd
     x86_tdpbssd_internal,                      // llvm.x86.tdpbssd.internal
     x86_tdpbsud,                               // llvm.x86.tdpbsud
+    x86_tdpbsud_internal,                      // llvm.x86.tdpbsud.internal
     x86_tdpbusd,                               // llvm.x86.tdpbusd
+    x86_tdpbusd_internal,                      // llvm.x86.tdpbusd.internal
     x86_tdpbuud,                               // llvm.x86.tdpbuud
+    x86_tdpbuud_internal,                      // llvm.x86.tdpbuud.internal
     x86_testui,                                // llvm.x86.testui
     x86_tileloadd64,                           // llvm.x86.tileloadd64
     x86_tileloadd64_internal,                  // llvm.x86.tileloadd64.internal
