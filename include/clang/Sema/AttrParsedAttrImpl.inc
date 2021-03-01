@@ -93,6 +93,12 @@ static bool isNonStaticNonConstCXXMethod(const Decl *D) {
   return false;
 }
 
+static bool isNonLocalVar(const Decl *D) {
+  if (const auto *S = dyn_cast<VarDecl>(D))
+    return !S->hasLocalStorage();
+  return false;
+}
+
 static bool isFunctionTmpl(const Decl *D) {
   if (const auto *S = dyn_cast<FunctionDecl>(D))
     return S->getTemplatedKind() ==
@@ -103,12 +109,6 @@ static bool isFunctionTmpl(const Decl *D) {
 static bool isTLSVar(const Decl *D) {
   if (const auto *S = dyn_cast<VarDecl>(D))
     return S->getTLSKind() != 0;
-  return false;
-}
-
-static bool isNonLocalVar(const Decl *D) {
-  if (const auto *S = dyn_cast<VarDecl>(D))
-    return !S->hasLocalStorage();
   return false;
 }
 
@@ -8721,6 +8721,41 @@ void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectM
 static const ParsedAttrInfoRestrict Instance;
 };
 const ParsedAttrInfoRestrict ParsedAttrInfoRestrict::Instance;
+static constexpr ParsedAttrInfo::Spelling RetainSpellings[] = {
+  {AttributeCommonInfo::AS_GNU, "retain"},
+  {AttributeCommonInfo::AS_CXX11, "gnu::retain"},
+  {AttributeCommonInfo::AS_C2x, "gnu::retain"},
+};
+struct ParsedAttrInfoRetain final : public ParsedAttrInfo {
+  ParsedAttrInfoRetain() {
+    AttrKind = ParsedAttr::AT_Retain;
+    NumArgs = 0;
+    OptArgs = 0;
+    HasCustomParsing = 0;
+    IsTargetSpecific = 0;
+    IsType = 0;
+    IsStmt = 0;
+    IsKnownToGCC = 1;
+    IsSupportedByPragmaAttribute = 0;
+    Spellings = RetainSpellings;
+  }
+bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const override {
+  if (!isNonLocalVar(D) && !isa<FunctionDecl>(D) && !isa<ObjCMethodDecl>(D)) {
+    S.Diag(Attr.getLoc(), diag::warn_attribute_wrong_decl_type_str)
+      << Attr << "variables with non-local storage, functions, and Objective-C methods";
+    return false;
+  }
+  return true;
+}
+
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) RetainAttr(S.Context, Attr));
+  return AttributeApplied;
+}
+
+static const ParsedAttrInfoRetain Instance;
+};
+const ParsedAttrInfoRetain ParsedAttrInfoRetain::Instance;
 static constexpr ParsedAttrInfo::Spelling ReturnTypestateSpellings[] = {
   {AttributeCommonInfo::AS_GNU, "return_typestate"},
   {AttributeCommonInfo::AS_CXX11, "clang::return_typestate"},
@@ -11188,6 +11223,7 @@ static const ParsedAttrInfo *AttrInfoMap[] = {
 &ParsedAttrInfoReqdWorkGroupSize::Instance,
 &ParsedAttrInfoRequiresCapability::Instance,
 &ParsedAttrInfoRestrict::Instance,
+&ParsedAttrInfoRetain::Instance,
 &ParsedAttrInfoReturnTypestate::Instance,
 &ParsedAttrInfoReturnsNonNull::Instance,
 &ParsedAttrInfoReturnsTwice::Instance,

@@ -9174,6 +9174,35 @@ public:
   static bool classof(const Attr *A) { return A->getKind() == attr::Restrict; }
 };
 
+class RetainAttr : public InheritableAttr {
+public:
+  enum Spelling {
+    GNU_retain = 0,
+    CXX11_gnu_retain = 1,
+    C2x_gnu_retain = 2,
+  SpellingNotCalculated = 15
+
+  };
+
+  // Factory methods
+  static RetainAttr *CreateImplicit(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo = {SourceRange{}});
+  static RetainAttr *Create(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo);
+  static RetainAttr *CreateImplicit(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax);
+  static RetainAttr *Create(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax);
+
+  // Constructors
+  RetainAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+             );
+
+  RetainAttr *clone(ASTContext &C) const;
+  void printPretty(raw_ostream &OS,
+                   const PrintingPolicy &Policy) const;
+  const char *getSpelling() const;
+
+
+  static bool classof(const Attr *A) { return A->getKind() == attr::Retain; }
+};
+
 class ReturnTypestateAttr : public InheritableAttr {
 public:
   enum ConsumedState {

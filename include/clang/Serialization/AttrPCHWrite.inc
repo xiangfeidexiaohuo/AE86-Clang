@@ -1981,6 +1981,13 @@ Record.push_back(SA->getInterrupt());
     Record.push_back(A->isPackExpansion());
     break;
   }
+  case attr::Retain: {
+    const auto *SA = cast<RetainAttr>(A);
+    Record.push_back(SA->isInherited());
+    Record.push_back(A->isImplicit());
+    Record.push_back(A->isPackExpansion());
+    break;
+  }
   case attr::ReturnTypestate: {
     const auto *SA = cast<ReturnTypestateAttr>(A);
     Record.push_back(SA->isInherited());

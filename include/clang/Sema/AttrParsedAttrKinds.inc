@@ -103,7 +103,7 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       break;
     }
     break;
-  case 6:	 // 16 strings to match.
+  case 6:	 // 17 strings to match.
     switch (Name[0]) {
     default: break;
     case 'a':	 // 1 string to match.
@@ -166,6 +166,10 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
         return AttributeCommonInfo::AT_Pascal;	 // "pascal"
       }
       break;
+    case 'r':	 // 1 string to match.
+      if (memcmp(Name.data()+1, "etain", 5) != 0)
+        break;
+      return AttributeCommonInfo::AT_Retain;	 // "retain"
     case 's':	 // 2 strings to match.
       switch (Name[1]) {
       default: break;
@@ -2263,14 +2267,14 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       break;
     }
     break;
-  case 11:	 // 10 strings to match.
+  case 11:	 // 11 strings to match.
     switch (Name[0]) {
     default: break;
     case 'f':	 // 1 string to match.
       if (memcmp(Name.data()+1, "allthrough", 10) != 0)
         break;
       return AttributeCommonInfo::AT_FallThrough;	 // "fallthrough"
-    case 'g':	 // 9 strings to match.
+    case 'g':	 // 10 strings to match.
       if (memcmp(Name.data()+1, "nu::", 4) != 0)
         break;
       switch (Name[5]) {
@@ -2304,6 +2308,10 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
         if (memcmp(Name.data()+6, "acked", 5) != 0)
           break;
         return AttributeCommonInfo::AT_Packed;	 // "gnu::packed"
+      case 'r':	 // 1 string to match.
+        if (memcmp(Name.data()+6, "etain", 5) != 0)
+          break;
+        return AttributeCommonInfo::AT_Retain;	 // "gnu::retain"
       case 's':	 // 1 string to match.
         if (memcmp(Name.data()+6, "ignal", 5) != 0)
           break;
@@ -4020,14 +4028,14 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       break;
     }
     break;
-  case 11:	 // 10 strings to match.
+  case 11:	 // 11 strings to match.
     switch (Name[0]) {
     default: break;
     case 'f':	 // 1 string to match.
       if (memcmp(Name.data()+1, "allthrough", 10) != 0)
         break;
       return AttributeCommonInfo::AT_FallThrough;	 // "fallthrough"
-    case 'g':	 // 9 strings to match.
+    case 'g':	 // 10 strings to match.
       if (memcmp(Name.data()+1, "nu::", 4) != 0)
         break;
       switch (Name[5]) {
@@ -4061,6 +4069,10 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
         if (memcmp(Name.data()+6, "acked", 5) != 0)
           break;
         return AttributeCommonInfo::AT_Packed;	 // "gnu::packed"
+      case 'r':	 // 1 string to match.
+        if (memcmp(Name.data()+6, "etain", 5) != 0)
+          break;
+        return AttributeCommonInfo::AT_Retain;	 // "gnu::retain"
       case 's':	 // 1 string to match.
         if (memcmp(Name.data()+6, "ignal", 5) != 0)
           break;

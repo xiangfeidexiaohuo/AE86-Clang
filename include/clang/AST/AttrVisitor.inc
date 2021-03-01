@@ -1060,6 +1060,10 @@
   bool VisitRestrictAttr(RestrictAttr *A) {
     return true; 
   }
+  bool TraverseRetainAttr(RetainAttr *A);
+  bool VisitRetainAttr(RetainAttr *A) {
+    return true; 
+  }
   bool TraverseReturnTypestateAttr(ReturnTypestateAttr *A);
   bool VisitReturnTypestateAttr(ReturnTypestateAttr *A) {
     return true; 
@@ -3894,6 +3898,15 @@ bool VISITORCLASS<Derived>::TraverseRestrictAttr(RestrictAttr *A) {
 }
 
 template <typename Derived>
+bool VISITORCLASS<Derived>::TraverseRetainAttr(RetainAttr *A) {
+  if (!getDerived().VisitAttr(A))
+    return false;
+  if (!getDerived().VisitRetainAttr(A))
+    return false;
+  return true;
+}
+
+template <typename Derived>
 bool VISITORCLASS<Derived>::TraverseReturnTypestateAttr(ReturnTypestateAttr *A) {
   if (!getDerived().VisitAttr(A))
     return false;
@@ -5072,6 +5085,8 @@ bool VISITORCLASS<Derived>::TraverseAttr(Attr *A) {
       return getDerived().TraverseRequiresCapabilityAttr(cast<RequiresCapabilityAttr>(A));
     case attr::Restrict:
       return getDerived().TraverseRestrictAttr(cast<RestrictAttr>(A));
+    case attr::Retain:
+      return getDerived().TraverseRetainAttr(cast<RetainAttr>(A));
     case attr::ReturnTypestate:
       return getDerived().TraverseReturnTypestateAttr(cast<ReturnTypestateAttr>(A));
     case attr::ReturnsNonNull:

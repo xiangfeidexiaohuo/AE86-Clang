@@ -2151,6 +2151,15 @@
         return 3;
     break;
   }
+  case AT_Retain: {
+    if (Name == "retain" && getSyntax() == AttributeCommonInfo::AS_GNU && Scope == "")
+        return 0;
+    if (Name == "retain" && getSyntax() == AttributeCommonInfo::AS_CXX11 && Scope == "gnu")
+        return 1;
+    if (Name == "retain" && getSyntax() == AttributeCommonInfo::AS_C2x && Scope == "gnu")
+        return 2;
+    break;
+  }
   case AT_ReturnTypestate: {
     if (Name == "return_typestate" && getSyntax() == AttributeCommonInfo::AS_GNU && Scope == "")
         return 0;

@@ -2820,6 +2820,16 @@
     New->setPackExpansion(isPackExpansion);
     break;
   }
+  case attr::Retain: {
+    bool isInherited = Record.readInt();
+    bool isImplicit = Record.readInt();
+    bool isPackExpansion = Record.readInt();
+    New = new (Context) RetainAttr(Context, Info);
+    cast<InheritableAttr>(New)->setInherited(isInherited);
+    New->setImplicit(isImplicit);
+    New->setPackExpansion(isPackExpansion);
+    break;
+  }
   case attr::ReturnTypestate: {
     bool isInherited = Record.readInt();
     bool isImplicit = Record.readInt();

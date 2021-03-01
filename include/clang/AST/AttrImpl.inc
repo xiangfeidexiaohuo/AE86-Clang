@@ -23683,6 +23683,87 @@ const char *RestrictAttr::getSpelling() const {
 }
 
 
+// RetainAttr implementation
+
+RetainAttr *RetainAttr::CreateImplicit(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo) {
+  auto *A = new (Ctx) RetainAttr(Ctx, CommonInfo);
+  A->setImplicit(true);
+  if (!A->isAttributeSpellingListCalculated() && !A->getAttrName())
+    A->setAttributeSpellingListIndex(0);
+  return A;
+}
+
+RetainAttr *RetainAttr::Create(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo) {
+  auto *A = new (Ctx) RetainAttr(Ctx, CommonInfo);
+  if (!A->isAttributeSpellingListCalculated() && !A->getAttrName())
+    A->setAttributeSpellingListIndex(0);
+  return A;
+}
+
+RetainAttr *RetainAttr::CreateImplicit(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax) {
+  AttributeCommonInfo I(Range, NoSemaHandlerAttribute, Syntax);
+  return CreateImplicit(Ctx, I);
+}
+
+RetainAttr *RetainAttr::Create(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax) {
+  AttributeCommonInfo I(Range, NoSemaHandlerAttribute, Syntax);
+  return Create(Ctx, I);
+}
+
+RetainAttr::RetainAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+             )
+  : InheritableAttr(Ctx, CommonInfo, attr::Retain, false, false)
+  {
+}
+
+RetainAttr *RetainAttr::clone(ASTContext &C) const {
+  auto *A = new (C) RetainAttr(C, *this);
+  A->Inherited = Inherited;
+  A->IsPackExpansion = IsPackExpansion;
+  A->setImplicit(Implicit);
+  return A;
+}
+
+void RetainAttr::printPretty(raw_ostream &OS, const PrintingPolicy &Policy) const {
+  bool IsFirstArgument = true; (void)IsFirstArgument;
+  unsigned TrailingOmittedArgs = 0; (void)TrailingOmittedArgs;
+  switch (getAttributeSpellingListIndex()) {
+  default:
+    llvm_unreachable("Unknown attribute spelling!");
+    break;
+  case 0 : {
+    OS << " __attribute__((retain";
+    OS << "))";
+    break;
+  }
+  case 1 : {
+    OS << " [[gnu::retain";
+    OS << "]]";
+    break;
+  }
+  case 2 : {
+    OS << " [[gnu::retain";
+    OS << "]]";
+    break;
+  }
+}
+}
+
+const char *RetainAttr::getSpelling() const {
+  switch (getAttributeSpellingListIndex()) {
+  default:
+    llvm_unreachable("Unknown attribute spelling!");
+    return "(No spelling)";
+  case 0:
+    return "retain";
+  case 1:
+    return "retain";
+  case 2:
+    return "retain";
+  }
+}
+
+
 // ReturnTypestateAttr implementation
 
 ReturnTypestateAttr *ReturnTypestateAttr::CreateImplicit(ASTContext &Ctx, ConsumedState State, const AttributeCommonInfo &CommonInfo) {
@@ -30548,6 +30629,8 @@ const char *Attr::getSpelling() const {
     return cast<RequiresCapabilityAttr>(this)->getSpelling();
   case attr::Restrict:
     return cast<RestrictAttr>(this)->getSpelling();
+  case attr::Retain:
+    return cast<RetainAttr>(this)->getSpelling();
   case attr::ReturnTypestate:
     return cast<ReturnTypestateAttr>(this)->getSpelling();
   case attr::ReturnsNonNull:
@@ -31218,6 +31301,8 @@ Attr *Attr::clone(ASTContext &C) const {
     return cast<RequiresCapabilityAttr>(this)->clone(C);
   case attr::Restrict:
     return cast<RestrictAttr>(this)->clone(C);
+  case attr::Retain:
+    return cast<RetainAttr>(this)->clone(C);
   case attr::ReturnTypestate:
     return cast<ReturnTypestateAttr>(this)->clone(C);
   case attr::ReturnsNonNull:
@@ -31888,6 +31973,8 @@ void Attr::printPretty(raw_ostream &OS, const PrintingPolicy &Policy) const {
     return cast<RequiresCapabilityAttr>(this)->printPretty(OS, Policy);
   case attr::Restrict:
     return cast<RestrictAttr>(this)->printPretty(OS, Policy);
+  case attr::Retain:
+    return cast<RetainAttr>(this)->printPretty(OS, Policy);
   case attr::ReturnTypestate:
     return cast<ReturnTypestateAttr>(this)->printPretty(OS, Policy);
   case attr::ReturnsNonNull:

@@ -1246,6 +1246,10 @@ Attr *instantiateTemplateAttribute(const Attr *At, ASTContext &C, Sema &S,
       const auto *A = cast<RestrictAttr>(At);
       return A->clone(C);
     }
+    case attr::Retain: {
+      const auto *A = cast<RetainAttr>(At);
+      return A->clone(C);
+    }
     case attr::ReturnTypestate: {
       const auto *A = cast<ReturnTypestateAttr>(At);
       return A->clone(C);
@@ -2368,6 +2372,9 @@ Attr *instantiateTemplateAttributeForDecl(const Attr *At,
       return nullptr;
     }
     case attr::Restrict: {
+      return nullptr;
+    }
+    case attr::Retain: {
       return nullptr;
     }
     case attr::ReturnTypestate: {
