@@ -120,6 +120,10 @@ enum AARCH64Intrinsics : unsigned {
     aarch64_neon_frecpe,                       // llvm.aarch64.neon.frecpe
     aarch64_neon_frecps,                       // llvm.aarch64.neon.frecps
     aarch64_neon_frecpx,                       // llvm.aarch64.neon.frecpx
+    aarch64_neon_frint32x,                     // llvm.aarch64.neon.frint32x
+    aarch64_neon_frint32z,                     // llvm.aarch64.neon.frint32z
+    aarch64_neon_frint64x,                     // llvm.aarch64.neon.frint64x
+    aarch64_neon_frint64z,                     // llvm.aarch64.neon.frint64z
     aarch64_neon_frintn,                       // llvm.aarch64.neon.frintn
     aarch64_neon_frsqrte,                      // llvm.aarch64.neon.frsqrte
     aarch64_neon_frsqrts,                      // llvm.aarch64.neon.frsqrts

@@ -13,7 +13,7 @@ namespace llvm {
 namespace Intrinsic {
 enum AMDGCNIntrinsics : unsigned {
 // Enum values for intrinsics
-    amdgcn_alignbit = 1185,                           // llvm.amdgcn.alignbit
+    amdgcn_alignbit = 1189,                           // llvm.amdgcn.alignbit
     amdgcn_alignbyte,                          // llvm.amdgcn.alignbyte
     amdgcn_atomic_dec,                         // llvm.amdgcn.atomic.dec
     amdgcn_atomic_inc,                         // llvm.amdgcn.atomic.inc
@@ -302,14 +302,14 @@ enum AMDGCNIntrinsics : unsigned {
     amdgcn_image_load_mip_2darray,             // llvm.amdgcn.image.load.mip.2darray
     amdgcn_image_load_mip_3d,                  // llvm.amdgcn.image.load.mip.3d
     amdgcn_image_load_mip_cube,                // llvm.amdgcn.image.load.mip.cube
-    amdgcn_image_msaa_load_1d,                 // llvm.amdgcn.image.msaa.load.1d
-    amdgcn_image_msaa_load_1darray,            // llvm.amdgcn.image.msaa.load.1darray
-    amdgcn_image_msaa_load_2d,                 // llvm.amdgcn.image.msaa.load.2d
-    amdgcn_image_msaa_load_2darray,            // llvm.amdgcn.image.msaa.load.2darray
-    amdgcn_image_msaa_load_2darraymsaa,        // llvm.amdgcn.image.msaa.load.2darraymsaa
-    amdgcn_image_msaa_load_2dmsaa,             // llvm.amdgcn.image.msaa.load.2dmsaa
-    amdgcn_image_msaa_load_3d,                 // llvm.amdgcn.image.msaa.load.3d
-    amdgcn_image_msaa_load_cube,               // llvm.amdgcn.image.msaa.load.cube
+    amdgcn_image_msaa_load_x_1d,               // llvm.amdgcn.image.msaa.load.x.1d
+    amdgcn_image_msaa_load_x_1darray,          // llvm.amdgcn.image.msaa.load.x.1darray
+    amdgcn_image_msaa_load_x_2d,               // llvm.amdgcn.image.msaa.load.x.2d
+    amdgcn_image_msaa_load_x_2darray,          // llvm.amdgcn.image.msaa.load.x.2darray
+    amdgcn_image_msaa_load_x_2darraymsaa,      // llvm.amdgcn.image.msaa.load.x.2darraymsaa
+    amdgcn_image_msaa_load_x_2dmsaa,           // llvm.amdgcn.image.msaa.load.x.2dmsaa
+    amdgcn_image_msaa_load_x_3d,               // llvm.amdgcn.image.msaa.load.x.3d
+    amdgcn_image_msaa_load_x_cube,             // llvm.amdgcn.image.msaa.load.x.cube
     amdgcn_image_sample_1d,                    // llvm.amdgcn.image.sample.1d
     amdgcn_image_sample_1darray,               // llvm.amdgcn.image.sample.1darray
     amdgcn_image_sample_2d,                    // llvm.amdgcn.image.sample.2d
@@ -668,6 +668,7 @@ enum AMDGCNIntrinsics : unsigned {
     amdgcn_s_memtime,                          // llvm.amdgcn.s.memtime
     amdgcn_s_sendmsg,                          // llvm.amdgcn.s.sendmsg
     amdgcn_s_sendmsghalt,                      // llvm.amdgcn.s.sendmsghalt
+    amdgcn_s_sethalt,                          // llvm.amdgcn.s.sethalt
     amdgcn_s_setreg,                           // llvm.amdgcn.s.setreg
     amdgcn_s_sleep,                            // llvm.amdgcn.s.sleep
     amdgcn_s_waitcnt,                          // llvm.amdgcn.s.waitcnt
@@ -683,6 +684,8 @@ enum AMDGCNIntrinsics : unsigned {
     amdgcn_sin,                                // llvm.amdgcn.sin
     amdgcn_softwqm,                            // llvm.amdgcn.softwqm
     amdgcn_sqrt,                               // llvm.amdgcn.sqrt
+    amdgcn_strict_wqm,                         // llvm.amdgcn.strict.wqm
+    amdgcn_strict_wwm,                         // llvm.amdgcn.strict.wwm
     amdgcn_struct_buffer_atomic_add,           // llvm.amdgcn.struct.buffer.atomic.add
     amdgcn_struct_buffer_atomic_and,           // llvm.amdgcn.struct.buffer.atomic.and
     amdgcn_struct_buffer_atomic_cmpswap,       // llvm.amdgcn.struct.buffer.atomic.cmpswap

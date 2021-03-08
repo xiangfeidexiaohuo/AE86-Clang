@@ -139,6 +139,12 @@ MSDEPENDENTEXISTSSTMT(MSDependentExistsStmt, Stmt)
 NULLSTMT(NullStmt, Stmt)
 #undef NULLSTMT
 
+#ifndef OMPCANONICALLOOP
+#  define OMPCANONICALLOOP(Type, Base) STMT(Type, Base)
+#endif
+OMPCANONICALLOOP(OMPCanonicalLoop, Stmt)
+#undef OMPCANONICALLOOP
+
 #ifndef OMPEXECUTABLEDIRECTIVE
 #  define OMPEXECUTABLEDIRECTIVE(Type, Base) STMT(Type, Base)
 #endif
