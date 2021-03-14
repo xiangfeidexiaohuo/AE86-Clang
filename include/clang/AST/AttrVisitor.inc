@@ -520,6 +520,10 @@
   bool VisitLoopHintAttr(LoopHintAttr *A) {
     return true; 
   }
+  bool TraverseM68kInterruptAttr(M68kInterruptAttr *A);
+  bool VisitM68kInterruptAttr(M68kInterruptAttr *A) {
+    return true; 
+  }
   bool TraverseMIGServerRoutineAttr(MIGServerRoutineAttr *A);
   bool VisitMIGServerRoutineAttr(MIGServerRoutineAttr *A) {
     return true; 
@@ -1110,6 +1114,10 @@
   }
   bool TraverseSpeculativeLoadHardeningAttr(SpeculativeLoadHardeningAttr *A);
   bool VisitSpeculativeLoadHardeningAttr(SpeculativeLoadHardeningAttr *A) {
+    return true; 
+  }
+  bool TraverseStandaloneDebugAttr(StandaloneDebugAttr *A);
+  bool VisitStandaloneDebugAttr(StandaloneDebugAttr *A) {
     return true; 
   }
   bool TraverseStdCallAttr(StdCallAttr *A);
@@ -2608,6 +2616,15 @@ bool VISITORCLASS<Derived>::TraverseLoopHintAttr(LoopHintAttr *A) {
 }
 
 template <typename Derived>
+bool VISITORCLASS<Derived>::TraverseM68kInterruptAttr(M68kInterruptAttr *A) {
+  if (!getDerived().VisitAttr(A))
+    return false;
+  if (!getDerived().VisitM68kInterruptAttr(A))
+    return false;
+  return true;
+}
+
+template <typename Derived>
 bool VISITORCLASS<Derived>::TraverseMIGServerRoutineAttr(MIGServerRoutineAttr *A) {
   if (!getDerived().VisitAttr(A))
     return false;
@@ -4025,6 +4042,15 @@ bool VISITORCLASS<Derived>::TraverseSpeculativeLoadHardeningAttr(SpeculativeLoad
 }
 
 template <typename Derived>
+bool VISITORCLASS<Derived>::TraverseStandaloneDebugAttr(StandaloneDebugAttr *A) {
+  if (!getDerived().VisitAttr(A))
+    return false;
+  if (!getDerived().VisitStandaloneDebugAttr(A))
+    return false;
+  return true;
+}
+
+template <typename Derived>
 bool VISITORCLASS<Derived>::TraverseStdCallAttr(StdCallAttr *A) {
   if (!getDerived().VisitAttr(A))
     return false;
@@ -4815,6 +4841,8 @@ bool VISITORCLASS<Derived>::TraverseAttr(Attr *A) {
       return getDerived().TraverseLocksExcludedAttr(cast<LocksExcludedAttr>(A));
     case attr::LoopHint:
       return getDerived().TraverseLoopHintAttr(cast<LoopHintAttr>(A));
+    case attr::M68kInterrupt:
+      return getDerived().TraverseM68kInterruptAttr(cast<M68kInterruptAttr>(A));
     case attr::MIGServerRoutine:
       return getDerived().TraverseMIGServerRoutineAttr(cast<MIGServerRoutineAttr>(A));
     case attr::MSABI:
@@ -5111,6 +5139,8 @@ bool VISITORCLASS<Derived>::TraverseAttr(Attr *A) {
       return getDerived().TraverseSharedTrylockFunctionAttr(cast<SharedTrylockFunctionAttr>(A));
     case attr::SpeculativeLoadHardening:
       return getDerived().TraverseSpeculativeLoadHardeningAttr(cast<SpeculativeLoadHardeningAttr>(A));
+    case attr::StandaloneDebug:
+      return getDerived().TraverseStandaloneDebugAttr(cast<StandaloneDebugAttr>(A));
     case attr::StdCall:
       return getDerived().TraverseStdCallAttr(cast<StdCallAttr>(A));
     case attr::StrictFP:

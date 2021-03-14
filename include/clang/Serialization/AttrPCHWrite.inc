@@ -1006,6 +1006,14 @@ Record.push_back(SA->getState());
     Record.AddStmt(SA->getValue());
     break;
   }
+  case attr::M68kInterrupt: {
+    const auto *SA = cast<M68kInterruptAttr>(A);
+    Record.push_back(SA->isInherited());
+    Record.push_back(A->isImplicit());
+    Record.push_back(A->isPackExpansion());
+    Record.push_back(SA->getNumber());
+    break;
+  }
   case attr::MIGServerRoutine: {
     const auto *SA = cast<MIGServerRoutineAttr>(A);
     Record.push_back(SA->isInherited());
@@ -2074,6 +2082,13 @@ Record.push_back(SA->getNewState());
   }
   case attr::SpeculativeLoadHardening: {
     const auto *SA = cast<SpeculativeLoadHardeningAttr>(A);
+    Record.push_back(SA->isInherited());
+    Record.push_back(A->isImplicit());
+    Record.push_back(A->isPackExpansion());
+    break;
+  }
+  case attr::StandaloneDebug: {
+    const auto *SA = cast<StandaloneDebugAttr>(A);
     Record.push_back(SA->isInherited());
     Record.push_back(A->isImplicit());
     Record.push_back(A->isPackExpansion());

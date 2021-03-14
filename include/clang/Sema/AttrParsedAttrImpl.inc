@@ -285,7 +285,7 @@ struct ParsedAttrInfoInterrupt final : public ParsedAttrInfo {
   }
 bool existsInTarget(const TargetInfo &Target) const override {
   const llvm::Triple &T = Target.getTriple(); (void)T;
-  return true && (T.getArch() == llvm::Triple::arm || T.getArch() == llvm::Triple::thumb || T.getArch() == llvm::Triple::armeb || T.getArch() == llvm::Triple::thumbeb || T.getArch() == llvm::Triple::avr || T.getArch() == llvm::Triple::x86 || T.getArch() == llvm::Triple::x86_64 || T.getArch() == llvm::Triple::msp430 || T.getArch() == llvm::Triple::mips || T.getArch() == llvm::Triple::mipsel || T.getArch() == llvm::Triple::riscv32 || T.getArch() == llvm::Triple::riscv64);
+  return true && (T.getArch() == llvm::Triple::arm || T.getArch() == llvm::Triple::thumb || T.getArch() == llvm::Triple::armeb || T.getArch() == llvm::Triple::thumbeb || T.getArch() == llvm::Triple::avr || T.getArch() == llvm::Triple::x86 || T.getArch() == llvm::Triple::x86_64 || T.getArch() == llvm::Triple::m68k || T.getArch() == llvm::Triple::msp430 || T.getArch() == llvm::Triple::mips || T.getArch() == llvm::Triple::mipsel || T.getArch() == llvm::Triple::riscv32 || T.getArch() == llvm::Triple::riscv64);
 }
 
 static const ParsedAttrInfoInterrupt Instance;
@@ -9162,6 +9162,53 @@ void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectM
 static const ParsedAttrInfoSpeculativeLoadHardening Instance;
 };
 const ParsedAttrInfoSpeculativeLoadHardening ParsedAttrInfoSpeculativeLoadHardening::Instance;
+static constexpr ParsedAttrInfo::Spelling StandaloneDebugSpellings[] = {
+  {AttributeCommonInfo::AS_GNU, "standalone_debug"},
+  {AttributeCommonInfo::AS_CXX11, "clang::standalone_debug"},
+};
+struct ParsedAttrInfoStandaloneDebug final : public ParsedAttrInfo {
+  ParsedAttrInfoStandaloneDebug() {
+    AttrKind = ParsedAttr::AT_StandaloneDebug;
+    NumArgs = 0;
+    OptArgs = 0;
+    HasCustomParsing = 0;
+    IsTargetSpecific = 0;
+    IsType = 0;
+    IsStmt = 0;
+    IsKnownToGCC = 0;
+    IsSupportedByPragmaAttribute = 1;
+    Spellings = StandaloneDebugSpellings;
+  }
+bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const override {
+  if (!isa<CXXRecordDecl>(D)) {
+    S.Diag(Attr.getLoc(), diag::warn_attribute_wrong_decl_type_str)
+      << Attr << "classes";
+    return false;
+  }
+  return true;
+}
+
+bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
+  auto &LangOpts = S.LangOpts;
+  if (LangOpts.CPlusPlus)
+    return true;
+
+  S.Diag(Attr.getLoc(), diag::warn_attribute_ignored) << Attr;
+  return false;
+}
+
+void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
+  MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_record, /*IsSupported=*/true));
+}
+
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) StandaloneDebugAttr(S.Context, Attr));
+  return AttributeApplied;
+}
+
+static const ParsedAttrInfoStandaloneDebug Instance;
+};
+const ParsedAttrInfoStandaloneDebug ParsedAttrInfoStandaloneDebug::Instance;
 static constexpr ParsedAttrInfo::Spelling StdCallSpellings[] = {
   {AttributeCommonInfo::AS_GNU, "stdcall"},
   {AttributeCommonInfo::AS_CXX11, "gnu::stdcall"},
@@ -11236,6 +11283,7 @@ static const ParsedAttrInfo *AttrInfoMap[] = {
 &ParsedAttrInfoSetTypestate::Instance,
 &ParsedAttrInfoSharedTrylockFunction::Instance,
 &ParsedAttrInfoSpeculativeLoadHardening::Instance,
+&ParsedAttrInfoStandaloneDebug::Instance,
 &ParsedAttrInfoStdCall::Instance,
 &ParsedAttrInfoStrictFP::Instance,
 &ParsedAttrInfoSuppress::Instance,

@@ -11805,6 +11805,81 @@ const char *LoopHintAttr::getSpelling() const {
 }
 
 
+// M68kInterruptAttr implementation
+
+M68kInterruptAttr *M68kInterruptAttr::CreateImplicit(ASTContext &Ctx, unsigned Number, const AttributeCommonInfo &CommonInfo) {
+  auto *A = new (Ctx) M68kInterruptAttr(Ctx, CommonInfo, Number);
+  A->setImplicit(true);
+  if (!A->isAttributeSpellingListCalculated() && !A->getAttrName())
+    A->setAttributeSpellingListIndex(0);
+  return A;
+}
+
+M68kInterruptAttr *M68kInterruptAttr::Create(ASTContext &Ctx, unsigned Number, const AttributeCommonInfo &CommonInfo) {
+  auto *A = new (Ctx) M68kInterruptAttr(Ctx, CommonInfo, Number);
+  if (!A->isAttributeSpellingListCalculated() && !A->getAttrName())
+    A->setAttributeSpellingListIndex(0);
+  return A;
+}
+
+M68kInterruptAttr *M68kInterruptAttr::CreateImplicit(ASTContext &Ctx, unsigned Number, SourceRange Range, AttributeCommonInfo::Syntax Syntax) {
+  AttributeCommonInfo I(Range, NoSemaHandlerAttribute, Syntax);
+  return CreateImplicit(Ctx, Number, I);
+}
+
+M68kInterruptAttr *M68kInterruptAttr::Create(ASTContext &Ctx, unsigned Number, SourceRange Range, AttributeCommonInfo::Syntax Syntax) {
+  AttributeCommonInfo I(Range, NoSemaHandlerAttribute, Syntax);
+  return Create(Ctx, Number, I);
+}
+
+M68kInterruptAttr::M68kInterruptAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+              , unsigned Number
+             )
+  : InheritableAttr(Ctx, CommonInfo, attr::M68kInterrupt, false, false)
+              , number(Number)
+  {
+}
+
+
+
+M68kInterruptAttr *M68kInterruptAttr::clone(ASTContext &C) const {
+  auto *A = new (C) M68kInterruptAttr(C, *this, number);
+  A->Inherited = Inherited;
+  A->IsPackExpansion = IsPackExpansion;
+  A->setImplicit(Implicit);
+  return A;
+}
+
+void M68kInterruptAttr::printPretty(raw_ostream &OS, const PrintingPolicy &Policy) const {
+  bool IsFirstArgument = true; (void)IsFirstArgument;
+  unsigned TrailingOmittedArgs = 0; (void)TrailingOmittedArgs;
+  switch (getAttributeSpellingListIndex()) {
+  default:
+    llvm_unreachable("Unknown attribute spelling!");
+    break;
+  case 0 : {
+    OS << " __attribute__((interrupt";
+    DelimitAttributeArgument(OS, IsFirstArgument);
+    OS << "" << getNumber() << "";
+    if (!IsFirstArgument)
+      OS << ")";
+    OS << "))";
+    break;
+  }
+}
+}
+
+const char *M68kInterruptAttr::getSpelling() const {
+  switch (getAttributeSpellingListIndex()) {
+  default:
+    llvm_unreachable("Unknown attribute spelling!");
+    return "(No spelling)";
+  case 0:
+    return "interrupt";
+  }
+}
+
+
 // MIGServerRoutineAttr implementation
 
 MIGServerRoutineAttr *MIGServerRoutineAttr::CreateImplicit(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo) {
@@ -24858,6 +24933,80 @@ const char *SpeculativeLoadHardeningAttr::getSpelling() const {
 }
 
 
+// StandaloneDebugAttr implementation
+
+StandaloneDebugAttr *StandaloneDebugAttr::CreateImplicit(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo) {
+  auto *A = new (Ctx) StandaloneDebugAttr(Ctx, CommonInfo);
+  A->setImplicit(true);
+  if (!A->isAttributeSpellingListCalculated() && !A->getAttrName())
+    A->setAttributeSpellingListIndex(0);
+  return A;
+}
+
+StandaloneDebugAttr *StandaloneDebugAttr::Create(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo) {
+  auto *A = new (Ctx) StandaloneDebugAttr(Ctx, CommonInfo);
+  if (!A->isAttributeSpellingListCalculated() && !A->getAttrName())
+    A->setAttributeSpellingListIndex(0);
+  return A;
+}
+
+StandaloneDebugAttr *StandaloneDebugAttr::CreateImplicit(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax) {
+  AttributeCommonInfo I(Range, NoSemaHandlerAttribute, Syntax);
+  return CreateImplicit(Ctx, I);
+}
+
+StandaloneDebugAttr *StandaloneDebugAttr::Create(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax) {
+  AttributeCommonInfo I(Range, NoSemaHandlerAttribute, Syntax);
+  return Create(Ctx, I);
+}
+
+StandaloneDebugAttr::StandaloneDebugAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+             )
+  : InheritableAttr(Ctx, CommonInfo, attr::StandaloneDebug, false, false)
+  {
+}
+
+StandaloneDebugAttr *StandaloneDebugAttr::clone(ASTContext &C) const {
+  auto *A = new (C) StandaloneDebugAttr(C, *this);
+  A->Inherited = Inherited;
+  A->IsPackExpansion = IsPackExpansion;
+  A->setImplicit(Implicit);
+  return A;
+}
+
+void StandaloneDebugAttr::printPretty(raw_ostream &OS, const PrintingPolicy &Policy) const {
+  bool IsFirstArgument = true; (void)IsFirstArgument;
+  unsigned TrailingOmittedArgs = 0; (void)TrailingOmittedArgs;
+  switch (getAttributeSpellingListIndex()) {
+  default:
+    llvm_unreachable("Unknown attribute spelling!");
+    break;
+  case 0 : {
+    OS << " __attribute__((standalone_debug";
+    OS << "))";
+    break;
+  }
+  case 1 : {
+    OS << " [[clang::standalone_debug";
+    OS << "]]";
+    break;
+  }
+}
+}
+
+const char *StandaloneDebugAttr::getSpelling() const {
+  switch (getAttributeSpellingListIndex()) {
+  default:
+    llvm_unreachable("Unknown attribute spelling!");
+    return "(No spelling)";
+  case 0:
+    return "standalone_debug";
+  case 1:
+    return "standalone_debug";
+  }
+}
+
+
 // StdCallAttr implementation
 
 StdCallAttr *StdCallAttr::CreateImplicit(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo) {
@@ -30359,6 +30508,8 @@ const char *Attr::getSpelling() const {
     return cast<LocksExcludedAttr>(this)->getSpelling();
   case attr::LoopHint:
     return cast<LoopHintAttr>(this)->getSpelling();
+  case attr::M68kInterrupt:
+    return cast<M68kInterruptAttr>(this)->getSpelling();
   case attr::MIGServerRoutine:
     return cast<MIGServerRoutineAttr>(this)->getSpelling();
   case attr::MSABI:
@@ -30655,6 +30806,8 @@ const char *Attr::getSpelling() const {
     return cast<SharedTrylockFunctionAttr>(this)->getSpelling();
   case attr::SpeculativeLoadHardening:
     return cast<SpeculativeLoadHardeningAttr>(this)->getSpelling();
+  case attr::StandaloneDebug:
+    return cast<StandaloneDebugAttr>(this)->getSpelling();
   case attr::StdCall:
     return cast<StdCallAttr>(this)->getSpelling();
   case attr::StrictFP:
@@ -31031,6 +31184,8 @@ Attr *Attr::clone(ASTContext &C) const {
     return cast<LocksExcludedAttr>(this)->clone(C);
   case attr::LoopHint:
     return cast<LoopHintAttr>(this)->clone(C);
+  case attr::M68kInterrupt:
+    return cast<M68kInterruptAttr>(this)->clone(C);
   case attr::MIGServerRoutine:
     return cast<MIGServerRoutineAttr>(this)->clone(C);
   case attr::MSABI:
@@ -31327,6 +31482,8 @@ Attr *Attr::clone(ASTContext &C) const {
     return cast<SharedTrylockFunctionAttr>(this)->clone(C);
   case attr::SpeculativeLoadHardening:
     return cast<SpeculativeLoadHardeningAttr>(this)->clone(C);
+  case attr::StandaloneDebug:
+    return cast<StandaloneDebugAttr>(this)->clone(C);
   case attr::StdCall:
     return cast<StdCallAttr>(this)->clone(C);
   case attr::StrictFP:
@@ -31703,6 +31860,8 @@ void Attr::printPretty(raw_ostream &OS, const PrintingPolicy &Policy) const {
     return cast<LocksExcludedAttr>(this)->printPretty(OS, Policy);
   case attr::LoopHint:
     return cast<LoopHintAttr>(this)->printPretty(OS, Policy);
+  case attr::M68kInterrupt:
+    return cast<M68kInterruptAttr>(this)->printPretty(OS, Policy);
   case attr::MIGServerRoutine:
     return cast<MIGServerRoutineAttr>(this)->printPretty(OS, Policy);
   case attr::MSABI:
@@ -31999,6 +32158,8 @@ void Attr::printPretty(raw_ostream &OS, const PrintingPolicy &Policy) const {
     return cast<SharedTrylockFunctionAttr>(this)->printPretty(OS, Policy);
   case attr::SpeculativeLoadHardening:
     return cast<SpeculativeLoadHardeningAttr>(this)->printPretty(OS, Policy);
+  case attr::StandaloneDebug:
+    return cast<StandaloneDebugAttr>(this)->printPretty(OS, Policy);
   case attr::StdCall:
     return cast<StdCallAttr>(this)->printPretty(OS, Policy);
   case attr::StrictFP:

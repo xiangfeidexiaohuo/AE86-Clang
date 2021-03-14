@@ -2258,6 +2258,13 @@
         return 2;
     break;
   }
+  case AT_StandaloneDebug: {
+    if (Name == "standalone_debug" && getSyntax() == AttributeCommonInfo::AS_GNU && Scope == "")
+        return 0;
+    if (Name == "standalone_debug" && getSyntax() == AttributeCommonInfo::AS_CXX11 && Scope == "clang")
+        return 1;
+    break;
+  }
   case AT_StdCall: {
     if (Name == "stdcall" && getSyntax() == AttributeCommonInfo::AS_GNU && Scope == "")
         return 0;

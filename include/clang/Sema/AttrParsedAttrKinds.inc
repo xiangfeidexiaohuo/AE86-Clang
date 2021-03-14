@@ -1192,7 +1192,7 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       return AttributeCommonInfo::AT_ReleaseCapability;	 // "unlock_function"
     }
     break;
-  case 16:	 // 9 strings to match.
+  case 16:	 // 10 strings to match.
     switch (Name[0]) {
     default: break;
     case 'e':	 // 1 string to match.
@@ -1232,10 +1232,19 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       if (memcmp(Name.data()+1, "eturn_typestate", 15) != 0)
         break;
       return AttributeCommonInfo::AT_ReturnTypestate;	 // "return_typestate"
-    case 's':	 // 1 string to match.
-      if (memcmp(Name.data()+1, "wift_async_name", 15) != 0)
-        break;
-      return AttributeCommonInfo::AT_SwiftAsyncName;	 // "swift_async_name"
+    case 's':	 // 2 strings to match.
+      switch (Name[1]) {
+      default: break;
+      case 't':	 // 1 string to match.
+        if (memcmp(Name.data()+2, "andalone_debug", 14) != 0)
+          break;
+        return AttributeCommonInfo::AT_StandaloneDebug;	 // "standalone_debug"
+      case 'w':	 // 1 string to match.
+        if (memcmp(Name.data()+2, "ift_async_name", 14) != 0)
+          break;
+        return AttributeCommonInfo::AT_SwiftAsyncName;	 // "swift_async_name"
+      }
+      break;
     }
     break;
   case 17:	 // 7 strings to match.
@@ -3283,10 +3292,10 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
       return AttributeCommonInfo::AT_TransparentUnion;	 // "gnu::transparent_union"
     }
     break;
-  case 23:	 // 10 strings to match.
+  case 23:	 // 11 strings to match.
     switch (Name[0]) {
     default: break;
-    case 'c':	 // 8 strings to match.
+    case 'c':	 // 9 strings to match.
       if (memcmp(Name.data()+1, "lang::", 6) != 0)
         break;
       switch (Name[7]) {
@@ -3328,6 +3337,10 @@ static AttributeCommonInfo::Kind getAttrKind(StringRef Name, AttributeCommonInfo
         if (memcmp(Name.data()+8, "eturn_typestate", 15) != 0)
           break;
         return AttributeCommonInfo::AT_ReturnTypestate;	 // "clang::return_typestate"
+      case 's':	 // 1 string to match.
+        if (memcmp(Name.data()+8, "tandalone_debug", 15) != 0)
+          break;
+        return AttributeCommonInfo::AT_StandaloneDebug;	 // "clang::standalone_debug"
       }
       break;
     case 'g':	 // 2 strings to match.

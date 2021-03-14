@@ -73,6 +73,7 @@ OPTION(nullptr, "<arm features group>", m_arm_Features_Group, Group, m_Group, IN
 OPTION(nullptr, "<hexagon features group>", m_hexagon_Features_Group, Group, m_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(nullptr, "<hexagon features group>", m_hexagon_Features_HVX_Group, Group, m_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(nullptr, "<m libc group>", m_libc_Group, Group, m_mips_Features_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
+OPTION(nullptr, "<m68k features group>", m_m68k_Features_Group, Group, m_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(nullptr, "<mips features group>", m_mips_Features_Group, Group, m_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(nullptr, "<ppc features group>", m_ppc_Features_Group, Group, m_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(nullptr, "<riscv features group>", m_riscv_Features_Group, Group, m_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
@@ -762,6 +763,8 @@ OPTION(prefix_1, &"-fdebug-default-version="[1], fdebug_default_version, Joined,
        "Default DWARF version to use, if a -g option caused DWARF debug info to be produced", nullptr, nullptr)
 OPTION(prefix_1, &"-fdebug-dump-parse-tree"[1], fdebug_dump_parse_tree, Flag, Action_Group, INVALID, nullptr, FC1Option | FlangOnlyOption, 0,
        "Dump the parse tree", nullptr, nullptr)
+OPTION(prefix_1, &"-fdebug-dump-parsing-log"[1], fdebug_dump_parsing_log, Flag, Action_Group, INVALID, nullptr, FC1Option | FlangOnlyOption, 0,
+       "Run instrumented parse and dump the parsing log", nullptr, nullptr)
 OPTION(prefix_1, &"-fdebug-dump-provenance"[1], fdebug_dump_provenance, Flag, Action_Group, INVALID, nullptr, FC1Option | FlangOnlyOption, 0,
        "Dump provenance", nullptr, nullptr)
 OPTION(prefix_1, &"-fdebug-dump-symbols"[1], fdebug_dump_symbols, Flag, Action_Group, INVALID, nullptr, FC1Option | FlangOnlyOption, 0,
@@ -772,6 +775,8 @@ OPTION(prefix_1, &"-fdebug-macro"[1], fdebug_macro, Flag, f_Group, INVALID, null
        "Emit macro debug information", nullptr, nullptr)
 OPTION(prefix_1, &"-fdebug-measure-parse-tree"[1], fdebug_measure_parse_tree, Flag, Action_Group, INVALID, nullptr, FC1Option | FlangOnlyOption, 0,
        "Measure the parse tree", nullptr, nullptr)
+OPTION(prefix_1, &"-fdebug-module-writer"[1], fdebug_module_writer, Flag, INVALID, INVALID, nullptr, FC1Option | FlangOnlyOption, 0,
+       "Enable debug messages while writing module files", nullptr, nullptr)
 OPTION(prefix_1, &"-fdebug-pass-arguments"[1], fdebug_pass_arguments, Flag, f_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-fdebug-pass-manager"[1], fdebug_pass_manager, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Prints debug information for the new pass manager", nullptr, nullptr)
@@ -2742,6 +2747,12 @@ OPTION(prefix_1, &"-m32"[1], m32, Flag, m_Group, INVALID, nullptr, NoXarchOption
 OPTION(prefix_1, &"-m3dnowa"[1], m3dnowa, Flag, m_x86_Features_Group, INVALID, nullptr, CoreOption, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-m3dnow"[1], m3dnow, Flag, m_x86_Features_Group, INVALID, nullptr, CoreOption, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-m64"[1], m64, Flag, m_Group, INVALID, nullptr, NoXarchOption | CoreOption, 0, nullptr, nullptr, nullptr)
+OPTION(prefix_1, &"-m68000"[1], m68000, Flag, m_m68k_Features_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
+OPTION(prefix_1, &"-m68010"[1], m68010, Flag, m_m68k_Features_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
+OPTION(prefix_1, &"-m68020"[1], m68020, Flag, m_m68k_Features_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
+OPTION(prefix_1, &"-m68030"[1], m68030, Flag, m_m68k_Features_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
+OPTION(prefix_1, &"-m68040"[1], m68040, Flag, m_m68k_Features_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
+OPTION(prefix_1, &"-m68060"[1], m68060, Flag, m_m68k_Features_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-m80387"[1], m80387, Flag, INVALID, mx87, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-mabi=ieeelongdouble"[1], mabi_EQ_ieeelongdouble, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Use IEEE 754 quadruple-precision for long double", nullptr, nullptr)
@@ -4118,7 +4129,8 @@ OPTION(prefix_1, &"-weak_library"[1], weak__library, Separate, INVALID, INVALID,
 OPTION(prefix_1, &"-weak_reference_mismatches"[1], weak__reference__mismatches, Separate, INVALID, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-Wframe-larger-than="[1], Wframe_larger_than_EQ, Joined, f_Group, INVALID, nullptr, NoXarchOption, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-whatsloaded"[1], whatsloaded, Flag, INVALID, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
-OPTION(prefix_1, &"-whyload"[1], whyload, Flag, INVALID, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
+OPTION(prefix_1, &"-why_load"[1], why_load, Flag, INVALID, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
+OPTION(prefix_1, &"-whyload"[1], whyload, Flag, INVALID, why_load, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_2, &"/winsdkdir"[1], _SLASH_winsdkdir, JoinedOrSeparate, cl_Group, INVALID, nullptr, CLOption | NoXarchOption | CLOption, 0,
        "Path to the Windows SDK", "<dir>", nullptr)
 OPTION(prefix_2, &"/winsdkversion"[1], _SLASH_winsdkversion, JoinedOrSeparate, cl_Group, INVALID, nullptr, CLOption | NoXarchOption | CLOption, 0,

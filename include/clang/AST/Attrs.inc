@@ -4704,6 +4704,34 @@ public:
   static bool classof(const Attr *A) { return A->getKind() == attr::LoopHint; }
 };
 
+class M68kInterruptAttr : public InheritableAttr {
+unsigned number;
+
+public:
+  // Factory methods
+  static M68kInterruptAttr *CreateImplicit(ASTContext &Ctx, unsigned Number, const AttributeCommonInfo &CommonInfo = {SourceRange{}});
+  static M68kInterruptAttr *Create(ASTContext &Ctx, unsigned Number, const AttributeCommonInfo &CommonInfo);
+  static M68kInterruptAttr *CreateImplicit(ASTContext &Ctx, unsigned Number, SourceRange Range, AttributeCommonInfo::Syntax Syntax);
+  static M68kInterruptAttr *Create(ASTContext &Ctx, unsigned Number, SourceRange Range, AttributeCommonInfo::Syntax Syntax);
+
+  // Constructors
+  M68kInterruptAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+              , unsigned Number
+             );
+
+  M68kInterruptAttr *clone(ASTContext &C) const;
+  void printPretty(raw_ostream &OS,
+                   const PrintingPolicy &Policy) const;
+  const char *getSpelling() const;
+  unsigned getNumber() const {
+    return number;
+  }
+
+
+
+  static bool classof(const Attr *A) { return A->getKind() == attr::M68kInterrupt; }
+};
+
 class MIGServerRoutineAttr : public InheritableAttr {
 public:
   enum Spelling {
@@ -9623,6 +9651,34 @@ public:
 
 
   static bool classof(const Attr *A) { return A->getKind() == attr::SpeculativeLoadHardening; }
+};
+
+class StandaloneDebugAttr : public InheritableAttr {
+public:
+  enum Spelling {
+    GNU_standalone_debug = 0,
+    CXX11_clang_standalone_debug = 1,
+  SpellingNotCalculated = 15
+
+  };
+
+  // Factory methods
+  static StandaloneDebugAttr *CreateImplicit(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo = {SourceRange{}});
+  static StandaloneDebugAttr *Create(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo);
+  static StandaloneDebugAttr *CreateImplicit(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax);
+  static StandaloneDebugAttr *Create(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax);
+
+  // Constructors
+  StandaloneDebugAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+             );
+
+  StandaloneDebugAttr *clone(ASTContext &C) const;
+  void printPretty(raw_ostream &OS,
+                   const PrintingPolicy &Policy) const;
+  const char *getSpelling() const;
+
+
+  static bool classof(const Attr *A) { return A->getKind() == attr::StandaloneDebug; }
 };
 
 class StdCallAttr : public InheritableAttr {

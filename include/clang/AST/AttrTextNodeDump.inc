@@ -359,6 +359,10 @@
       break;
     }
   }
+  void VisitM68kInterruptAttr(const M68kInterruptAttr *A) {
+    const auto *SA = cast<M68kInterruptAttr>(A); (void)SA;
+    OS << " " << SA->getNumber();
+  }
   void VisitMSInheritanceAttr(const MSInheritanceAttr *A) {
     const auto *SA = cast<MSInheritanceAttr>(A); (void)SA;
     OS << " " << A->getSpelling();

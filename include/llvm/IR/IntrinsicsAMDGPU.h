@@ -13,7 +13,7 @@ namespace llvm {
 namespace Intrinsic {
 enum AMDGCNIntrinsics : unsigned {
 // Enum values for intrinsics
-    amdgcn_alignbit = 1189,                           // llvm.amdgcn.alignbit
+    amdgcn_alignbit = 1195,                           // llvm.amdgcn.alignbit
     amdgcn_alignbyte,                          // llvm.amdgcn.alignbyte
     amdgcn_atomic_dec,                         // llvm.amdgcn.atomic.dec
     amdgcn_atomic_inc,                         // llvm.amdgcn.atomic.inc
@@ -302,14 +302,8 @@ enum AMDGCNIntrinsics : unsigned {
     amdgcn_image_load_mip_2darray,             // llvm.amdgcn.image.load.mip.2darray
     amdgcn_image_load_mip_3d,                  // llvm.amdgcn.image.load.mip.3d
     amdgcn_image_load_mip_cube,                // llvm.amdgcn.image.load.mip.cube
-    amdgcn_image_msaa_load_x_1d,               // llvm.amdgcn.image.msaa.load.x.1d
-    amdgcn_image_msaa_load_x_1darray,          // llvm.amdgcn.image.msaa.load.x.1darray
-    amdgcn_image_msaa_load_x_2d,               // llvm.amdgcn.image.msaa.load.x.2d
-    amdgcn_image_msaa_load_x_2darray,          // llvm.amdgcn.image.msaa.load.x.2darray
     amdgcn_image_msaa_load_x_2darraymsaa,      // llvm.amdgcn.image.msaa.load.x.2darraymsaa
     amdgcn_image_msaa_load_x_2dmsaa,           // llvm.amdgcn.image.msaa.load.x.2dmsaa
-    amdgcn_image_msaa_load_x_3d,               // llvm.amdgcn.image.msaa.load.x.3d
-    amdgcn_image_msaa_load_x_cube,             // llvm.amdgcn.image.msaa.load.x.cube
     amdgcn_image_sample_1d,                    // llvm.amdgcn.image.sample.1d
     amdgcn_image_sample_1darray,               // llvm.amdgcn.image.sample.1darray
     amdgcn_image_sample_2d,                    // llvm.amdgcn.image.sample.2d

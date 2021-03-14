@@ -1416,6 +1416,17 @@
     New->setPackExpansion(isPackExpansion);
     break;
   }
+  case attr::M68kInterrupt: {
+    bool isInherited = Record.readInt();
+    bool isImplicit = Record.readInt();
+    bool isPackExpansion = Record.readInt();
+    unsigned number = Record.readInt();
+    New = new (Context) M68kInterruptAttr(Context, Info, number);
+    cast<InheritableAttr>(New)->setInherited(isInherited);
+    New->setImplicit(isImplicit);
+    New->setPackExpansion(isPackExpansion);
+    break;
+  }
   case attr::MIGServerRoutine: {
     bool isInherited = Record.readInt();
     bool isImplicit = Record.readInt();
@@ -2954,6 +2965,16 @@
     bool isImplicit = Record.readInt();
     bool isPackExpansion = Record.readInt();
     New = new (Context) SpeculativeLoadHardeningAttr(Context, Info);
+    cast<InheritableAttr>(New)->setInherited(isInherited);
+    New->setImplicit(isImplicit);
+    New->setPackExpansion(isPackExpansion);
+    break;
+  }
+  case attr::StandaloneDebug: {
+    bool isInherited = Record.readInt();
+    bool isImplicit = Record.readInt();
+    bool isPackExpansion = Record.readInt();
+    New = new (Context) StandaloneDebugAttr(Context, Info);
     cast<InheritableAttr>(New)->setInherited(isInherited);
     New->setImplicit(isImplicit);
     New->setPackExpansion(isPackExpansion);
