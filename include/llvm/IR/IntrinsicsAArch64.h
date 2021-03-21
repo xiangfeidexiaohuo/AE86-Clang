@@ -128,7 +128,6 @@ enum AARCH64Intrinsics : unsigned {
     aarch64_neon_frint32z,                     // llvm.aarch64.neon.frint32z
     aarch64_neon_frint64x,                     // llvm.aarch64.neon.frint64x
     aarch64_neon_frint64z,                     // llvm.aarch64.neon.frint64z
-    aarch64_neon_frintn,                       // llvm.aarch64.neon.frintn
     aarch64_neon_frsqrte,                      // llvm.aarch64.neon.frsqrte
     aarch64_neon_frsqrts,                      // llvm.aarch64.neon.frsqrts
     aarch64_neon_ld1x2,                        // llvm.aarch64.neon.ld1x2
@@ -259,6 +258,8 @@ enum AARCH64Intrinsics : unsigned {
     aarch64_neon_vcvthf2fp,                    // llvm.aarch64.neon.vcvthf2fp
     aarch64_neon_vsli,                         // llvm.aarch64.neon.vsli
     aarch64_neon_vsri,                         // llvm.aarch64.neon.vsri
+    aarch64_rndr,                              // llvm.aarch64.rndr
+    aarch64_rndrrs,                            // llvm.aarch64.rndrrs
     aarch64_sdiv,                              // llvm.aarch64.sdiv
     aarch64_set_fpcr,                          // llvm.aarch64.set.fpcr
     aarch64_settag,                            // llvm.aarch64.settag

@@ -2167,6 +2167,26 @@ namespace omp {
 
   static OmpClauseSet requiredClauses_OMPD_workshare {
   };
+
+  // Sets for interop
+
+  static OmpClauseSet allowedClauses_OMPD_interop {
+    llvm::omp::Clause::OMPC_device,
+    llvm::omp::Clause::OMPC_depend,
+    llvm::omp::Clause::OMPC_destroy,
+    llvm::omp::Clause::OMPC_init,
+    llvm::omp::Clause::OMPC_nowait,
+    llvm::omp::Clause::OMPC_use,
+  };
+
+  static OmpClauseSet allowedOnceClauses_OMPD_interop {
+  };
+
+  static OmpClauseSet allowedExclusiveClauses_OMPD_interop {
+  };
+
+  static OmpClauseSet requiredClauses_OMPD_interop {
+  };
 } // namespace omp
 } // namespace llvm
 
@@ -2888,6 +2908,14 @@ namespace omp {
       llvm::omp::requiredClauses_OMPD_workshare,
     }
   },
+  {llvm::omp::Directive::OMPD_interop,
+    {
+      llvm::omp::allowedClauses_OMPD_interop,
+      llvm::omp::allowedOnceClauses_OMPD_interop,
+      llvm::omp::allowedExclusiveClauses_OMPD_interop,
+      llvm::omp::requiredClauses_OMPD_interop,
+    }
+  },
 }
 
 #endif // GEN_FLANG_DIRECTIVE_CLAUSE_MAP
@@ -2927,6 +2955,7 @@ WRAPPER_CLASS(If, OmpIfClause);
 EMPTY_CLASS(InReduction);
 EMPTY_CLASS(Inbranch);
 EMPTY_CLASS(Inclusive);
+EMPTY_CLASS(Init);
 WRAPPER_CLASS(IsDevicePtr, std::list<Name>);
 WRAPPER_CLASS(Lastprivate, OmpObjectList);
 WRAPPER_CLASS(Linear, OmpLinearClause);
@@ -2969,6 +2998,7 @@ WRAPPER_CLASS(Uniform, std::list<Name>);
 EMPTY_CLASS(Unknown);
 EMPTY_CLASS(Untied);
 EMPTY_CLASS(Update);
+EMPTY_CLASS(Use);
 EMPTY_CLASS(UseDeviceAddr);
 WRAPPER_CLASS(UseDevicePtr, std::list<Name>);
 EMPTY_CLASS(UsesAllocators);
@@ -3011,6 +3041,7 @@ AcqRel
 , InReduction
 , Inbranch
 , Inclusive
+, Init
 , IsDevicePtr
 , Lastprivate
 , Linear
@@ -3053,6 +3084,7 @@ AcqRel
 , Unknown
 , Untied
 , Update
+, Use
 , UseDeviceAddr
 , UseDevicePtr
 , UsesAllocators
@@ -3095,6 +3127,7 @@ NODE(OmpClause, If)
 NODE(OmpClause, InReduction)
 NODE(OmpClause, Inbranch)
 NODE(OmpClause, Inclusive)
+NODE(OmpClause, Init)
 NODE(OmpClause, IsDevicePtr)
 NODE(OmpClause, Lastprivate)
 NODE(OmpClause, Linear)
@@ -3137,6 +3170,7 @@ NODE(OmpClause, Uniform)
 NODE(OmpClause, Unknown)
 NODE(OmpClause, Untied)
 NODE(OmpClause, Update)
+NODE(OmpClause, Use)
 NODE(OmpClause, UseDeviceAddr)
 NODE(OmpClause, UseDevicePtr)
 NODE(OmpClause, UsesAllocators)
@@ -3262,6 +3296,7 @@ void Unparse(const OmpClause::If &x) {
 void Before(const OmpClause::InReduction &) { Word("IN_REDUCTION"); }
 void Before(const OmpClause::Inbranch &) { Word("INBRANCH"); }
 void Before(const OmpClause::Inclusive &) { Word("INCLUSIVE"); }
+void Before(const OmpClause::Init &) { Word("INIT"); }
 void Unparse(const OmpClause::IsDevicePtr &x) {
   Word("IS_DEVICE_PTR");
   Put("(");
@@ -3407,6 +3442,7 @@ void Unparse(const OmpClause::Uniform &x) {
 void Before(const OmpClause::Unknown &) { Word("UNKNOWN"); }
 void Before(const OmpClause::Untied &) { Word("UNTIED"); }
 void Before(const OmpClause::Update &) { Word("UPDATE"); }
+void Before(const OmpClause::Use &) { Word("USE"); }
 void Before(const OmpClause::UseDeviceAddr &) { Word("USE_DEVICE_ADDR"); }
 void Unparse(const OmpClause::UseDevicePtr &x) {
   Word("USE_DEVICE_PTR");
@@ -3454,6 +3490,7 @@ void Enter(const parser::OmpClause::If &);
 void Enter(const parser::OmpClause::InReduction &);
 void Enter(const parser::OmpClause::Inbranch &);
 void Enter(const parser::OmpClause::Inclusive &);
+void Enter(const parser::OmpClause::Init &);
 void Enter(const parser::OmpClause::IsDevicePtr &);
 void Enter(const parser::OmpClause::Lastprivate &);
 void Enter(const parser::OmpClause::Linear &);
@@ -3496,12 +3533,180 @@ void Enter(const parser::OmpClause::Uniform &);
 void Enter(const parser::OmpClause::Unknown &);
 void Enter(const parser::OmpClause::Untied &);
 void Enter(const parser::OmpClause::Update &);
+void Enter(const parser::OmpClause::Use &);
 void Enter(const parser::OmpClause::UseDeviceAddr &);
 void Enter(const parser::OmpClause::UseDevicePtr &);
 void Enter(const parser::OmpClause::UsesAllocators &);
 void Enter(const parser::OmpClause::Write &);
 
 #endif // GEN_FLANG_CLAUSE_CHECK_ENTER
+
+#ifdef GEN_FLANG_CLAUSE_PARSER_KIND_MAP
+#undef GEN_FLANG_CLAUSE_PARSER_KIND_MAP
+
+if constexpr (std::is_same_v<A, parser::OmpClause::AcqRel>)
+  return llvm::omp::Clause::OMPC_acq_rel;
+if constexpr (std::is_same_v<A, parser::OmpClause::Acquire>)
+  return llvm::omp::Clause::OMPC_acquire;
+if constexpr (std::is_same_v<A, parser::OmpClause::Affinity>)
+  return llvm::omp::Clause::OMPC_affinity;
+if constexpr (std::is_same_v<A, parser::OmpClause::Aligned>)
+  return llvm::omp::Clause::OMPC_aligned;
+if constexpr (std::is_same_v<A, parser::OmpClause::Allocate>)
+  return llvm::omp::Clause::OMPC_allocate;
+if constexpr (std::is_same_v<A, parser::OmpClause::Allocator>)
+  return llvm::omp::Clause::OMPC_allocator;
+if constexpr (std::is_same_v<A, parser::OmpClause::AtomicDefaultMemOrder>)
+  return llvm::omp::Clause::OMPC_atomic_default_mem_order;
+if constexpr (std::is_same_v<A, parser::OmpClause::Capture>)
+  return llvm::omp::Clause::OMPC_capture;
+if constexpr (std::is_same_v<A, parser::OmpClause::Collapse>)
+  return llvm::omp::Clause::OMPC_collapse;
+if constexpr (std::is_same_v<A, parser::OmpClause::Copyprivate>)
+  return llvm::omp::Clause::OMPC_copyprivate;
+if constexpr (std::is_same_v<A, parser::OmpClause::Copyin>)
+  return llvm::omp::Clause::OMPC_copyin;
+if constexpr (std::is_same_v<A, parser::OmpClause::Default>)
+  return llvm::omp::Clause::OMPC_default;
+if constexpr (std::is_same_v<A, parser::OmpClause::Defaultmap>)
+  return llvm::omp::Clause::OMPC_defaultmap;
+if constexpr (std::is_same_v<A, parser::OmpClause::Depend>)
+  return llvm::omp::Clause::OMPC_depend;
+if constexpr (std::is_same_v<A, parser::OmpClause::Depobj>)
+  return llvm::omp::Clause::OMPC_depobj;
+if constexpr (std::is_same_v<A, parser::OmpClause::Destroy>)
+  return llvm::omp::Clause::OMPC_destroy;
+if constexpr (std::is_same_v<A, parser::OmpClause::Detach>)
+  return llvm::omp::Clause::OMPC_detach;
+if constexpr (std::is_same_v<A, parser::OmpClause::Device>)
+  return llvm::omp::Clause::OMPC_device;
+if constexpr (std::is_same_v<A, parser::OmpClause::DeviceType>)
+  return llvm::omp::Clause::OMPC_device_type;
+if constexpr (std::is_same_v<A, parser::OmpClause::DistSchedule>)
+  return llvm::omp::Clause::OMPC_dist_schedule;
+if constexpr (std::is_same_v<A, parser::OmpClause::DynamicAllocators>)
+  return llvm::omp::Clause::OMPC_dynamic_allocators;
+if constexpr (std::is_same_v<A, parser::OmpClause::Exclusive>)
+  return llvm::omp::Clause::OMPC_exclusive;
+if constexpr (std::is_same_v<A, parser::OmpClause::Final>)
+  return llvm::omp::Clause::OMPC_final;
+if constexpr (std::is_same_v<A, parser::OmpClause::Firstprivate>)
+  return llvm::omp::Clause::OMPC_firstprivate;
+if constexpr (std::is_same_v<A, parser::OmpClause::Flush>)
+  return llvm::omp::Clause::OMPC_flush;
+if constexpr (std::is_same_v<A, parser::OmpClause::From>)
+  return llvm::omp::Clause::OMPC_from;
+if constexpr (std::is_same_v<A, parser::OmpClause::Grainsize>)
+  return llvm::omp::Clause::OMPC_grainsize;
+if constexpr (std::is_same_v<A, parser::OmpClause::Hint>)
+  return llvm::omp::Clause::OMPC_hint;
+if constexpr (std::is_same_v<A, parser::OmpClause::If>)
+  return llvm::omp::Clause::OMPC_if;
+if constexpr (std::is_same_v<A, parser::OmpClause::InReduction>)
+  return llvm::omp::Clause::OMPC_in_reduction;
+if constexpr (std::is_same_v<A, parser::OmpClause::Inbranch>)
+  return llvm::omp::Clause::OMPC_inbranch;
+if constexpr (std::is_same_v<A, parser::OmpClause::Inclusive>)
+  return llvm::omp::Clause::OMPC_inclusive;
+if constexpr (std::is_same_v<A, parser::OmpClause::Init>)
+  return llvm::omp::Clause::OMPC_init;
+if constexpr (std::is_same_v<A, parser::OmpClause::IsDevicePtr>)
+  return llvm::omp::Clause::OMPC_is_device_ptr;
+if constexpr (std::is_same_v<A, parser::OmpClause::Lastprivate>)
+  return llvm::omp::Clause::OMPC_lastprivate;
+if constexpr (std::is_same_v<A, parser::OmpClause::Linear>)
+  return llvm::omp::Clause::OMPC_linear;
+if constexpr (std::is_same_v<A, parser::OmpClause::Link>)
+  return llvm::omp::Clause::OMPC_link;
+if constexpr (std::is_same_v<A, parser::OmpClause::Map>)
+  return llvm::omp::Clause::OMPC_map;
+if constexpr (std::is_same_v<A, parser::OmpClause::Match>)
+  return llvm::omp::Clause::OMPC_match;
+if constexpr (std::is_same_v<A, parser::OmpClause::Mergeable>)
+  return llvm::omp::Clause::OMPC_mergeable;
+if constexpr (std::is_same_v<A, parser::OmpClause::Nogroup>)
+  return llvm::omp::Clause::OMPC_nogroup;
+if constexpr (std::is_same_v<A, parser::OmpClause::Nowait>)
+  return llvm::omp::Clause::OMPC_nowait;
+if constexpr (std::is_same_v<A, parser::OmpClause::Nontemporal>)
+  return llvm::omp::Clause::OMPC_nontemporal;
+if constexpr (std::is_same_v<A, parser::OmpClause::Notinbranch>)
+  return llvm::omp::Clause::OMPC_notinbranch;
+if constexpr (std::is_same_v<A, parser::OmpClause::NumTasks>)
+  return llvm::omp::Clause::OMPC_num_tasks;
+if constexpr (std::is_same_v<A, parser::OmpClause::NumTeams>)
+  return llvm::omp::Clause::OMPC_num_teams;
+if constexpr (std::is_same_v<A, parser::OmpClause::NumThreads>)
+  return llvm::omp::Clause::OMPC_num_threads;
+if constexpr (std::is_same_v<A, parser::OmpClause::Order>)
+  return llvm::omp::Clause::OMPC_order;
+if constexpr (std::is_same_v<A, parser::OmpClause::Ordered>)
+  return llvm::omp::Clause::OMPC_ordered;
+if constexpr (std::is_same_v<A, parser::OmpClause::Priority>)
+  return llvm::omp::Clause::OMPC_priority;
+if constexpr (std::is_same_v<A, parser::OmpClause::Private>)
+  return llvm::omp::Clause::OMPC_private;
+if constexpr (std::is_same_v<A, parser::OmpClause::ProcBind>)
+  return llvm::omp::Clause::OMPC_proc_bind;
+if constexpr (std::is_same_v<A, parser::OmpClause::Read>)
+  return llvm::omp::Clause::OMPC_read;
+if constexpr (std::is_same_v<A, parser::OmpClause::Reduction>)
+  return llvm::omp::Clause::OMPC_reduction;
+if constexpr (std::is_same_v<A, parser::OmpClause::Relaxed>)
+  return llvm::omp::Clause::OMPC_relaxed;
+if constexpr (std::is_same_v<A, parser::OmpClause::Release>)
+  return llvm::omp::Clause::OMPC_release;
+if constexpr (std::is_same_v<A, parser::OmpClause::ReverseOffload>)
+  return llvm::omp::Clause::OMPC_reverse_offload;
+if constexpr (std::is_same_v<A, parser::OmpClause::Safelen>)
+  return llvm::omp::Clause::OMPC_safelen;
+if constexpr (std::is_same_v<A, parser::OmpClause::Schedule>)
+  return llvm::omp::Clause::OMPC_schedule;
+if constexpr (std::is_same_v<A, parser::OmpClause::SeqCst>)
+  return llvm::omp::Clause::OMPC_seq_cst;
+if constexpr (std::is_same_v<A, parser::OmpClause::Shared>)
+  return llvm::omp::Clause::OMPC_shared;
+if constexpr (std::is_same_v<A, parser::OmpClause::Simd>)
+  return llvm::omp::Clause::OMPC_simd;
+if constexpr (std::is_same_v<A, parser::OmpClause::Simdlen>)
+  return llvm::omp::Clause::OMPC_simdlen;
+if constexpr (std::is_same_v<A, parser::OmpClause::Sizes>)
+  return llvm::omp::Clause::OMPC_sizes;
+if constexpr (std::is_same_v<A, parser::OmpClause::TaskReduction>)
+  return llvm::omp::Clause::OMPC_task_reduction;
+if constexpr (std::is_same_v<A, parser::OmpClause::ThreadLimit>)
+  return llvm::omp::Clause::OMPC_thread_limit;
+if constexpr (std::is_same_v<A, parser::OmpClause::Threadprivate>)
+  return llvm::omp::Clause::OMPC_threadprivate;
+if constexpr (std::is_same_v<A, parser::OmpClause::Threads>)
+  return llvm::omp::Clause::OMPC_threads;
+if constexpr (std::is_same_v<A, parser::OmpClause::To>)
+  return llvm::omp::Clause::OMPC_to;
+if constexpr (std::is_same_v<A, parser::OmpClause::UnifiedAddress>)
+  return llvm::omp::Clause::OMPC_unified_address;
+if constexpr (std::is_same_v<A, parser::OmpClause::UnifiedSharedMemory>)
+  return llvm::omp::Clause::OMPC_unified_shared_memory;
+if constexpr (std::is_same_v<A, parser::OmpClause::Uniform>)
+  return llvm::omp::Clause::OMPC_uniform;
+if constexpr (std::is_same_v<A, parser::OmpClause::Unknown>)
+  return llvm::omp::Clause::OMPC_unknown;
+if constexpr (std::is_same_v<A, parser::OmpClause::Untied>)
+  return llvm::omp::Clause::OMPC_untied;
+if constexpr (std::is_same_v<A, parser::OmpClause::Update>)
+  return llvm::omp::Clause::OMPC_update;
+if constexpr (std::is_same_v<A, parser::OmpClause::Use>)
+  return llvm::omp::Clause::OMPC_use;
+if constexpr (std::is_same_v<A, parser::OmpClause::UseDeviceAddr>)
+  return llvm::omp::Clause::OMPC_use_device_addr;
+if constexpr (std::is_same_v<A, parser::OmpClause::UseDevicePtr>)
+  return llvm::omp::Clause::OMPC_use_device_ptr;
+if constexpr (std::is_same_v<A, parser::OmpClause::UsesAllocators>)
+  return llvm::omp::Clause::OMPC_uses_allocators;
+if constexpr (std::is_same_v<A, parser::OmpClause::Write>)
+  return llvm::omp::Clause::OMPC_write;
+llvm_unreachable("Invalid OpenMP Parser clause");
+
+#endif // GEN_FLANG_CLAUSE_PARSER_KIND_MAP
 
 #ifdef GEN_CLANG_CLAUSE_CLASS
 #undef GEN_CLANG_CLAUSE_CLASS
@@ -3561,6 +3766,7 @@ __CLAUSE(if, OMPIfClause)
 __CLAUSE(in_reduction, OMPInReductionClause)
 __CLAUSE_NO_CLASS(inbranch)
 __CLAUSE(inclusive, OMPInclusiveClause)
+__CLAUSE(init, OMPInitClause)
 __CLAUSE(is_device_ptr, OMPIsDevicePtrClause)
 __CLAUSE(lastprivate, OMPLastprivateClause)
 __CLAUSE(linear, OMPLinearClause)
@@ -3603,6 +3809,7 @@ __CLAUSE_NO_CLASS(uniform)
 __IMPLICIT_CLAUSE_NO_CLASS(unknown, "unknown")
 __CLAUSE(untied, OMPUntiedClause)
 __CLAUSE(update, OMPUpdateClause)
+__CLAUSE(use, OMPUseClause)
 __CLAUSE(use_device_addr, OMPUseDeviceAddrClause)
 __CLAUSE(use_device_ptr, OMPUseDevicePtrClause)
 __CLAUSE(uses_allocators, OMPUsesAllocatorsClause)

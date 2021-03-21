@@ -20492,6 +20492,13 @@ OpenCLUnrollHintAttr::OpenCLUnrollHintAttr(ASTContext &Ctx, const AttributeCommo
   {
 }
 
+OpenCLUnrollHintAttr::OpenCLUnrollHintAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+             )
+  : StmtAttr(Ctx, CommonInfo, attr::OpenCLUnrollHint, false)
+              , unrollHint()
+  {
+}
+
 
 
 OpenCLUnrollHintAttr *OpenCLUnrollHintAttr::clone(ASTContext &C) const {

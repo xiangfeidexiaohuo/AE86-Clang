@@ -159,6 +159,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
@@ -190,6 +196,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -225,6 +237,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
@@ -256,6 +274,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -318,6 +342,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool existsInTarget(const TargetInfo &Target) const override {
   const llvm::Triple &T = Target.getTriple(); (void)T;
   return true && (T.getArch() == llvm::Triple::avr);
@@ -354,6 +384,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -394,6 +430,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 unsigned spellingIndexToSemanticSpelling(const ParsedAttr &Attr) const override {
@@ -450,6 +492,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_type_alias, /*IsSupported=*/true));
@@ -484,6 +532,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoAcquiredAfter Instance;
 };
 const ParsedAttrInfoAcquiredAfter ParsedAttrInfoAcquiredAfter::Instance;
@@ -510,6 +564,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 static const ParsedAttrInfoAcquiredBefore Instance;
@@ -563,6 +623,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable_is_global, /*IsSupported=*/true));
@@ -594,6 +660,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -679,6 +751,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoAllocAlign Instance;
 };
 const ParsedAttrInfoAllocAlign ParsedAttrInfoAllocAlign::Instance;
@@ -707,6 +785,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -742,6 +826,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable, /*IsSupported=*/true));
 }
@@ -775,6 +865,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 unsigned spellingIndexToSemanticSpelling(const ParsedAttr &Attr) const override {
@@ -902,6 +998,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool existsInTarget(const TargetInfo &Target) const override {
   const llvm::Triple &T = Target.getTriple(); (void)T;
   return true && (T.getArch() == llvm::Triple::x86 || T.getArch() == llvm::Triple::x86_64);
@@ -939,6 +1041,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -981,6 +1089,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 unsigned spellingIndexToSemanticSpelling(const ParsedAttr &Attr) const override {
@@ -1035,6 +1149,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool existsInTarget(const TargetInfo &Target) const override {
@@ -1100,6 +1220,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoArmSveVectorBits Instance;
 };
 const ParsedAttrInfoArmSveVectorBits ParsedAttrInfoArmSveVectorBits::Instance;
@@ -1128,6 +1254,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
@@ -1164,6 +1296,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 unsigned spellingIndexToSemanticSpelling(const ParsedAttr &Attr) const override {
@@ -1214,6 +1352,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoAssertExclusiveLock Instance;
 };
 const ParsedAttrInfoAssertExclusiveLock ParsedAttrInfoAssertExclusiveLock::Instance;
@@ -1240,6 +1384,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 static const ParsedAttrInfoAssertSharedLock Instance;
@@ -1270,6 +1420,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -1307,6 +1463,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_method, /*IsSupported=*/LangOpts.ObjC));
@@ -1340,6 +1502,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -1388,6 +1556,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
@@ -1482,6 +1656,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
@@ -1516,6 +1696,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable_is_parameter, /*IsSupported=*/true));
 }
@@ -1548,6 +1734,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoCFGuard Instance;
 };
 const ParsedAttrInfoCFGuard ParsedAttrInfoCFGuard::Instance;
@@ -1576,6 +1768,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -1659,6 +1857,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
@@ -1692,6 +1896,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -1729,6 +1939,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
@@ -1760,6 +1976,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
@@ -1802,6 +2024,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
@@ -1847,6 +2075,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
   auto &LangOpts = S.LangOpts;
   if (LangOpts.CUDA)
@@ -1887,6 +2121,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
@@ -1931,6 +2171,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
   auto &LangOpts = S.LangOpts;
   if (LangOpts.CUDA)
@@ -1973,6 +2219,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
   auto &LangOpts = S.LangOpts;
   if (LangOpts.CUDA)
@@ -2008,6 +2260,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
@@ -2046,6 +2304,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
@@ -2091,6 +2355,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
   auto &LangOpts = S.LangOpts;
   if (LangOpts.CUDA)
@@ -2132,6 +2402,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
@@ -2170,6 +2446,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function_is_member, /*IsSupported=*/LangOpts.CPlusPlus));
 }
@@ -2204,6 +2486,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
@@ -2236,6 +2524,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
@@ -2280,6 +2574,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 unsigned spellingIndexToSemanticSpelling(const ParsedAttr &Attr) const override {
@@ -2336,6 +2636,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable_is_parameter, /*IsSupported=*/true));
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_method, /*IsSupported=*/LangOpts.ObjC));
@@ -2370,6 +2676,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -2437,6 +2749,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
   auto &LangOpts = S.LangOpts;
   if (LangOpts.Cmse)
@@ -2483,6 +2801,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoCodeSeg Instance;
 };
 const ParsedAttrInfoCodeSeg ParsedAttrInfoCodeSeg::Instance;
@@ -2511,6 +2835,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -2545,6 +2875,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -2608,6 +2944,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
@@ -2676,6 +3018,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
@@ -2709,6 +3057,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_record, /*IsSupported=*/true));
 }
@@ -2740,6 +3094,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -2780,6 +3140,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_record, /*IsSupported=*/true));
 }
@@ -2817,6 +3183,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -2859,6 +3231,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool existsInTarget(const TargetInfo &Target) const override {
   const llvm::Triple &T = Target.getTriple(); (void)T;
   return true && ( Target.getTriple().hasDLLImportExport() );
@@ -2893,6 +3271,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool existsInTarget(const TargetInfo &Target) const override {
@@ -2931,6 +3315,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool existsInTarget(const TargetInfo &Target) const override {
   const llvm::Triple &T = Target.getTriple(); (void)T;
   return true && ( Target.getTriple().hasDLLImportExport() );
@@ -2965,6 +3355,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool existsInTarget(const TargetInfo &Target) const override {
@@ -3026,6 +3422,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
@@ -3058,6 +3460,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoDiagnoseIf Instance;
 };
 const ParsedAttrInfoDiagnoseIf ParsedAttrInfoDiagnoseIf::Instance;
@@ -3086,6 +3494,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -3119,6 +3533,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool existsInTarget(const TargetInfo &Target) const override {
@@ -3159,6 +3579,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
@@ -3191,6 +3617,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -3227,6 +3659,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
@@ -3261,6 +3699,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_enum, /*IsSupported=*/true));
 }
@@ -3293,6 +3737,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -3334,6 +3784,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoExclusiveTrylockFunction Instance;
 };
 const ParsedAttrInfoExclusiveTrylockFunction ParsedAttrInfoExclusiveTrylockFunction::Instance;
@@ -3360,6 +3816,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 static const ParsedAttrInfoExtVectorType Instance;
@@ -3390,6 +3852,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -3434,6 +3902,21 @@ struct ParsedAttrInfoFallThrough final : public ParsedAttrInfo {
     IsSupportedByPragmaAttribute = 0;
     Spellings = FallThroughSpellings;
   }
+bool diagAppertainsToDecl(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+  S.Diag(AL.getLoc(), diag::err_stmt_attribute_invalid_on_decl)
+    << AL << D->getLocation();
+  return false;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &Attr, const Stmt *St) const override {
+  if (!isa<NullStmt>(St) && !isa<SwitchCase>(St)) {
+    S.Diag(Attr.getLoc(), diag::err_attribute_wrong_decl_type_str)
+      << Attr << "empty statements";
+    return false;
+  }
+  return true;
+}
+
 static const ParsedAttrInfoFallThrough Instance;
 };
 const ParsedAttrInfoFallThrough ParsedAttrInfoFallThrough::Instance;
@@ -3487,6 +3970,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_enum, /*IsSupported=*/true));
 }
@@ -3524,6 +4013,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -3565,6 +4060,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoFormat Instance;
 };
 const ParsedAttrInfoFormat ParsedAttrInfoFormat::Instance;
@@ -3595,6 +4096,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoFormatArg Instance;
 };
 const ParsedAttrInfoFormatArg ParsedAttrInfoFormatArg::Instance;
@@ -3623,6 +4130,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -3657,6 +4170,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoGuardedBy Instance;
 };
 const ParsedAttrInfoGuardedBy ParsedAttrInfoGuardedBy::Instance;
@@ -3684,6 +4203,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
@@ -3718,6 +4243,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
@@ -3763,6 +4294,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
@@ -3795,6 +4332,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -3878,6 +4421,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool existsInTarget(const TargetInfo &Target) const override {
   const llvm::Triple &T = Target.getTriple(); (void)T;
   return true && (T.getObjectFormat() == llvm::Triple::ELF);
@@ -3914,6 +4463,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool existsInTarget(const TargetInfo &Target) const override {
@@ -3975,6 +4530,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable, /*IsSupported=*/true));
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
@@ -4009,6 +4570,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -4048,6 +4615,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool existsInTarget(const TargetInfo &Target) const override {
   const llvm::Triple &T = Target.getTriple(); (void)T;
   return true && (T.getArch() == llvm::Triple::x86 || T.getArch() == llvm::Triple::x86_64 || T.getArch() == llvm::Triple::arm || T.getArch() == llvm::Triple::thumb || T.getArch() == llvm::Triple::aarch64) && ( Target.getCXXABI().isMicrosoft() );
@@ -4081,6 +4654,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -4119,6 +4698,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
@@ -4185,6 +4770,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable_is_global, /*IsSupported=*/true));
 }
@@ -4217,6 +4808,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoLockReturned Instance;
 };
 const ParsedAttrInfoLockReturned ParsedAttrInfoLockReturned::Instance;
@@ -4243,6 +4840,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -4277,6 +4880,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoLocksExcluded Instance;
 };
 const ParsedAttrInfoLocksExcluded ParsedAttrInfoLocksExcluded::Instance;
@@ -4292,7 +4901,7 @@ struct ParsedAttrInfoLoopHint final : public ParsedAttrInfo {
     AttrKind = ParsedAttr::AT_LoopHint;
     NumArgs = 3;
     OptArgs = 0;
-    HasCustomParsing = 0;
+    HasCustomParsing = 1;
     IsTargetSpecific = 0;
     IsType = 0;
     IsStmt = 0;
@@ -4352,6 +4961,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_method, /*IsSupported=*/LangOpts.ObjC));
@@ -4405,6 +5020,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 static const ParsedAttrInfoMSAllocator Instance;
@@ -4486,6 +5107,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool existsInTarget(const TargetInfo &Target) const override {
   const llvm::Triple &T = Target.getTriple(); (void)T;
   return true && (T.getArch() == llvm::Triple::x86 || T.getArch() == llvm::Triple::x86_64 || T.getArch() == llvm::Triple::arm || T.getArch() == llvm::Triple::thumb || T.getArch() == llvm::Triple::aarch64) && ( Target.getCXXABI().isMicrosoft() );
@@ -4526,6 +5153,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_record, /*IsSupported=*/true));
 }
@@ -4563,6 +5196,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 static const ParsedAttrInfoMatrixType Instance;
@@ -4621,6 +5260,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool existsInTarget(const TargetInfo &Target) const override {
   const llvm::Triple &T = Target.getTriple(); (void)T;
   return true && (T.getArch() == llvm::Triple::mips || T.getArch() == llvm::Triple::mipsel);
@@ -4660,6 +5305,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_method, /*IsSupported=*/LangOpts.ObjC));
@@ -4695,6 +5346,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
@@ -4727,6 +5384,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool existsInTarget(const TargetInfo &Target) const override {
@@ -4769,6 +5432,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool existsInTarget(const TargetInfo &Target) const override {
@@ -4837,6 +5506,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool existsInTarget(const TargetInfo &Target) const override {
   const llvm::Triple &T = Target.getTriple(); (void)T;
   return true && (T.getArch() == llvm::Triple::mips || T.getArch() == llvm::Triple::mipsel || T.getArch() == llvm::Triple::mips64 || T.getArch() == llvm::Triple::mips64el);
@@ -4900,6 +5575,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoMode Instance;
 };
 const ParsedAttrInfoMode ParsedAttrInfoMode::Instance;
@@ -4928,6 +5609,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -4962,6 +5649,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -4999,6 +5692,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -5099,6 +5798,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
@@ -5173,6 +5878,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
   D->addAttr(::new (S.Context) NoAliasAttr(S.Context, Attr));
   return AttributeApplied;
@@ -5208,6 +5919,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
@@ -5240,6 +5957,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -5279,6 +6002,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -5338,6 +6067,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable, /*IsSupported=*/true));
 }
@@ -5370,6 +6105,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -5411,6 +6152,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable_is_parameter, /*IsSupported=*/true));
 }
@@ -5444,6 +6191,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -5485,6 +6238,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
@@ -5517,6 +6276,15 @@ struct ParsedAttrInfoNoMerge final : public ParsedAttrInfo {
   }
 bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const override {
   if (!isa<FunctionDecl>(D)) {
+    S.Diag(Attr.getLoc(), diag::err_attribute_wrong_decl_type_str)
+      << Attr << "functions and statements";
+    return false;
+  }
+  return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &Attr, const Stmt *St) const override {
+  if (!isa<Stmt>(St)) {
     S.Diag(Attr.getLoc(), diag::err_attribute_wrong_decl_type_str)
       << Attr << "functions and statements";
     return false;
@@ -5563,6 +6331,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool existsInTarget(const TargetInfo &Target) const override {
   const llvm::Triple &T = Target.getTriple(); (void)T;
   return true && (T.getArch() == llvm::Triple::mips || T.getArch() == llvm::Triple::mipsel);
@@ -5605,6 +6379,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool existsInTarget(const TargetInfo &Target) const override {
@@ -5673,6 +6453,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_method, /*IsSupported=*/LangOpts.ObjC));
@@ -5718,6 +6504,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable_is_global, /*IsSupported=*/true));
@@ -5753,6 +6545,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_method, /*IsSupported=*/LangOpts.ObjC));
@@ -5786,6 +6584,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -5827,6 +6631,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
@@ -5864,6 +6674,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -5906,6 +6722,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_hasType_functionType, /*IsSupported=*/true));
 }
@@ -5936,6 +6758,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool existsInTarget(const TargetInfo &Target) const override {
@@ -5978,6 +6806,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoNonNull Instance;
 };
 const ParsedAttrInfoNonNull ParsedAttrInfoNonNull::Instance;
@@ -6006,6 +6840,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -6042,6 +6882,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable_is_parameter, /*IsSupported=*/true));
 }
@@ -6074,6 +6920,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
@@ -6109,6 +6961,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -6148,6 +7006,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_method, /*IsSupported=*/LangOpts.ObjC));
@@ -6185,6 +7049,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable_is_parameter, /*IsSupported=*/true));
 }
@@ -6217,6 +7087,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -6253,6 +7129,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_record, /*IsSupported=*/true));
 }
@@ -6285,6 +7167,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -6322,6 +7210,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_record, /*IsSupported=*/true));
 }
@@ -6356,6 +7250,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_record, /*IsSupported=*/true));
 }
@@ -6388,6 +7288,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
@@ -6438,6 +7344,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_method, /*IsSupported=*/LangOpts.ObjC));
 }
@@ -6470,6 +7382,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
@@ -6513,6 +7431,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
@@ -6560,6 +7484,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_interface, /*IsSupported=*/LangOpts.ObjC));
 }
@@ -6599,6 +7529,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_protocol, /*IsSupported=*/LangOpts.ObjC));
 }
@@ -6631,6 +7567,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
@@ -6759,6 +7701,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_method, /*IsSupported=*/LangOpts.ObjC));
 }
@@ -6814,6 +7762,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
   auto &LangOpts = S.LangOpts;
   if (LangOpts.ObjC)
@@ -6861,6 +7815,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
@@ -6927,6 +7887,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable, /*IsSupported=*/true));
 }
@@ -6959,6 +7925,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -7000,6 +7972,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_method, /*IsSupported=*/LangOpts.ObjC));
 }
@@ -7032,6 +8010,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -7067,6 +8051,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -7108,6 +8098,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_interface, /*IsSupported=*/LangOpts.ObjC));
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_protocol, /*IsSupported=*/LangOpts.ObjC));
@@ -7141,6 +8137,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -7180,6 +8182,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -7222,6 +8230,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 unsigned spellingIndexToSemanticSpelling(const ParsedAttr &Attr) const override {
@@ -7447,6 +8461,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
@@ -7478,6 +8498,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
@@ -7557,6 +8583,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
   auto &LangOpts = S.LangOpts;
   if (LangOpts.OpenCL)
@@ -7623,8 +8655,8 @@ static constexpr ParsedAttrInfo::Spelling OpenCLUnrollHintSpellings[] = {
 struct ParsedAttrInfoOpenCLUnrollHint final : public ParsedAttrInfo {
   ParsedAttrInfoOpenCLUnrollHint() {
     AttrKind = ParsedAttr::AT_OpenCLUnrollHint;
-    NumArgs = 1;
-    OptArgs = 0;
+    NumArgs = 0;
+    OptArgs = 1;
     HasCustomParsing = 0;
     IsTargetSpecific = 0;
     IsType = 0;
@@ -7633,6 +8665,21 @@ struct ParsedAttrInfoOpenCLUnrollHint final : public ParsedAttrInfo {
     IsSupportedByPragmaAttribute = 0;
     Spellings = OpenCLUnrollHintSpellings;
   }
+bool diagAppertainsToDecl(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+  S.Diag(AL.getLoc(), diag::err_stmt_attribute_invalid_on_decl)
+    << AL << D->getLocation();
+  return false;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &Attr, const Stmt *St) const override {
+  if (!isa<ForStmt>(St) && !isa<CXXForRangeStmt>(St) && !isa<WhileStmt>(St) && !isa<DoStmt>(St)) {
+    S.Diag(Attr.getLoc(), diag::err_attribute_wrong_decl_type_str)
+      << Attr << "'for', 'while', and 'do' statements";
+    return false;
+  }
+  return true;
+}
+
 static const ParsedAttrInfoOpenCLUnrollHint Instance;
 };
 const ParsedAttrInfoOpenCLUnrollHint ParsedAttrInfoOpenCLUnrollHint::Instance;
@@ -7661,6 +8708,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -7698,6 +8751,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
@@ -7733,6 +8792,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -7773,6 +8838,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 unsigned spellingIndexToSemanticSpelling(const ParsedAttr &Attr) const override {
@@ -7855,6 +8926,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable_is_parameter, /*IsSupported=*/true));
 }
@@ -7915,6 +8992,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 unsigned spellingIndexToSemanticSpelling(const ParsedAttr &Attr) const override {
   enum Spelling {
     GNU_pass_object_size = 0,
@@ -7973,9 +9056,15 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool existsInTarget(const TargetInfo &Target) const override {
   const llvm::Triple &T = Target.getTriple(); (void)T;
-  return true && (T.getArch() == llvm::Triple::aarch64 || T.getArch() == llvm::Triple::aarch64_be || T.getArch() == llvm::Triple::x86 || T.getArch() == llvm::Triple::x86_64);
+  return true && (T.getArch() == llvm::Triple::aarch64 || T.getArch() == llvm::Triple::aarch64_be || T.getArch() == llvm::Triple::riscv32 || T.getArch() == llvm::Triple::riscv64 || T.getArch() == llvm::Triple::x86 || T.getArch() == llvm::Triple::x86_64);
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -8032,6 +9121,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_record_not_is_union, /*IsSupported=*/true));
 }
@@ -8060,6 +9155,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoPragmaClangBSSSection Instance;
 };
 const ParsedAttrInfoPragmaClangBSSSection ParsedAttrInfoPragmaClangBSSSection::Instance;
@@ -8082,6 +9183,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 static const ParsedAttrInfoPragmaClangDataSection Instance;
@@ -8108,6 +9215,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoPragmaClangRelroSection Instance;
 };
 const ParsedAttrInfoPragmaClangRelroSection ParsedAttrInfoPragmaClangRelroSection::Instance;
@@ -8132,6 +9245,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoPragmaClangRodataSection Instance;
 };
 const ParsedAttrInfoPragmaClangRodataSection ParsedAttrInfoPragmaClangRodataSection::Instance;
@@ -8154,6 +9273,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 static const ParsedAttrInfoPragmaClangTextSection Instance;
@@ -8183,6 +9308,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 static const ParsedAttrInfoPreferredName Instance;
@@ -8255,6 +9386,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoPtGuardedBy Instance;
 };
 const ParsedAttrInfoPtGuardedBy ParsedAttrInfoPtGuardedBy::Instance;
@@ -8282,6 +9419,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 static const ParsedAttrInfoPtGuardedVar Instance;
@@ -8420,6 +9563,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
   D->addAttr(::new (S.Context) ReinitializesAttr(S.Context, Attr));
   return AttributeApplied;
@@ -8458,6 +9607,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 unsigned spellingIndexToSemanticSpelling(const ParsedAttr &Attr) const override {
@@ -8518,6 +9673,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable_is_parameter, /*IsSupported=*/true));
 }
@@ -8548,6 +9709,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
@@ -8596,6 +9763,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
@@ -8633,6 +9806,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 unsigned spellingIndexToSemanticSpelling(const ParsedAttr &Attr) const override {
@@ -8694,6 +9873,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 unsigned spellingIndexToSemanticSpelling(const ParsedAttr &Attr) const override {
   enum Spelling {
     Declspec_restrict = 0,
@@ -8748,6 +9933,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
   D->addAttr(::new (S.Context) RetainAttr(S.Context, Attr));
   return AttributeApplied;
@@ -8780,6 +9971,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -8817,6 +10014,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_method, /*IsSupported=*/LangOpts.ObjC));
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
@@ -8850,6 +10053,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -8910,6 +10119,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
   auto &LangOpts = S.LangOpts;
   if (LangOpts.SYCLIsDevice)
@@ -8946,6 +10161,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -8986,6 +10207,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 unsigned spellingIndexToSemanticSpelling(const ParsedAttr &Attr) const override {
@@ -9092,6 +10319,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function_is_member, /*IsSupported=*/LangOpts.CPlusPlus));
 }
@@ -9124,6 +10357,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoSharedTrylockFunction Instance;
 };
 const ParsedAttrInfoSharedTrylockFunction ParsedAttrInfoSharedTrylockFunction::Instance;
@@ -9152,6 +10391,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -9186,6 +10431,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
@@ -9253,6 +10504,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoStrictFP Instance;
 };
 const ParsedAttrInfoStrictFP ParsedAttrInfoStrictFP::Instance;
@@ -9302,6 +10559,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_method, /*IsSupported=*/LangOpts.ObjC));
@@ -9337,6 +10600,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_method, /*IsSupported=*/LangOpts.ObjC));
@@ -9368,6 +10637,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -9422,6 +10697,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 static const ParsedAttrInfoSwiftBridge Instance;
 };
 const ParsedAttrInfoSwiftBridge ParsedAttrInfoSwiftBridge::Instance;
@@ -9448,6 +10729,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -9505,6 +10792,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable_is_parameter, /*IsSupported=*/true));
 }
@@ -9535,6 +10828,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -9572,6 +10871,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable_is_parameter, /*IsSupported=*/true));
 }
@@ -9604,6 +10909,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -9658,6 +10969,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 unsigned spellingIndexToSemanticSpelling(const ParsedAttr &Attr) const override {
   enum Spelling {
     GNU_swift_newtype = 0,
@@ -9704,6 +11021,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -9780,6 +11103,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable_is_thread_local, /*IsSupported=*/true));
 }
@@ -9814,6 +11143,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
@@ -9845,6 +11180,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -9900,6 +11241,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
@@ -9970,6 +11317,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
   auto &LangOpts = S.LangOpts;
   if (LangOpts.CPlusPlus)
@@ -10017,6 +11370,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 unsigned spellingIndexToSemanticSpelling(const ParsedAttr &Attr) const override {
@@ -10226,6 +11585,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable_is_local, /*IsSupported=*/true));
 }
@@ -10282,6 +11647,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 unsigned spellingIndexToSemanticSpelling(const ParsedAttr &Attr) const override {
   enum Spelling {
     CXX11_maybe_unused = 0,
@@ -10334,6 +11705,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable_is_parameter, /*IsSupported=*/true));
 }
@@ -10368,6 +11745,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
   D->addAttr(::new (S.Context) UsedAttr(S.Context, Attr));
   return AttributeApplied;
@@ -10400,6 +11783,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
@@ -10440,6 +11829,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_record, /*IsSupported=*/true));
 }
@@ -10470,6 +11865,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -10571,6 +11972,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_record, /*IsSupported=*/true));
 }
@@ -10611,6 +12018,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 unsigned spellingIndexToSemanticSpelling(const ParsedAttr &Attr) const override {
@@ -10672,6 +12085,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -10736,6 +12155,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable, /*IsSupported=*/true));
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
@@ -10769,6 +12194,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 bool existsInTarget(const TargetInfo &Target) const override {
@@ -10810,6 +12241,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool existsInTarget(const TargetInfo &Target) const override {
   const llvm::Triple &T = Target.getTriple(); (void)T;
   return true && (T.getArch() == llvm::Triple::wasm32 || T.getArch() == llvm::Triple::wasm64);
@@ -10849,6 +12286,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 bool existsInTarget(const TargetInfo &Target) const override {
   const llvm::Triple &T = Target.getTriple(); (void)T;
   return true && (T.getArch() == llvm::Triple::wasm32 || T.getArch() == llvm::Triple::wasm64);
@@ -10884,6 +12327,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
@@ -10949,6 +12398,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
   return true;
 }
 
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
+}
+
 unsigned spellingIndexToSemanticSpelling(const ParsedAttr &Attr) const override {
   enum Spelling {
     GNU_xray_always_instrument = 0,
@@ -11011,6 +12466,12 @@ bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const 
     return false;
   }
   return true;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+  S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
+    << AL << St->getBeginLoc();
+  return false;
 }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {

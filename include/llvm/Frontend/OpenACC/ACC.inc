@@ -1111,6 +1111,103 @@ void Enter(const parser::AccClause::Write &);
 
 #endif // GEN_FLANG_CLAUSE_CHECK_ENTER
 
+#ifdef GEN_FLANG_CLAUSE_PARSER_KIND_MAP
+#undef GEN_FLANG_CLAUSE_PARSER_KIND_MAP
+
+if constexpr (std::is_same_v<A, parser::AccClause::Async>)
+  return llvm::acc::Clause::ACCC_async;
+if constexpr (std::is_same_v<A, parser::AccClause::Attach>)
+  return llvm::acc::Clause::ACCC_attach;
+if constexpr (std::is_same_v<A, parser::AccClause::Auto>)
+  return llvm::acc::Clause::ACCC_auto;
+if constexpr (std::is_same_v<A, parser::AccClause::Bind>)
+  return llvm::acc::Clause::ACCC_bind;
+if constexpr (std::is_same_v<A, parser::AccClause::Capture>)
+  return llvm::acc::Clause::ACCC_capture;
+if constexpr (std::is_same_v<A, parser::AccClause::Collapse>)
+  return llvm::acc::Clause::ACCC_collapse;
+if constexpr (std::is_same_v<A, parser::AccClause::Copy>)
+  return llvm::acc::Clause::ACCC_copy;
+if constexpr (std::is_same_v<A, parser::AccClause::Copyin>)
+  return llvm::acc::Clause::ACCC_copyin;
+if constexpr (std::is_same_v<A, parser::AccClause::Copyout>)
+  return llvm::acc::Clause::ACCC_copyout;
+if constexpr (std::is_same_v<A, parser::AccClause::Create>)
+  return llvm::acc::Clause::ACCC_create;
+if constexpr (std::is_same_v<A, parser::AccClause::Default>)
+  return llvm::acc::Clause::ACCC_default;
+if constexpr (std::is_same_v<A, parser::AccClause::DefaultAsync>)
+  return llvm::acc::Clause::ACCC_default_async;
+if constexpr (std::is_same_v<A, parser::AccClause::Delete>)
+  return llvm::acc::Clause::ACCC_delete;
+if constexpr (std::is_same_v<A, parser::AccClause::Detach>)
+  return llvm::acc::Clause::ACCC_detach;
+if constexpr (std::is_same_v<A, parser::AccClause::Device>)
+  return llvm::acc::Clause::ACCC_device;
+if constexpr (std::is_same_v<A, parser::AccClause::DeviceNum>)
+  return llvm::acc::Clause::ACCC_device_num;
+if constexpr (std::is_same_v<A, parser::AccClause::Deviceptr>)
+  return llvm::acc::Clause::ACCC_deviceptr;
+if constexpr (std::is_same_v<A, parser::AccClause::DeviceResident>)
+  return llvm::acc::Clause::ACCC_device_resident;
+if constexpr (std::is_same_v<A, parser::AccClause::DeviceType>)
+  return llvm::acc::Clause::ACCC_device_type;
+if constexpr (std::is_same_v<A, parser::AccClause::Finalize>)
+  return llvm::acc::Clause::ACCC_finalize;
+if constexpr (std::is_same_v<A, parser::AccClause::Firstprivate>)
+  return llvm::acc::Clause::ACCC_firstprivate;
+if constexpr (std::is_same_v<A, parser::AccClause::Gang>)
+  return llvm::acc::Clause::ACCC_gang;
+if constexpr (std::is_same_v<A, parser::AccClause::Host>)
+  return llvm::acc::Clause::ACCC_host;
+if constexpr (std::is_same_v<A, parser::AccClause::If>)
+  return llvm::acc::Clause::ACCC_if;
+if constexpr (std::is_same_v<A, parser::AccClause::IfPresent>)
+  return llvm::acc::Clause::ACCC_if_present;
+if constexpr (std::is_same_v<A, parser::AccClause::Independent>)
+  return llvm::acc::Clause::ACCC_independent;
+if constexpr (std::is_same_v<A, parser::AccClause::Link>)
+  return llvm::acc::Clause::ACCC_link;
+if constexpr (std::is_same_v<A, parser::AccClause::NoCreate>)
+  return llvm::acc::Clause::ACCC_no_create;
+if constexpr (std::is_same_v<A, parser::AccClause::Nohost>)
+  return llvm::acc::Clause::ACCC_nohost;
+if constexpr (std::is_same_v<A, parser::AccClause::NumGangs>)
+  return llvm::acc::Clause::ACCC_num_gangs;
+if constexpr (std::is_same_v<A, parser::AccClause::NumWorkers>)
+  return llvm::acc::Clause::ACCC_num_workers;
+if constexpr (std::is_same_v<A, parser::AccClause::Present>)
+  return llvm::acc::Clause::ACCC_present;
+if constexpr (std::is_same_v<A, parser::AccClause::Private>)
+  return llvm::acc::Clause::ACCC_private;
+if constexpr (std::is_same_v<A, parser::AccClause::Read>)
+  return llvm::acc::Clause::ACCC_read;
+if constexpr (std::is_same_v<A, parser::AccClause::Reduction>)
+  return llvm::acc::Clause::ACCC_reduction;
+if constexpr (std::is_same_v<A, parser::AccClause::Self>)
+  return llvm::acc::Clause::ACCC_self;
+if constexpr (std::is_same_v<A, parser::AccClause::Seq>)
+  return llvm::acc::Clause::ACCC_seq;
+if constexpr (std::is_same_v<A, parser::AccClause::Tile>)
+  return llvm::acc::Clause::ACCC_tile;
+if constexpr (std::is_same_v<A, parser::AccClause::Unknown>)
+  return llvm::acc::Clause::ACCC_unknown;
+if constexpr (std::is_same_v<A, parser::AccClause::UseDevice>)
+  return llvm::acc::Clause::ACCC_use_device;
+if constexpr (std::is_same_v<A, parser::AccClause::Vector>)
+  return llvm::acc::Clause::ACCC_vector;
+if constexpr (std::is_same_v<A, parser::AccClause::VectorLength>)
+  return llvm::acc::Clause::ACCC_vector_length;
+if constexpr (std::is_same_v<A, parser::AccClause::Wait>)
+  return llvm::acc::Clause::ACCC_wait;
+if constexpr (std::is_same_v<A, parser::AccClause::Worker>)
+  return llvm::acc::Clause::ACCC_worker;
+if constexpr (std::is_same_v<A, parser::AccClause::Write>)
+  return llvm::acc::Clause::ACCC_write;
+llvm_unreachable("Invalid OpenACC Parser clause");
+
+#endif // GEN_FLANG_CLAUSE_PARSER_KIND_MAP
+
 #ifdef GEN_CLANG_CLAUSE_CLASS
 #undef GEN_CLANG_CLAUSE_CLASS
 

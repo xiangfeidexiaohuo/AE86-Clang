@@ -99,9 +99,10 @@ enum class Directive {
   OMPD_tile,
   OMPD_unknown,
   OMPD_workshare,
+  OMPD_interop,
 };
 
-static constexpr std::size_t Directive_enumSize = 89;
+static constexpr std::size_t Directive_enumSize = 90;
 
 constexpr auto OMPD_allocate = llvm::omp::Directive::OMPD_allocate;
 constexpr auto OMPD_assumes = llvm::omp::Directive::OMPD_assumes;
@@ -192,6 +193,7 @@ constexpr auto OMPD_threadprivate = llvm::omp::Directive::OMPD_threadprivate;
 constexpr auto OMPD_tile = llvm::omp::Directive::OMPD_tile;
 constexpr auto OMPD_unknown = llvm::omp::Directive::OMPD_unknown;
 constexpr auto OMPD_workshare = llvm::omp::Directive::OMPD_workshare;
+constexpr auto OMPD_interop = llvm::omp::Directive::OMPD_interop;
 
 enum class Clause {
   OMPC_acq_rel,
@@ -226,6 +228,7 @@ enum class Clause {
   OMPC_in_reduction,
   OMPC_inbranch,
   OMPC_inclusive,
+  OMPC_init,
   OMPC_is_device_ptr,
   OMPC_lastprivate,
   OMPC_linear,
@@ -268,13 +271,14 @@ enum class Clause {
   OMPC_unknown,
   OMPC_untied,
   OMPC_update,
+  OMPC_use,
   OMPC_use_device_addr,
   OMPC_use_device_ptr,
   OMPC_uses_allocators,
   OMPC_write,
 };
 
-static constexpr std::size_t Clause_enumSize = 78;
+static constexpr std::size_t Clause_enumSize = 80;
 
 constexpr auto OMPC_acq_rel = llvm::omp::Clause::OMPC_acq_rel;
 constexpr auto OMPC_acquire = llvm::omp::Clause::OMPC_acquire;
@@ -308,6 +312,7 @@ constexpr auto OMPC_if = llvm::omp::Clause::OMPC_if;
 constexpr auto OMPC_in_reduction = llvm::omp::Clause::OMPC_in_reduction;
 constexpr auto OMPC_inbranch = llvm::omp::Clause::OMPC_inbranch;
 constexpr auto OMPC_inclusive = llvm::omp::Clause::OMPC_inclusive;
+constexpr auto OMPC_init = llvm::omp::Clause::OMPC_init;
 constexpr auto OMPC_is_device_ptr = llvm::omp::Clause::OMPC_is_device_ptr;
 constexpr auto OMPC_lastprivate = llvm::omp::Clause::OMPC_lastprivate;
 constexpr auto OMPC_linear = llvm::omp::Clause::OMPC_linear;
@@ -350,6 +355,7 @@ constexpr auto OMPC_uniform = llvm::omp::Clause::OMPC_uniform;
 constexpr auto OMPC_unknown = llvm::omp::Clause::OMPC_unknown;
 constexpr auto OMPC_untied = llvm::omp::Clause::OMPC_untied;
 constexpr auto OMPC_update = llvm::omp::Clause::OMPC_update;
+constexpr auto OMPC_use = llvm::omp::Clause::OMPC_use;
 constexpr auto OMPC_use_device_addr = llvm::omp::Clause::OMPC_use_device_addr;
 constexpr auto OMPC_use_device_ptr = llvm::omp::Clause::OMPC_use_device_ptr;
 constexpr auto OMPC_uses_allocators = llvm::omp::Clause::OMPC_uses_allocators;
