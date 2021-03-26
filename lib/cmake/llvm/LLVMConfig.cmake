@@ -156,7 +156,7 @@ if(LLVM_ENABLE_ZLIB)
   find_package(ZLIB)
 endif()
 
-set(LLVM_ENABLE_LIBXML2 )
+set(LLVM_ENABLE_LIBXML2 1)
 if(LLVM_ENABLE_LIBXML2)
   find_package(LibXml2)
 endif()
@@ -205,7 +205,7 @@ set(LLVM_HAVE_OPT_VIEWER_MODULES 0)
 set(LLVM_CONFIGURATION_TYPES )
 set(LLVM_ENABLE_SHARED_LIBS OFF)
 
-set(LLVM_DEFAULT_EXTERNAL_LIT "/home/yaodao/etotools/tc-build/build/llvm/stage1/./bin/llvm-lit")
+set(LLVM_DEFAULT_EXTERNAL_LIT "/home/runner/work/OpenWrt_Build/OpenWrt_Build/tc-build/build/llvm/stage1/./bin/llvm-lit")
 set(LLVM_LIT_ARGS "-sv")
 
 if(NOT TARGET LLVMSupport)

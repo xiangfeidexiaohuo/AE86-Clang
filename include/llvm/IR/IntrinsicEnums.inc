@@ -132,6 +132,7 @@
     experimental_patchpoint_i64,               // llvm.experimental.patchpoint.i64
     experimental_patchpoint_void,              // llvm.experimental.patchpoint.void
     experimental_stackmap,                     // llvm.experimental.stackmap
+    experimental_stepvector,                   // llvm.experimental.stepvector
     experimental_vector_extract,               // llvm.experimental.vector.extract
     experimental_vector_insert,                // llvm.experimental.vector.insert
     experimental_vector_reverse,               // llvm.experimental.vector.reverse
@@ -328,4 +329,4 @@
     write_register,                            // llvm.write_register
     xray_customevent,                          // llvm.xray.customevent
     xray_typedevent,                           // llvm.xray.typedevent
-    num_intrinsics = 9985
+    num_intrinsics = 9986

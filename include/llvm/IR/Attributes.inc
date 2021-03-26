@@ -81,6 +81,7 @@ ATTRIBUTE_ENUM(AllocSize,allocsize)
 ATTRIBUTE_ENUM(Dereferenceable,dereferenceable)
 ATTRIBUTE_ENUM(DereferenceableOrNull,dereferenceable_or_null)
 ATTRIBUTE_ENUM(StackAlignment,alignstack)
+ATTRIBUTE_ENUM(VScaleRange,vscale_range)
 #undef ATTRIBUTE_ENUM
 
 #ifndef ATTRIBUTE_STRBOOL

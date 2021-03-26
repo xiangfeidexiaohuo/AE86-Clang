@@ -570,7 +570,9 @@ public:
   /// \name Vector TTI Implementations
   /// @{
 
-  unsigned getRegisterBitWidth(bool Vector) const { return 32; }
+  TypeSize getRegisterBitWidth(TargetTransformInfo::RegisterKind K) const {
+    return TypeSize::getFixed(32);
+  }
 
   Optional<unsigned> getMaxVScale() const { return None; }
 
@@ -1248,6 +1250,12 @@ public:
       Align Alignment = cast<ConstantInt>(Args[1])->getAlignValue();
       return thisT()->getGatherScatterOpCost(Instruction::Load, RetTy, Args[0],
                                              VarMask, Alignment, CostKind, I);
+    }
+    case Intrinsic::experimental_stepvector: {
+      if (isa<ScalableVectorType>(RetTy))
+        return BaseT::getIntrinsicInstrCost(ICA, CostKind);
+      // The cost of materialising a constant integer vector.
+      return TargetTransformInfo::TCC_Basic;
     }
     case Intrinsic::experimental_vector_extract: {
       // FIXME: Handle case where a scalable vector is extracted from a scalable
