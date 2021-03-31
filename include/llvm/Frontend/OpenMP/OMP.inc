@@ -2168,6 +2168,24 @@ namespace omp {
   static OmpClauseSet requiredClauses_OMPD_workshare {
   };
 
+  // Sets for dispatch
+
+  static OmpClauseSet allowedClauses_OMPD_dispatch {
+    llvm::omp::Clause::OMPC_device,
+    llvm::omp::Clause::OMPC_is_device_ptr,
+    llvm::omp::Clause::OMPC_nowait,
+    llvm::omp::Clause::OMPC_depend,
+  };
+
+  static OmpClauseSet allowedOnceClauses_OMPD_dispatch {
+  };
+
+  static OmpClauseSet allowedExclusiveClauses_OMPD_dispatch {
+  };
+
+  static OmpClauseSet requiredClauses_OMPD_dispatch {
+  };
+
   // Sets for interop
 
   static OmpClauseSet allowedClauses_OMPD_interop {
@@ -2906,6 +2924,14 @@ namespace omp {
       llvm::omp::allowedOnceClauses_OMPD_workshare,
       llvm::omp::allowedExclusiveClauses_OMPD_workshare,
       llvm::omp::requiredClauses_OMPD_workshare,
+    }
+  },
+  {llvm::omp::Directive::OMPD_dispatch,
+    {
+      llvm::omp::allowedClauses_OMPD_dispatch,
+      llvm::omp::allowedOnceClauses_OMPD_dispatch,
+      llvm::omp::allowedExclusiveClauses_OMPD_dispatch,
+      llvm::omp::requiredClauses_OMPD_dispatch,
     }
   },
   {llvm::omp::Directive::OMPD_interop,
@@ -3918,6 +3944,7 @@ Directive llvm::omp::getOpenMPDirectiveKind(llvm::StringRef Str) {
     .Case("tile",OMPD_tile)
     .Case("unknown",OMPD_unknown)
     .Case("workshare",OMPD_workshare)
+    .Case("dispatch",OMPD_dispatch)
     .Case("interop",OMPD_interop)
     .Default(OMPD_unknown);
 }
@@ -4102,6 +4129,8 @@ llvm::StringRef llvm::omp::getOpenMPDirectiveName(Directive Kind) {
       return "unknown";
     case OMPD_workshare:
       return "workshare";
+    case OMPD_dispatch:
+      return "dispatch";
     case OMPD_interop:
       return "interop";
   }
@@ -6750,6 +6779,20 @@ bool llvm::omp::isAllowedClauseForDirective(Directive D, Clause C, unsigned Vers
       break;
     case OMPD_workshare:
       return false;
+      break;
+    case OMPD_dispatch:
+      switch (C) {
+        case OMPC_device:
+          return 1 <= Version && 2147483647 >= Version;
+        case OMPC_is_device_ptr:
+          return 1 <= Version && 2147483647 >= Version;
+        case OMPC_nowait:
+          return 1 <= Version && 2147483647 >= Version;
+        case OMPC_depend:
+          return 1 <= Version && 2147483647 >= Version;
+        default:
+          return false;
+      }
       break;
     case OMPD_interop:
       switch (C) {

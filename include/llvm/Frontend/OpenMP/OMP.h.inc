@@ -99,10 +99,11 @@ enum class Directive {
   OMPD_tile,
   OMPD_unknown,
   OMPD_workshare,
+  OMPD_dispatch,
   OMPD_interop,
 };
 
-static constexpr std::size_t Directive_enumSize = 90;
+static constexpr std::size_t Directive_enumSize = 91;
 
 constexpr auto OMPD_allocate = llvm::omp::Directive::OMPD_allocate;
 constexpr auto OMPD_assumes = llvm::omp::Directive::OMPD_assumes;
@@ -193,6 +194,7 @@ constexpr auto OMPD_threadprivate = llvm::omp::Directive::OMPD_threadprivate;
 constexpr auto OMPD_tile = llvm::omp::Directive::OMPD_tile;
 constexpr auto OMPD_unknown = llvm::omp::Directive::OMPD_unknown;
 constexpr auto OMPD_workshare = llvm::omp::Directive::OMPD_workshare;
+constexpr auto OMPD_dispatch = llvm::omp::Directive::OMPD_dispatch;
 constexpr auto OMPD_interop = llvm::omp::Directive::OMPD_interop;
 
 enum class Clause {
