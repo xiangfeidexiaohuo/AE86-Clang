@@ -398,7 +398,7 @@ OPTION(prefix_1, &"-debug-info-kind="[1], debug_info_kind_EQ, Joined, INVALID, I
 OPTION(prefix_1, &"-debug-info-macro"[1], debug_info_macro, Flag, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0,
        "Emit macro debug information", nullptr, nullptr)
 OPTION(prefix_3, &"--debug="[2], _debug_EQ, Joined, INVALID, g_Flag, nullptr, 0, 0, nullptr, nullptr, nullptr)
-OPTION(prefix_1, &"-debugger-tuning="[1], debugger_tuning_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0, nullptr, nullptr, "gdb,lldb,sce")
+OPTION(prefix_1, &"-debugger-tuning="[1], debugger_tuning_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0, nullptr, nullptr, "gdb,lldb,sce,dbx")
 OPTION(prefix_3, &"--debug"[2], _debug, Flag, INVALID, g_Flag, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-default-function-attr"[1], default_function_attr, Separate, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0,
        "Apply given attribute to all functions", nullptr, nullptr)
@@ -740,8 +740,7 @@ OPTION(prefix_1, &"-fcuda-allow-variadic-functions"[1], fcuda_allow_variadic_fun
        "Allow variadic functions in CUDA device code.", nullptr, nullptr)
 OPTION(prefix_1, &"-fcuda-approx-transcendentals"[1], fcuda_approx_transcendentals, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
        "Use approximate transcendental functions", nullptr, nullptr)
-OPTION(prefix_1, &"-fcuda-flush-denormals-to-zero"[1], fcuda_flush_denormals_to_zero, Flag, INVALID, INVALID, nullptr, 0, 0,
-       "Flush denormal floating point values to zero in CUDA device mode.", nullptr, nullptr)
+OPTION(prefix_1, &"-fcuda-flush-denormals-to-zero"[1], fcuda_flush_denormals_to_zero, Flag, INVALID, fgpu_flush_denormals_to_zero, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-fcuda-include-gpubinary"[1], fcuda_include_gpubinary, Separate, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Incorporate CUDA device-side binary into host object file.", nullptr, nullptr)
 OPTION(prefix_1, &"-fcuda-is-device"[1], fcuda_is_device, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
@@ -1069,6 +1068,8 @@ OPTION(prefix_1, &"-fgpu-defer-diag"[1], fgpu_defer_diag, Flag, f_Group, INVALID
        "Defer host/device related diagnostic messages for CUDA/HIP", nullptr, nullptr)
 OPTION(prefix_1, &"-fgpu-exclude-wrong-side-overloads"[1], fgpu_exclude_wrong_side_overloads, Flag, f_Group, INVALID, nullptr, CC1Option | HelpHidden, 0,
        "Always exclude wrong side overloads in overloading resolution for CUDA/HIP", nullptr, nullptr)
+OPTION(prefix_1, &"-fgpu-flush-denormals-to-zero"[1], fgpu_flush_denormals_to_zero, Flag, INVALID, INVALID, nullptr, 0, 0,
+       "Flush denormal floating point values to zero in CUDA/HIP device mode.", nullptr, nullptr)
 OPTION(prefix_1, &"-fgpu-rdc"[1], fgpu_rdc, Flag, f_Group, INVALID, nullptr, CC1Option, 0,
        "Generate relocatable device code, also known as separate compilation mode", nullptr, nullptr)
 OPTION(prefix_1, &"-fgpu-sanitize"[1], fgpu_sanitize, Flag, f_Group, INVALID, nullptr, 0, 0,
@@ -1170,6 +1171,8 @@ OPTION(prefix_1, &"-flto-unit"[1], flto_unit, Flag, INVALID, INVALID, nullptr, C
        "Emit IR to support LTO unit features (CFI, whole program vtable opt)", nullptr, nullptr)
 OPTION(prefix_1, &"-flto-visibility-public-std"[1], flto_visibility_public_std, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Use public LTO visibility for classes in std and stdext namespaces", nullptr, nullptr)
+OPTION(prefix_1, &"-flto=auto"[1], anonymous_1223, Flag, clang_ignored_gcc_optimization_f_Group, INVALID, nullptr, Ignored, 0, nullptr, nullptr, nullptr)
+OPTION(prefix_1, &"-flto=jobserver"[1], anonymous_1224, Flag, clang_ignored_gcc_optimization_f_Group, INVALID, nullptr, Ignored, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-flto="[1], flto_EQ, Joined, f_Group, INVALID, nullptr, CoreOption | CC1Option, 0,
        "Set LTO mode to either 'full' or 'thin'", nullptr, "thin,full")
 OPTION(prefix_1, &"-flto"[1], flto, Flag, f_Group, INVALID, nullptr, CoreOption | CC1Option, 0,
@@ -1362,7 +1365,7 @@ OPTION(prefix_1, &"-fno-crash-diagnostics"[1], fno_crash_diagnostics, Flag, f_cl
 OPTION(prefix_1, &"-fno-cray-pointer"[1], fno_cray_pointer, Flag, gfortran_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-fno-cuda-approx-transcendentals"[1], fno_cuda_approx_transcendentals, Flag, f_Group, INVALID, nullptr, 0, 0,
        "Don't use approximate transcendental functions", nullptr, nullptr)
-OPTION(prefix_1, &"-fno-cuda-flush-denormals-to-zero"[1], fno_cuda_flush_denormals_to_zero, Flag, INVALID, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
+OPTION(prefix_1, &"-fno-cuda-flush-denormals-to-zero"[1], fno_cuda_flush_denormals_to_zero, Flag, INVALID, fno_gpu_flush_denormals_to_zero, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-fno-cuda-host-device-constexpr"[1], fno_cuda_host_device_constexpr, Flag, INVALID, INVALID, nullptr, CC1Option | NoDriverOption, 0,
        "Don't treat unattributed constexpr functions as __host__ __device__.", nullptr, nullptr)
 OPTION(prefix_1, &"-fno-cuda-rdc"[1], anonymous_52, Flag, INVALID, fno_gpu_rdc, nullptr, 0, 0, nullptr, nullptr, nullptr)
@@ -1489,6 +1492,7 @@ OPTION(prefix_1, &"-fno-gpu-defer-diag"[1], fno_gpu_defer_diag, Flag, f_Group, I
        "Don't defer host/device related diagnostic messages for CUDA/HIP", nullptr, nullptr)
 OPTION(prefix_1, &"-fno-gpu-exclude-wrong-side-overloads"[1], fno_gpu_exclude_wrong_side_overloads, Flag, f_Group, INVALID, nullptr, HelpHidden, 0,
        "Exclude wrong side overloads only if there are same side overloads in overloading resolution for CUDA/HIP", nullptr, nullptr)
+OPTION(prefix_1, &"-fno-gpu-flush-denormals-to-zero"[1], fno_gpu_flush_denormals_to_zero, Flag, INVALID, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-fno-gpu-rdc"[1], fno_gpu_rdc, Flag, f_Group, INVALID, nullptr, 0, 0,
        "", nullptr, nullptr)
 OPTION(prefix_1, &"-fno-gpu-sanitize"[1], fno_gpu_sanitize, Flag, f_Group, INVALID, nullptr, 0, 0,
@@ -2502,6 +2506,7 @@ OPTION(prefix_1, &"-gcodeview"[1], gcodeview, Flag, INVALID, INVALID, nullptr, C
 OPTION(prefix_1, &"-gcoff"[1], gcoff, Joined, g_Group, INVALID, nullptr, Unsupported, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-gcolumn-info"[1], gcolumn_info, Flag, g_flags_Group, INVALID, nullptr, CoreOption, 0,
        "", nullptr, nullptr)
+OPTION(prefix_1, &"-gdbx"[1], gdbx, Flag, gTune_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-gdwarf-2"[1], gdwarf_2, Flag, g_Group, INVALID, nullptr, 0, 0,
        "Generate source-level debug information with dwarf version 2", nullptr, nullptr)
 OPTION(prefix_1, &"-gdwarf-3"[1], gdwarf_3, Flag, g_Group, INVALID, nullptr, 0, 0,
@@ -2594,7 +2599,7 @@ OPTION(prefix_1, &"-gstabs"[1], gstabs, Joined, g_Group, INVALID, nullptr, Unsup
 OPTION(prefix_1, &"-gstrict-dwarf"[1], gstrict_dwarf, Flag, g_flags_Group, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_2, &"/GS"[1], _SLASH_GS, Flag, cl_Group, INVALID, nullptr, CLOption | NoXarchOption | CLOption, 0,
        "Enable buffer security check (default)", nullptr, nullptr)
-OPTION(prefix_2, &"/Gs"[1], anonymous_1533, Flag, cl_Group, mstack_probe_size, "4096\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Gs"[1], anonymous_1535, Flag, cl_Group, mstack_probe_size, "4096\0", CLOption | NoXarchOption | CLOption, 0,
        "Use stack probes (default)", nullptr, nullptr)
 OPTION(prefix_2, &"/Gs"[1], _SLASH_Gs, Joined, cl_Group, mstack_probe_size, nullptr, CLOption | NoXarchOption | CLOption, 0,
        "Set stack probe size (default 4096)", nullptr, nullptr)
@@ -3624,16 +3629,16 @@ OPTION(prefix_1, &"-nostdsysteminc"[1], nostdsysteminc, Flag, INVALID, INVALID, 
 OPTION(prefix_1, &"-n"[1], n, Flag, INVALID, INVALID, nullptr, CC1AsOption | NoDriverOption, 0,
        "Don't automatically start assembly file with a text section", nullptr, nullptr)
 OPTION(prefix_1, &"-O0"[1], O0, Flag, O_Group, INVALID, nullptr, CC1Option | HelpHidden, 0, nullptr, nullptr, nullptr)
-OPTION(prefix_2, &"/O1"[1], anonymous_1534, Flag, cl_Group, _SLASH_O, "1\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/O1"[1], anonymous_1536, Flag, cl_Group, _SLASH_O, "1\0", CLOption | NoXarchOption | CLOption, 0,
        "Optimize for size  (like /Og     /Os /Oy /Ob2 /GF /Gy)", nullptr, nullptr)
-OPTION(prefix_2, &"/O2"[1], anonymous_1535, Flag, cl_Group, _SLASH_O, "2\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/O2"[1], anonymous_1537, Flag, cl_Group, _SLASH_O, "2\0", CLOption | NoXarchOption | CLOption, 0,
        "Optimize for speed (like /Og /Oi /Ot /Oy /Ob2 /GF /Gy)", nullptr, nullptr)
 OPTION(prefix_1, &"-O4"[1], O4, Flag, O_Group, INVALID, nullptr, CC1Option | HelpHidden, 0, nullptr, nullptr, nullptr)
-OPTION(prefix_2, &"/Ob0"[1], anonymous_1536, Flag, cl_Group, _SLASH_O, "b0\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Ob0"[1], anonymous_1538, Flag, cl_Group, _SLASH_O, "b0\0", CLOption | NoXarchOption | CLOption, 0,
        "Disable function inlining", nullptr, nullptr)
-OPTION(prefix_2, &"/Ob1"[1], anonymous_1537, Flag, cl_Group, _SLASH_O, "b1\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Ob1"[1], anonymous_1539, Flag, cl_Group, _SLASH_O, "b1\0", CLOption | NoXarchOption | CLOption, 0,
        "Only inline functions explicitly or implicitly marked inline", nullptr, nullptr)
-OPTION(prefix_2, &"/Ob2"[1], anonymous_1538, Flag, cl_Group, _SLASH_O, "b2\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Ob2"[1], anonymous_1540, Flag, cl_Group, _SLASH_O, "b2\0", CLOption | NoXarchOption | CLOption, 0,
        "Inline functions as deemed beneficial by the compiler", nullptr, nullptr)
 OPTION(prefix_1, &"-ObjC++"[1], ObjCXX, Flag, INVALID, INVALID, nullptr, NoXarchOption, 0,
        "Treat source input files as Objective-C++ inputs", nullptr, nullptr)
@@ -3677,16 +3682,16 @@ OPTION(prefix_1, &"-objcxx-isystem"[1], objcxx_isystem, JoinedOrSeparate, INVALI
 OPTION(prefix_1, &"-ObjC"[1], ObjC, Flag, INVALID, INVALID, nullptr, NoXarchOption, 0,
        "Treat source input files as Objective-C inputs", nullptr, nullptr)
 OPTION(prefix_1, &"-object"[1], object, Flag, INVALID, INVALID, nullptr, 0, 0, nullptr, nullptr, nullptr)
-OPTION(prefix_2, &"/Od"[1], anonymous_1539, Flag, cl_Group, _SLASH_O, "d\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Od"[1], anonymous_1541, Flag, cl_Group, _SLASH_O, "d\0", CLOption | NoXarchOption | CLOption, 0,
        "Disable optimization", nullptr, nullptr)
 OPTION(prefix_1, &"-Ofast"[1], Ofast, Joined, O_Group, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_3, &"--offload-arch="[2], offload_arch_EQ, Joined, INVALID, INVALID, nullptr, NoXarchOption, 0,
        "CUDA offloading device architecture (e.g. sm_35), or HIP offloading target ID in the form of a device architecture followed by target ID features delimited by a colon. Each target ID feature is a pre-defined string followed by a plus or minus sign (e.g. gfx908:xnack+:sramecc-).  May be specified more than once.", nullptr, nullptr)
-OPTION(prefix_2, &"/Og"[1], anonymous_1540, Flag, cl_Group, _SLASH_O, "g\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Og"[1], anonymous_1542, Flag, cl_Group, _SLASH_O, "g\0", CLOption | NoXarchOption | CLOption, 0,
        "No effect", nullptr, nullptr)
-OPTION(prefix_2, &"/Oi-"[1], anonymous_1542, Flag, cl_Group, _SLASH_O, "i-\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Oi-"[1], anonymous_1544, Flag, cl_Group, _SLASH_O, "i-\0", CLOption | NoXarchOption | CLOption, 0,
        "Disable use of builtin functions", nullptr, nullptr)
-OPTION(prefix_2, &"/Oi"[1], anonymous_1541, Flag, cl_Group, _SLASH_O, "i\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Oi"[1], anonymous_1543, Flag, cl_Group, _SLASH_O, "i\0", CLOption | NoXarchOption | CLOption, 0,
        "Enable use of builtin functions", nullptr, nullptr)
 OPTION(prefix_2, &"/openmp-"[1], _SLASH_openmp_, Flag, cl_Group, fno_openmp, nullptr, CLOption | NoXarchOption | CLOption, 0,
        "Disable OpenMP support", nullptr, nullptr)
@@ -3702,9 +3707,9 @@ OPTION(prefix_1, &"-opt-record-passes"[1], opt_record_passes, Separate, INVALID,
        "Only record remark information for passes whose names match the given regular expression", nullptr, nullptr)
 OPTION(prefix_3, &"--optimize="[2], _optimize_EQ, Joined, INVALID, O, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_3, &"--optimize"[2], _optimize, Flag, INVALID, O, nullptr, 0, 0, nullptr, nullptr, nullptr)
-OPTION(prefix_2, &"/Os"[1], anonymous_1543, Flag, cl_Group, _SLASH_O, "s\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Os"[1], anonymous_1545, Flag, cl_Group, _SLASH_O, "s\0", CLOption | NoXarchOption | CLOption, 0,
        "Optimize for size", nullptr, nullptr)
-OPTION(prefix_2, &"/Ot"[1], anonymous_1544, Flag, cl_Group, _SLASH_O, "t\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Ot"[1], anonymous_1546, Flag, cl_Group, _SLASH_O, "t\0", CLOption | NoXarchOption | CLOption, 0,
        "Optimize for speed", nullptr, nullptr)
 OPTION(prefix_1, &"-output-asm-variant"[1], output_asm_variant, Separate, INVALID, INVALID, nullptr, CC1AsOption | NoDriverOption, 0,
        "Select the asm variant index to use for output", nullptr, nullptr)
@@ -3712,11 +3717,11 @@ OPTION(prefix_3, &"--output-class-directory="[2], _output_class_directory_EQ, Jo
 OPTION(prefix_3, &"--output-class-directory"[2], _output_class_directory, Separate, INVALID, foutput_class_dir_EQ, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_3, &"--output="[2], _output_EQ, Joined, INVALID, o, nullptr, 0, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_3, &"--output"[2], _output, Separate, INVALID, o, nullptr, 0, 0, nullptr, nullptr, nullptr)
-OPTION(prefix_2, &"/Ox"[1], anonymous_1545, Flag, cl_Group, _SLASH_O, "x\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Ox"[1], anonymous_1547, Flag, cl_Group, _SLASH_O, "x\0", CLOption | NoXarchOption | CLOption, 0,
        "Deprecated (like /Og /Oi /Ot /Oy /Ob2); use /O2", nullptr, nullptr)
-OPTION(prefix_2, &"/Oy-"[1], anonymous_1547, Flag, cl_Group, _SLASH_O, "y-\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Oy-"[1], anonymous_1549, Flag, cl_Group, _SLASH_O, "y-\0", CLOption | NoXarchOption | CLOption, 0,
        "Disable frame pointer omission (x86 only, default)", nullptr, nullptr)
-OPTION(prefix_2, &"/Oy"[1], anonymous_1546, Flag, cl_Group, _SLASH_O, "y\0", CLOption | NoXarchOption | CLOption, 0,
+OPTION(prefix_2, &"/Oy"[1], anonymous_1548, Flag, cl_Group, _SLASH_O, "y\0", CLOption | NoXarchOption | CLOption, 0,
        "Enable frame pointer omission (x86 only)", nullptr, nullptr)
 OPTION(prefix_1, &"-O"[1], O_flag, Flag, INVALID, O, "1\0", CC1Option, 0, nullptr, nullptr, nullptr)
 OPTION(prefix_1, &"-O"[1], O, Joined, O_Group, INVALID, nullptr, CC1Option, 0, nullptr, nullptr, nullptr)
@@ -4176,7 +4181,7 @@ OPTION(prefix_2, &"/WX-"[1], _SLASH_WX_, Flag, cl_Group, W_Joined, "no-error\0",
        "Do not treat warnings as errors (default)", nullptr, nullptr)
 OPTION(prefix_2, &"/WX"[1], _SLASH_WX, Flag, cl_Group, W_Joined, "error\0", CLOption | NoXarchOption | CLOption, 0,
        "Treat warnings as errors", nullptr, nullptr)
-OPTION(prefix_1, &"-W"[1], W_Joined, Joined, W_Group, INVALID, nullptr, CC1Option | CoreOption, 0,
+OPTION(prefix_1, &"-W"[1], W_Joined, Joined, W_Group, INVALID, nullptr, CC1Option | CoreOption | FC1Option | FlangOption, 0,
        "Enable the specified warning", "<warning>", nullptr)
 OPTION(prefix_1, &"-w"[1], w, Flag, INVALID, INVALID, nullptr, CC1Option, 0,
        "Suppress all warnings", nullptr, nullptr)
@@ -6330,7 +6335,7 @@ CODEGEN_OPTION_WITH_MARSHALLING(prefix_1, &"-default-function-attr"[1], default_
 CODEGEN_OPTION_WITH_MARSHALLING(prefix_1, &"-dwarf-version="[1], dwarf_version_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0, nullptr, nullptr, nullptr, "-dwarf-version=", true, 0, CodeGenOpts.DwarfVersion, 0, false, 0, normalizeStringIntegral<unsigned>, denormalizeString<unsigned>, mergeForwardValue, extractForwardValue, -1)
 #endif // CODEGEN_OPTION_WITH_MARSHALLING
 #ifdef CODEGEN_OPTION_WITH_MARSHALLING
-CODEGEN_OPTION_WITH_MARSHALLING(prefix_1, &"-debugger-tuning="[1], debugger_tuning_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0, nullptr, nullptr, "gdb,lldb,sce", "-debugger-tuning=", true, 0, CodeGenOpts.DebuggerTuning, llvm::DebuggerKind::Default, false, llvm::DebuggerKind::Default, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 19)
+CODEGEN_OPTION_WITH_MARSHALLING(prefix_1, &"-debugger-tuning="[1], debugger_tuning_EQ, Joined, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0, nullptr, nullptr, "gdb,lldb,sce,dbx", "-debugger-tuning=", true, 0, CodeGenOpts.DebuggerTuning, llvm::DebuggerKind::Default, false, llvm::DebuggerKind::Default, normalizeSimpleEnum, denormalizeSimpleEnum, mergeForwardValue, extractForwardValue, 19)
 #endif // CODEGEN_OPTION_WITH_MARSHALLING
 #ifdef CODEGEN_OPTION_WITH_MARSHALLING
 CODEGEN_OPTION_WITH_MARSHALLING(prefix_1, &"-dwarf-debug-flags"[1], dwarf_debug_flags, Separate, INVALID, INVALID, nullptr, CC1Option | CC1AsOption | NoDriverOption, 0,
@@ -7221,7 +7226,7 @@ static const SimpleEnumValue msve_vector_bits_EQValueTable[] = {
 static const SimpleEnumValue analyzer_config_compatibility_modeValueTable[] = {
 {"true",static_cast<unsigned>(false)},{"false",static_cast<unsigned>(true)},};
 static const SimpleEnumValue debugger_tuning_EQValueTable[] = {
-{"gdb",static_cast<unsigned>(llvm::DebuggerKind::GDB)},{"lldb",static_cast<unsigned>(llvm::DebuggerKind::LLDB)},{"sce",static_cast<unsigned>(llvm::DebuggerKind::SCE)},};
+{"gdb",static_cast<unsigned>(llvm::DebuggerKind::GDB)},{"lldb",static_cast<unsigned>(llvm::DebuggerKind::LLDB)},{"sce",static_cast<unsigned>(llvm::DebuggerKind::SCE)},{"dbx",static_cast<unsigned>(llvm::DebuggerKind::DBX)},};
 static const SimpleEnumValue compress_debug_sections_EQValueTable[] = {
 {"none",static_cast<unsigned>(llvm::DebugCompressionType::None)},{"zlib",static_cast<unsigned>(llvm::DebugCompressionType::Z)},{"zlib-gnu",static_cast<unsigned>(llvm::DebugCompressionType::GNU)},};
 static const SimpleEnumValue mrelocation_modelValueTable[] = {

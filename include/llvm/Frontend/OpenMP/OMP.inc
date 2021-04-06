@@ -2175,6 +2175,8 @@ namespace omp {
     llvm::omp::Clause::OMPC_is_device_ptr,
     llvm::omp::Clause::OMPC_nowait,
     llvm::omp::Clause::OMPC_depend,
+    llvm::omp::Clause::OMPC_novariants,
+    llvm::omp::Clause::OMPC_nocontext,
   };
 
   static OmpClauseSet allowedOnceClauses_OMPD_dispatch {
@@ -2991,8 +2993,10 @@ EMPTY_CLASS(Match);
 EMPTY_CLASS(Mergeable);
 EMPTY_CLASS(Nogroup);
 EMPTY_CLASS(Nowait);
+WRAPPER_CLASS(Nocontext, ScalarLogicalExpr);
 EMPTY_CLASS(Nontemporal);
 EMPTY_CLASS(Notinbranch);
+WRAPPER_CLASS(Novariants, ScalarLogicalExpr);
 WRAPPER_CLASS(NumTasks, ScalarIntExpr);
 WRAPPER_CLASS(NumTeams, ScalarIntExpr);
 WRAPPER_CLASS(NumThreads, ScalarIntExpr);
@@ -3077,8 +3081,10 @@ AcqRel
 , Mergeable
 , Nogroup
 , Nowait
+, Nocontext
 , Nontemporal
 , Notinbranch
+, Novariants
 , NumTasks
 , NumTeams
 , NumThreads
@@ -3163,8 +3169,10 @@ NODE(OmpClause, Match)
 NODE(OmpClause, Mergeable)
 NODE(OmpClause, Nogroup)
 NODE(OmpClause, Nowait)
+NODE(OmpClause, Nocontext)
 NODE(OmpClause, Nontemporal)
 NODE(OmpClause, Notinbranch)
+NODE(OmpClause, Novariants)
 NODE(OmpClause, NumTasks)
 NODE(OmpClause, NumTeams)
 NODE(OmpClause, NumThreads)
@@ -3357,8 +3365,20 @@ void Before(const OmpClause::Match &) { Word("MATCH"); }
 void Before(const OmpClause::Mergeable &) { Word("MERGEABLE"); }
 void Before(const OmpClause::Nogroup &) { Word("NOGROUP"); }
 void Before(const OmpClause::Nowait &) { Word("NOWAIT"); }
+void Unparse(const OmpClause::Nocontext &x) {
+  Word("NOCONTEXT");
+  Put("(");
+  Walk(x.v);
+  Put(")");
+}
 void Before(const OmpClause::Nontemporal &) { Word("NONTEMPORAL"); }
 void Before(const OmpClause::Notinbranch &) { Word("NOTINBRANCH"); }
+void Unparse(const OmpClause::Novariants &x) {
+  Word("NOVARIANTS");
+  Put("(");
+  Walk(x.v);
+  Put(")");
+}
 void Unparse(const OmpClause::NumTasks &x) {
   Word("NUM_TASKS");
   Put("(");
@@ -3526,8 +3546,10 @@ void Enter(const parser::OmpClause::Match &);
 void Enter(const parser::OmpClause::Mergeable &);
 void Enter(const parser::OmpClause::Nogroup &);
 void Enter(const parser::OmpClause::Nowait &);
+void Enter(const parser::OmpClause::Nocontext &);
 void Enter(const parser::OmpClause::Nontemporal &);
 void Enter(const parser::OmpClause::Notinbranch &);
+void Enter(const parser::OmpClause::Novariants &);
 void Enter(const parser::OmpClause::NumTasks &);
 void Enter(const parser::OmpClause::NumTeams &);
 void Enter(const parser::OmpClause::NumThreads &);
@@ -3654,10 +3676,14 @@ if constexpr (std::is_same_v<A, parser::OmpClause::Nogroup>)
   return llvm::omp::Clause::OMPC_nogroup;
 if constexpr (std::is_same_v<A, parser::OmpClause::Nowait>)
   return llvm::omp::Clause::OMPC_nowait;
+if constexpr (std::is_same_v<A, parser::OmpClause::Nocontext>)
+  return llvm::omp::Clause::OMPC_nocontext;
 if constexpr (std::is_same_v<A, parser::OmpClause::Nontemporal>)
   return llvm::omp::Clause::OMPC_nontemporal;
 if constexpr (std::is_same_v<A, parser::OmpClause::Notinbranch>)
   return llvm::omp::Clause::OMPC_notinbranch;
+if constexpr (std::is_same_v<A, parser::OmpClause::Novariants>)
+  return llvm::omp::Clause::OMPC_novariants;
 if constexpr (std::is_same_v<A, parser::OmpClause::NumTasks>)
   return llvm::omp::Clause::OMPC_num_tasks;
 if constexpr (std::is_same_v<A, parser::OmpClause::NumTeams>)
@@ -3802,8 +3828,10 @@ __CLAUSE_NO_CLASS(match)
 __CLAUSE(mergeable, OMPMergeableClause)
 __CLAUSE(nogroup, OMPNogroupClause)
 __CLAUSE(nowait, OMPNowaitClause)
+__CLAUSE(nocontext, OMPNocontextClause)
 __CLAUSE(nontemporal, OMPNontemporalClause)
 __CLAUSE_NO_CLASS(notinbranch)
+__CLAUSE(novariants, OMPNovariantsClause)
 __CLAUSE(num_tasks, OMPNumTasksClause)
 __CLAUSE(num_teams, OMPNumTeamsClause)
 __CLAUSE(num_threads, OMPNumThreadsClause)
@@ -4181,8 +4209,10 @@ Clause llvm::omp::getOpenMPClauseKind(llvm::StringRef Str) {
     .Case("mergeable",OMPC_mergeable)
     .Case("nogroup",OMPC_nogroup)
     .Case("nowait",OMPC_nowait)
+    .Case("nocontext",OMPC_nocontext)
     .Case("nontemporal",OMPC_nontemporal)
     .Case("notinbranch",OMPC_notinbranch)
+    .Case("novariants",OMPC_novariants)
     .Case("num_tasks",OMPC_num_tasks)
     .Case("num_teams",OMPC_num_teams)
     .Case("num_threads",OMPC_num_threads)
@@ -4308,10 +4338,14 @@ llvm::StringRef llvm::omp::getOpenMPClauseName(Clause Kind) {
       return "nogroup";
     case OMPC_nowait:
       return "nowait";
+    case OMPC_nocontext:
+      return "nocontext";
     case OMPC_nontemporal:
       return "nontemporal";
     case OMPC_notinbranch:
       return "notinbranch";
+    case OMPC_novariants:
+      return "novariants";
     case OMPC_num_tasks:
       return "num_tasks";
     case OMPC_num_teams:
@@ -4404,6 +4438,7 @@ llvm::StringRef llvm::omp::getOpenMPOrderKindName(llvm::omp::OrderKind x) {
 
 ProcBindKind llvm::omp::getProcBindKind(llvm::StringRef Str) {
   return llvm::StringSwitch<ProcBindKind>(Str)
+    .Case("primary",OMP_PROC_BIND_primary)
     .Case("master",OMP_PROC_BIND_master)
     .Case("close",OMP_PROC_BIND_close)
     .Case("spread",OMP_PROC_BIND_spread)
@@ -4414,6 +4449,8 @@ ProcBindKind llvm::omp::getProcBindKind(llvm::StringRef Str) {
 
 llvm::StringRef llvm::omp::getOpenMPProcBindKindName(llvm::omp::ProcBindKind x) {
   switch (x) {
+    case OMP_PROC_BIND_primary:
+      return "primary";
     case OMP_PROC_BIND_master:
       return "master";
     case OMP_PROC_BIND_close:
@@ -6789,6 +6826,10 @@ bool llvm::omp::isAllowedClauseForDirective(Directive D, Clause C, unsigned Vers
         case OMPC_nowait:
           return 1 <= Version && 2147483647 >= Version;
         case OMPC_depend:
+          return 1 <= Version && 2147483647 >= Version;
+        case OMPC_novariants:
+          return 1 <= Version && 2147483647 >= Version;
+        case OMPC_nocontext:
           return 1 <= Version && 2147483647 >= Version;
         default:
           return false;

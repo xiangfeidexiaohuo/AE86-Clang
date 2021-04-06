@@ -1759,7 +1759,7 @@ DIAG(err_return_in_captured_stmt, CLASS_ERROR, (unsigned)diag::Severity::Error, 
 DIAG(err_return_in_constructor_handler, CLASS_ERROR, (unsigned)diag::Severity::Error, "return in the catch of a function try block of a constructor is illegal", 0, SFINAE_SubstitutionFailure, false, true, false, 2)
 DIAG(err_return_in_coroutine, CLASS_ERROR, (unsigned)diag::Severity::Error, "return statement not allowed in coroutine; did you mean 'co_return'?", 0, SFINAE_SubstitutionFailure, false, true, false, 15)
 DIAG(err_return_init_list, CLASS_ERROR, (unsigned)diag::Severity::Error, "%select{void function|void method|constructor|destructor}1 %0 must not return a value", 0, SFINAE_SubstitutionFailure, false, true, false, 2)
-DIAG(err_riscvv_builtin_requires_v, CLASS_ERROR, (unsigned)diag::Severity::Error, "builtin requires 'V' extension support to be enabled", 0, SFINAE_SubstitutionFailure, false, true, false, 0)
+DIAG(err_riscv_builtin_requires_extension, CLASS_ERROR, (unsigned)diag::Severity::Error, "builtin requires '%0' extension support to be enabled", 0, SFINAE_SubstitutionFailure, false, true, false, 0)
 DIAG(err_root_class_cannot_use_super, CLASS_ERROR, (unsigned)diag::Severity::Error, "%0 cannot use 'super' because it is a root class", 0, SFINAE_SubstitutionFailure, false, true, false, 2)
 DIAG(err_rotation_argument_to_cadd, CLASS_ERROR, (unsigned)diag::Severity::Error, "argument should be the value 90 or 270", 0, SFINAE_SubstitutionFailure, false, true, false, 2)
 DIAG(err_rotation_argument_to_cmla, CLASS_ERROR, (unsigned)diag::Severity::Error, "argument should be the value 0, 90, 180 or 270", 0, SFINAE_SubstitutionFailure, false, true, false, 2)

@@ -240,8 +240,10 @@ enum class Clause {
   OMPC_mergeable,
   OMPC_nogroup,
   OMPC_nowait,
+  OMPC_nocontext,
   OMPC_nontemporal,
   OMPC_notinbranch,
+  OMPC_novariants,
   OMPC_num_tasks,
   OMPC_num_teams,
   OMPC_num_threads,
@@ -280,7 +282,7 @@ enum class Clause {
   OMPC_write,
 };
 
-static constexpr std::size_t Clause_enumSize = 80;
+static constexpr std::size_t Clause_enumSize = 82;
 
 constexpr auto OMPC_acq_rel = llvm::omp::Clause::OMPC_acq_rel;
 constexpr auto OMPC_acquire = llvm::omp::Clause::OMPC_acquire;
@@ -324,8 +326,10 @@ constexpr auto OMPC_match = llvm::omp::Clause::OMPC_match;
 constexpr auto OMPC_mergeable = llvm::omp::Clause::OMPC_mergeable;
 constexpr auto OMPC_nogroup = llvm::omp::Clause::OMPC_nogroup;
 constexpr auto OMPC_nowait = llvm::omp::Clause::OMPC_nowait;
+constexpr auto OMPC_nocontext = llvm::omp::Clause::OMPC_nocontext;
 constexpr auto OMPC_nontemporal = llvm::omp::Clause::OMPC_nontemporal;
 constexpr auto OMPC_notinbranch = llvm::omp::Clause::OMPC_notinbranch;
+constexpr auto OMPC_novariants = llvm::omp::Clause::OMPC_novariants;
 constexpr auto OMPC_num_tasks = llvm::omp::Clause::OMPC_num_tasks;
 constexpr auto OMPC_num_teams = llvm::omp::Clause::OMPC_num_teams;
 constexpr auto OMPC_num_threads = llvm::omp::Clause::OMPC_num_threads;
@@ -370,13 +374,15 @@ enum class OrderKind {
 constexpr auto OMP_ORDER_concurrent = llvm::omp::OrderKind::OMP_ORDER_concurrent;
 
 enum class ProcBindKind {
+  OMP_PROC_BIND_primary=5,
   OMP_PROC_BIND_master=2,
   OMP_PROC_BIND_close=3,
   OMP_PROC_BIND_spread=4,
-  OMP_PROC_BIND_default=5,
-  OMP_PROC_BIND_unknown=6,
+  OMP_PROC_BIND_default=6,
+  OMP_PROC_BIND_unknown=7,
 };
 
+constexpr auto OMP_PROC_BIND_primary = llvm::omp::ProcBindKind::OMP_PROC_BIND_primary;
 constexpr auto OMP_PROC_BIND_master = llvm::omp::ProcBindKind::OMP_PROC_BIND_master;
 constexpr auto OMP_PROC_BIND_close = llvm::omp::ProcBindKind::OMP_PROC_BIND_close;
 constexpr auto OMP_PROC_BIND_spread = llvm::omp::ProcBindKind::OMP_PROC_BIND_spread;

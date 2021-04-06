@@ -6,6 +6,7 @@
 |*                                                                            *|
 \*===----------------------------------------------------------------------===*/
 
+#if !defined(WANT_MERGE_LOGIC)
 static bool isStruct(const Decl *D) {
   if (const auto *S = dyn_cast<RecordDecl>(D))
     return !S->isUnion();
@@ -832,6 +833,15 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<NoDestroyAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable, /*IsSupported=*/true));
 }
@@ -872,6 +882,15 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
     << AL << St->getBeginLoc();
   return false;
 }
+
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<NotTailCalledAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
 
 unsigned spellingIndexToSemanticSpelling(const ParsedAttr &Attr) const override {
   enum Spelling {
@@ -1662,8 +1681,22 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<CFUnknownTransferAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
+}
+
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) CFAuditedTransferAttr(S.Context, Attr));
+  return AttributeApplied;
 }
 
 static const ParsedAttrInfoCFAuditedTransfer Instance;
@@ -1863,8 +1896,22 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<CFAuditedTransferAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
+}
+
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) CFUnknownTransferAttr(S.Context, Attr));
+  return AttributeApplied;
 }
 
 static const ParsedAttrInfoCFUnknownTransfer Instance;
@@ -1984,6 +2031,20 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<CUDASharedAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    if (const auto *A = D->getAttr<HIPManagedAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
+
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
   auto &LangOpts = S.LangOpts;
   if (LangOpts.CUDA)
@@ -2031,6 +2092,15 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
     << AL << St->getBeginLoc();
   return false;
 }
+
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<CUDAGlobalAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
   auto &LangOpts = S.LangOpts;
@@ -2081,6 +2151,15 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<CUDADeviceBuiltinTextureTypeAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
+
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
   auto &LangOpts = S.LangOpts;
   if (LangOpts.CUDA)
@@ -2092,6 +2171,11 @@ bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_record, /*IsSupported=*/true));
+}
+
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) CUDADeviceBuiltinSurfaceTypeAttr(S.Context, Attr));
+  return AttributeApplied;
 }
 
 static const ParsedAttrInfoCUDADeviceBuiltinSurfaceType Instance;
@@ -2129,6 +2213,15 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<CUDADeviceBuiltinSurfaceTypeAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
+
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
   auto &LangOpts = S.LangOpts;
   if (LangOpts.CUDA)
@@ -2140,6 +2233,11 @@ bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_record, /*IsSupported=*/true));
+}
+
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) CUDADeviceBuiltinTextureTypeAttr(S.Context, Attr));
+  return AttributeApplied;
 }
 
 static const ParsedAttrInfoCUDADeviceBuiltinTextureType Instance;
@@ -2176,6 +2274,20 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
     << AL << St->getBeginLoc();
   return false;
 }
+
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<CUDADeviceAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    if (const auto *A = D->getAttr<CUDAHostAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
   auto &LangOpts = S.LangOpts;
@@ -2225,6 +2337,15 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<CUDAGlobalAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
+
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
   auto &LangOpts = S.LangOpts;
   if (LangOpts.CUDA)
@@ -2236,6 +2357,11 @@ bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
+}
+
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) CUDAHostAttr(S.Context, Attr));
+  return AttributeApplied;
 }
 
 static const ParsedAttrInfoCUDAHost Instance;
@@ -2360,6 +2486,20 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
     << AL << St->getBeginLoc();
   return false;
 }
+
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<CUDAConstantAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    if (const auto *A = D->getAttr<HIPManagedAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
 
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
   auto &LangOpts = S.LangOpts;
@@ -2843,8 +2983,22 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<HotAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
+}
+
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) ColdAttr(S.Context, Attr));
+  return AttributeApplied;
 }
 
 static const ParsedAttrInfoCold Instance;
@@ -2882,6 +3036,15 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
     << AL << St->getBeginLoc();
   return false;
 }
+
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<InternalLinkageAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable, /*IsSupported=*/true));
@@ -3502,9 +3665,23 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<NakedAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_method, /*IsSupported=*/LangOpts.ObjC));
+}
+
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) DisableTailCallsAttr(S.Context, Attr));
+  return AttributeApplied;
 }
 
 static const ParsedAttrInfoDisableTailCalls Instance;
@@ -4251,6 +4428,20 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<CUDAConstantAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    if (const auto *A = D->getAttr<CUDASharedAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
+
 bool diagLangOpts(Sema &S, const ParsedAttr &Attr) const override {
   auto &LangOpts = S.LangOpts;
   if (LangOpts.HIP)
@@ -4300,8 +4491,22 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<ColdAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
+}
+
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) HotAttr(S.Context, Attr));
+  return AttributeApplied;
 }
 
 static const ParsedAttrInfoHot Instance;
@@ -4536,6 +4741,15 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<CommonAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable, /*IsSupported=*/true));
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
@@ -4740,6 +4954,19 @@ struct ParsedAttrInfoLikely final : public ParsedAttrInfo {
     IsSupportedByPragmaAttribute = 0;
     Spellings = LikelySpellings;
   }
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+    if (const auto *AS = dyn_cast<AttributedStmt>(St)) {
+      const ArrayRef<const Attr *> &Attrs = AS->getAttrs();
+      auto IterUnlikelyAttr = llvm::find_if(Attrs, [](const Attr *A) { return isa<UnlikelyAttr>(A); });
+      if (IterUnlikelyAttr != Attrs.end()) {
+        S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << *IterUnlikelyAttr;
+        S.Diag((*IterUnlikelyAttr)->getLocation(), diag::note_conflicting_attribute);
+        return false;
+      }
+    }
+    return true;
+  }
+
 static const ParsedAttrInfoLikely Instance;
 };
 const ParsedAttrInfoLikely ParsedAttrInfoLikely::Instance;
@@ -4778,6 +5005,11 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable_is_global, /*IsSupported=*/true));
+}
+
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) LoaderUninitializedAttr(S.Context, Attr));
+  return AttributeApplied;
 }
 
 static const ParsedAttrInfoLoaderUninitialized Instance;
@@ -5266,6 +5498,15 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<Mips16Attr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
+
 bool existsInTarget(const TargetInfo &Target) const override {
   const llvm::Triple &T = Target.getTriple(); (void)T;
   return true && (T.getArch() == llvm::Triple::mips || T.getArch() == llvm::Triple::mipsel);
@@ -5273,6 +5514,11 @@ bool existsInTarget(const TargetInfo &Target) const override {
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
+}
+
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) MicroMipsAttr(S.Context, Attr));
+  return AttributeApplied;
 }
 
 static const ParsedAttrInfoMicroMips Instance;
@@ -5392,6 +5638,20 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<MipsInterruptAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    if (const auto *A = D->getAttr<MicroMipsAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
+
 bool existsInTarget(const TargetInfo &Target) const override {
   const llvm::Triple &T = Target.getTriple(); (void)T;
   return true && (T.getArch() == llvm::Triple::mips || T.getArch() == llvm::Triple::mipsel);
@@ -5399,6 +5659,11 @@ bool existsInTarget(const TargetInfo &Target) const override {
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
+}
+
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) Mips16Attr(S.Context, Attr));
+  return AttributeApplied;
 }
 
 static const ParsedAttrInfoMips16 Instance;
@@ -5440,6 +5705,15 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<MipsShortCallAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
+
 bool existsInTarget(const TargetInfo &Target) const override {
   const llvm::Triple &T = Target.getTriple(); (void)T;
   return true && (T.getArch() == llvm::Triple::mips || T.getArch() == llvm::Triple::mipsel || T.getArch() == llvm::Triple::mips64 || T.getArch() == llvm::Triple::mips64el);
@@ -5471,6 +5745,11 @@ unsigned spellingIndexToSemanticSpelling(const ParsedAttr &Attr) const override 
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
+}
+
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) MipsLongCallAttr(S.Context, Attr));
+  return AttributeApplied;
 }
 
 static const ParsedAttrInfoMipsLongCall Instance;
@@ -5512,6 +5791,15 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<MipsLongCallAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
+
 bool existsInTarget(const TargetInfo &Target) const override {
   const llvm::Triple &T = Target.getTriple(); (void)T;
   return true && (T.getArch() == llvm::Triple::mips || T.getArch() == llvm::Triple::mipsel || T.getArch() == llvm::Triple::mips64 || T.getArch() == llvm::Triple::mips64el);
@@ -5543,6 +5831,11 @@ unsigned spellingIndexToSemanticSpelling(const ParsedAttr &Attr) const override 
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
+}
+
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) MipsShortCallAttr(S.Context, Attr));
+  return AttributeApplied;
 }
 
 static const ParsedAttrInfoMipsShortCall Instance;
@@ -5803,6 +6096,15 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
     << AL << St->getBeginLoc();
   return false;
 }
+
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<DisableTailCallsAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
@@ -6072,6 +6374,15 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
     << AL << St->getBeginLoc();
   return false;
 }
+
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<AlwaysDestroyAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_variable, /*IsSupported=*/true));
@@ -6551,9 +6862,23 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<SpeculativeLoadHardeningAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_method, /*IsSupported=*/LangOpts.ObjC));
+}
+
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) NoSpeculativeLoadHardeningAttr(S.Context, Attr));
+  return AttributeApplied;
 }
 
 static const ParsedAttrInfoNoSpeculativeLoadHardening Instance;
@@ -6848,8 +7173,22 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<AlwaysInlineAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
+}
+
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) NotTailCalledAttr(S.Context, Attr));
+  return AttributeApplied;
 }
 
 static const ParsedAttrInfoNotTailCalled Instance;
@@ -7836,6 +8175,11 @@ void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectM
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_protocol, /*IsSupported=*/LangOpts.ObjC));
 }
 
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) ObjCNonRuntimeProtocolAttr(S.Context, Attr));
+  return AttributeApplied;
+}
+
 static const ParsedAttrInfoObjCNonRuntimeProtocol Instance;
 };
 const ParsedAttrInfoObjCNonRuntimeProtocol ParsedAttrInfoObjCNonRuntimeProtocol::Instance;
@@ -8800,6 +9144,15 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<PointerAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_record_not_is_union, /*IsSupported=*/true));
 }
@@ -9126,6 +9479,15 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
     << AL << St->getBeginLoc();
   return false;
 }
+
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<OwnerAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
 
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_record_not_is_union, /*IsSupported=*/true));
@@ -10399,9 +10761,23 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+    if (const auto *A = D->getAttr<NoSpeculativeLoadHardeningAttr>()) {
+      S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
+      S.Diag(A->getLocation(), diag::note_conflicting_attribute);      
+return false;
+    }
+    return true;
+  }
+
 void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_method, /*IsSupported=*/LangOpts.ObjC));
+}
+
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) SpeculativeLoadHardeningAttr(S.Context, Attr));
+  return AttributeApplied;
 }
 
 static const ParsedAttrInfoSpeculativeLoadHardening Instance;
@@ -10741,6 +11117,11 @@ void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectM
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_type_alias, /*IsSupported=*/true));
 }
 
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) SwiftBridgedTypedefAttr(S.Context, Attr));
+  return AttributeApplied;
+}
+
 static const ParsedAttrInfoSwiftBridgedTypedef Instance;
 };
 const ParsedAttrInfoSwiftBridgedTypedef ParsedAttrInfoSwiftBridgedTypedef::Instance;
@@ -11033,6 +11414,11 @@ void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectM
   MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_objc_interface, /*IsSupported=*/LangOpts.ObjC));
 }
 
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) SwiftObjCMembersAttr(S.Context, Attr));
+  return AttributeApplied;
+}
+
 static const ParsedAttrInfoSwiftObjCMembers Instance;
 };
 const ParsedAttrInfoSwiftObjCMembers ParsedAttrInfoSwiftObjCMembers::Instance;
@@ -11052,6 +11438,11 @@ struct ParsedAttrInfoSwiftPrivate final : public ParsedAttrInfo {
     IsSupportedByPragmaAttribute = 0;
     Spellings = SwiftPrivateSpellings;
   }
+AttrHandling handleDeclAttribute(Sema &S, Decl *D,const ParsedAttr &Attr) const override {
+  D->addAttr(::new (S.Context) SwiftPrivateAttr(S.Context, Attr));
+  return AttributeApplied;
+}
+
 static const ParsedAttrInfoSwiftPrivate Instance;
 };
 const ParsedAttrInfoSwiftPrivate ParsedAttrInfoSwiftPrivate::Instance;
@@ -11615,6 +12006,19 @@ struct ParsedAttrInfoUnlikely final : public ParsedAttrInfo {
     IsSupportedByPragmaAttribute = 0;
     Spellings = UnlikelySpellings;
   }
+  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
+    if (const auto *AS = dyn_cast<AttributedStmt>(St)) {
+      const ArrayRef<const Attr *> &Attrs = AS->getAttrs();
+      auto IterLikelyAttr = llvm::find_if(Attrs, [](const Attr *A) { return isa<LikelyAttr>(A); });
+      if (IterLikelyAttr != Attrs.end()) {
+        S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << *IterLikelyAttr;
+        S.Diag((*IterLikelyAttr)->getLocation(), diag::note_conflicting_attribute);
+        return false;
+      }
+    }
+    return true;
+  }
+
 static const ParsedAttrInfoUnlikely Instance;
 };
 const ParsedAttrInfoUnlikely ParsedAttrInfoUnlikely::Instance;
@@ -12863,3 +13267,259 @@ static bool checkAttributeMatchRuleAppliesTo(const Decl *D, attr::SubjectMatchRu
 return false;
 }
 
+#else // WANT_MERGE_LOGIC
+
+static bool DiagnoseMutualExclusions(Sema &S, const NamedDecl *D, const Attr *A) {
+  if (const auto *Second = dyn_cast<AlwaysDestroyAttr>(A)) {
+    if (const auto *First = D->getAttr<NoDestroyAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<AlwaysInlineAttr>(A)) {
+    if (const auto *First = D->getAttr<NotTailCalledAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<CFAuditedTransferAttr>(A)) {
+    if (const auto *First = D->getAttr<CFUnknownTransferAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<CFUnknownTransferAttr>(A)) {
+    if (const auto *First = D->getAttr<CFAuditedTransferAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<CUDAConstantAttr>(A)) {
+    if (const auto *First = D->getAttr<CUDASharedAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    if (const auto *First = D->getAttr<HIPManagedAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<CUDADeviceAttr>(A)) {
+    if (const auto *First = D->getAttr<CUDAGlobalAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<CUDADeviceBuiltinSurfaceTypeAttr>(A)) {
+    if (const auto *First = D->getAttr<CUDADeviceBuiltinTextureTypeAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<CUDADeviceBuiltinTextureTypeAttr>(A)) {
+    if (const auto *First = D->getAttr<CUDADeviceBuiltinSurfaceTypeAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<CUDAGlobalAttr>(A)) {
+    if (const auto *First = D->getAttr<CUDADeviceAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    if (const auto *First = D->getAttr<CUDAHostAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<CUDAHostAttr>(A)) {
+    if (const auto *First = D->getAttr<CUDAGlobalAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<CUDASharedAttr>(A)) {
+    if (const auto *First = D->getAttr<CUDAConstantAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    if (const auto *First = D->getAttr<HIPManagedAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<ColdAttr>(A)) {
+    if (const auto *First = D->getAttr<HotAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<CommonAttr>(A)) {
+    if (const auto *First = D->getAttr<InternalLinkageAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<DisableTailCallsAttr>(A)) {
+    if (const auto *First = D->getAttr<NakedAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<HIPManagedAttr>(A)) {
+    if (const auto *First = D->getAttr<CUDAConstantAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    if (const auto *First = D->getAttr<CUDASharedAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<HotAttr>(A)) {
+    if (const auto *First = D->getAttr<ColdAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<InternalLinkageAttr>(A)) {
+    if (const auto *First = D->getAttr<CommonAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<MicroMipsAttr>(A)) {
+    if (const auto *First = D->getAttr<Mips16Attr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<Mips16Attr>(A)) {
+    if (const auto *First = D->getAttr<MipsInterruptAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    if (const auto *First = D->getAttr<MicroMipsAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<MipsLongCallAttr>(A)) {
+    if (const auto *First = D->getAttr<MipsShortCallAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<MipsShortCallAttr>(A)) {
+    if (const auto *First = D->getAttr<MipsLongCallAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<NakedAttr>(A)) {
+    if (const auto *First = D->getAttr<DisableTailCallsAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<NoDestroyAttr>(A)) {
+    if (const auto *First = D->getAttr<AlwaysDestroyAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<NoSpeculativeLoadHardeningAttr>(A)) {
+    if (const auto *First = D->getAttr<SpeculativeLoadHardeningAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<NotTailCalledAttr>(A)) {
+    if (const auto *First = D->getAttr<AlwaysInlineAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<OwnerAttr>(A)) {
+    if (const auto *First = D->getAttr<PointerAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<PointerAttr>(A)) {
+    if (const auto *First = D->getAttr<OwnerAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  if (const auto *Second = dyn_cast<SpeculativeLoadHardeningAttr>(A)) {
+    if (const auto *First = D->getAttr<NoSpeculativeLoadHardeningAttr>()) {
+      S.Diag(First->getLocation(), diag::err_attributes_are_not_compatible) << First << Second;
+      S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+      return false;
+    }
+    return true;
+  }
+  return true;
+}
+
+#endif // WANT_MERGE_LOGIC
