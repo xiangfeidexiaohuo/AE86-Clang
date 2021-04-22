@@ -744,6 +744,10 @@ Attr *instantiateTemplateAttribute(const Attr *At, ASTContext &C, Sema &S,
       const auto *A = cast<ModeAttr>(At);
       return A->clone(C);
     }
+    case attr::MustTail: {
+      const auto *A = cast<MustTailAttr>(At);
+      return A->clone(C);
+    }
     case attr::NSConsumed: {
       const auto *A = cast<NSConsumedAttr>(At);
       return A->clone(C);
@@ -2027,6 +2031,9 @@ Attr *instantiateTemplateAttributeForDecl(const Attr *At,
       return nullptr;
     }
     case attr::Mode: {
+      return nullptr;
+    }
+    case attr::MustTail: {
       return nullptr;
     }
     case attr::NSConsumed: {

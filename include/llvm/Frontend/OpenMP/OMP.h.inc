@@ -101,9 +101,10 @@ enum class Directive {
   OMPD_workshare,
   OMPD_dispatch,
   OMPD_interop,
+  OMPD_masked,
 };
 
-static constexpr std::size_t Directive_enumSize = 91;
+static constexpr std::size_t Directive_enumSize = 92;
 
 constexpr auto OMPD_allocate = llvm::omp::Directive::OMPD_allocate;
 constexpr auto OMPD_assumes = llvm::omp::Directive::OMPD_assumes;
@@ -196,6 +197,7 @@ constexpr auto OMPD_unknown = llvm::omp::Directive::OMPD_unknown;
 constexpr auto OMPD_workshare = llvm::omp::Directive::OMPD_workshare;
 constexpr auto OMPD_dispatch = llvm::omp::Directive::OMPD_dispatch;
 constexpr auto OMPD_interop = llvm::omp::Directive::OMPD_interop;
+constexpr auto OMPD_masked = llvm::omp::Directive::OMPD_masked;
 
 enum class Clause {
   OMPC_acq_rel,
@@ -220,6 +222,7 @@ enum class Clause {
   OMPC_dist_schedule,
   OMPC_dynamic_allocators,
   OMPC_exclusive,
+  OMPC_filter,
   OMPC_final,
   OMPC_firstprivate,
   OMPC_flush,
@@ -282,7 +285,7 @@ enum class Clause {
   OMPC_write,
 };
 
-static constexpr std::size_t Clause_enumSize = 82;
+static constexpr std::size_t Clause_enumSize = 83;
 
 constexpr auto OMPC_acq_rel = llvm::omp::Clause::OMPC_acq_rel;
 constexpr auto OMPC_acquire = llvm::omp::Clause::OMPC_acquire;
@@ -306,6 +309,7 @@ constexpr auto OMPC_device_type = llvm::omp::Clause::OMPC_device_type;
 constexpr auto OMPC_dist_schedule = llvm::omp::Clause::OMPC_dist_schedule;
 constexpr auto OMPC_dynamic_allocators = llvm::omp::Clause::OMPC_dynamic_allocators;
 constexpr auto OMPC_exclusive = llvm::omp::Clause::OMPC_exclusive;
+constexpr auto OMPC_filter = llvm::omp::Clause::OMPC_filter;
 constexpr auto OMPC_final = llvm::omp::Clause::OMPC_final;
 constexpr auto OMPC_firstprivate = llvm::omp::Clause::OMPC_firstprivate;
 constexpr auto OMPC_flush = llvm::omp::Clause::OMPC_flush;

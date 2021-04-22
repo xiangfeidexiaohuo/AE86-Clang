@@ -1146,6 +1146,11 @@ Record.push_back(SA->getInterrupt());
     Record.AddIdentifierRef(SA->getMode());
     break;
   }
+  case attr::MustTail: {
+    Record.push_back(A->isImplicit());
+    Record.push_back(A->isPackExpansion());
+    break;
+  }
   case attr::NSConsumed: {
     const auto *SA = cast<NSConsumedAttr>(A);
     Record.push_back(SA->isInherited());

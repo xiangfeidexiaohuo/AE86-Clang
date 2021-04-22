@@ -596,6 +596,10 @@
   bool VisitModeAttr(ModeAttr *A) {
     return true; 
   }
+  bool TraverseMustTailAttr(MustTailAttr *A);
+  bool VisitMustTailAttr(MustTailAttr *A) {
+    return true; 
+  }
   bool TraverseNSConsumedAttr(NSConsumedAttr *A);
   bool VisitNSConsumedAttr(NSConsumedAttr *A) {
     return true; 
@@ -2787,6 +2791,15 @@ bool VISITORCLASS<Derived>::TraverseModeAttr(ModeAttr *A) {
 }
 
 template <typename Derived>
+bool VISITORCLASS<Derived>::TraverseMustTailAttr(MustTailAttr *A) {
+  if (!getDerived().VisitAttr(A))
+    return false;
+  if (!getDerived().VisitMustTailAttr(A))
+    return false;
+  return true;
+}
+
+template <typename Derived>
 bool VISITORCLASS<Derived>::TraverseNSConsumedAttr(NSConsumedAttr *A) {
   if (!getDerived().VisitAttr(A))
     return false;
@@ -4879,6 +4892,8 @@ bool VISITORCLASS<Derived>::TraverseAttr(Attr *A) {
       return getDerived().TraverseMipsShortCallAttr(cast<MipsShortCallAttr>(A));
     case attr::Mode:
       return getDerived().TraverseModeAttr(cast<ModeAttr>(A));
+    case attr::MustTail:
+      return getDerived().TraverseMustTailAttr(cast<MustTailAttr>(A));
     case attr::NSConsumed:
       return getDerived().TraverseNSConsumedAttr(cast<NSConsumedAttr>(A));
     case attr::NSConsumesSelf:

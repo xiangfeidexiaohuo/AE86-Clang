@@ -375,6 +375,12 @@ STMT_RANGE(OMPLoopBasedDirective, OMPDistributeDirective, OMPTileDirective)
 
 #undef OMPLOOPBASEDDIRECTIVE
 
+#ifndef OMPMASKEDDIRECTIVE
+#  define OMPMASKEDDIRECTIVE(Type, Base) OMPEXECUTABLEDIRECTIVE(Type, Base)
+#endif
+OMPMASKEDDIRECTIVE(OMPMaskedDirective, OMPExecutableDirective)
+#undef OMPMASKEDDIRECTIVE
+
 #ifndef OMPMASTERDIRECTIVE
 #  define OMPMASTERDIRECTIVE(Type, Base) OMPEXECUTABLEDIRECTIVE(Type, Base)
 #endif

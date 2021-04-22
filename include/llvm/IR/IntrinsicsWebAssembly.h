@@ -19,22 +19,14 @@ enum WASMIntrinsics : unsigned {
     wasm_bitmask,                              // llvm.wasm.bitmask
     wasm_bitselect,                            // llvm.wasm.bitselect
     wasm_catch,                                // llvm.wasm.catch
-    wasm_ceil,                                 // llvm.wasm.ceil
-    wasm_convert_low_signed,                   // llvm.wasm.convert.low.signed
-    wasm_convert_low_unsigned,                 // llvm.wasm.convert.low.unsigned
     wasm_demote_zero,                          // llvm.wasm.demote.zero
     wasm_dot,                                  // llvm.wasm.dot
     wasm_extadd_pairwise_signed,               // llvm.wasm.extadd.pairwise.signed
     wasm_extadd_pairwise_unsigned,             // llvm.wasm.extadd.pairwise.unsigned
-    wasm_extend_high_signed,                   // llvm.wasm.extend.high.signed
-    wasm_extend_high_unsigned,                 // llvm.wasm.extend.high.unsigned
-    wasm_extend_low_signed,                    // llvm.wasm.extend.low.signed
-    wasm_extend_low_unsigned,                  // llvm.wasm.extend.low.unsigned
     wasm_extmul_high_signed,                   // llvm.wasm.extmul.high.signed
     wasm_extmul_high_unsigned,                 // llvm.wasm.extmul.high.unsigned
     wasm_extmul_low_signed,                    // llvm.wasm.extmul.low.signed
     wasm_extmul_low_unsigned,                  // llvm.wasm.extmul.low.unsigned
-    wasm_floor,                                // llvm.wasm.floor
     wasm_get_ehselector,                       // llvm.wasm.get.ehselector
     wasm_get_exception,                        // llvm.wasm.get.exception
     wasm_landingpad_index,                     // llvm.wasm.landingpad.index
@@ -52,7 +44,6 @@ enum WASMIntrinsics : unsigned {
     wasm_memory_size,                          // llvm.wasm.memory.size
     wasm_narrow_signed,                        // llvm.wasm.narrow.signed
     wasm_narrow_unsigned,                      // llvm.wasm.narrow.unsigned
-    wasm_nearest,                              // llvm.wasm.nearest
     wasm_pmax,                                 // llvm.wasm.pmax
     wasm_pmin,                                 // llvm.wasm.pmin
     wasm_popcnt,                               // llvm.wasm.popcnt
@@ -71,9 +62,6 @@ enum WASMIntrinsics : unsigned {
     wasm_tls_align,                            // llvm.wasm.tls.align
     wasm_tls_base,                             // llvm.wasm.tls.base
     wasm_tls_size,                             // llvm.wasm.tls.size
-    wasm_trunc,                                // llvm.wasm.trunc
-    wasm_trunc_sat_zero_signed,                // llvm.wasm.trunc.sat.zero.signed
-    wasm_trunc_sat_zero_unsigned,              // llvm.wasm.trunc.sat.zero.unsigned
     wasm_trunc_saturate_signed,                // llvm.wasm.trunc.saturate.signed
     wasm_trunc_saturate_unsigned,              // llvm.wasm.trunc.saturate.unsigned
     wasm_trunc_signed,                         // llvm.wasm.trunc.signed

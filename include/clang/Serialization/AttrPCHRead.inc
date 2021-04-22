@@ -1612,6 +1612,14 @@
     New->setPackExpansion(isPackExpansion);
     break;
   }
+  case attr::MustTail: {
+    bool isImplicit = Record.readInt();
+    bool isPackExpansion = Record.readInt();
+    New = new (Context) MustTailAttr(Context, Info);
+    New->setImplicit(isImplicit);
+    New->setPackExpansion(isPackExpansion);
+    break;
+  }
   case attr::NSConsumed: {
     bool isInherited = Record.readInt();
     bool isImplicit = Record.readInt();

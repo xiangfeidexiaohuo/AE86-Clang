@@ -1147,6 +1147,15 @@
         return 2;
     break;
   }
+  case AT_MustTail: {
+    if (Name == "musttail" && getSyntax() == AttributeCommonInfo::AS_GNU && Scope == "")
+        return 0;
+    if (Name == "musttail" && getSyntax() == AttributeCommonInfo::AS_CXX11 && Scope == "clang")
+        return 1;
+    if (Name == "musttail" && getSyntax() == AttributeCommonInfo::AS_C2x && Scope == "clang")
+        return 2;
+    break;
+  }
   case AT_NSConsumed: {
     if (Name == "ns_consumed" && getSyntax() == AttributeCommonInfo::AS_GNU && Scope == "")
         return 0;

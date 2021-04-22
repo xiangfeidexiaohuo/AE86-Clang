@@ -13460,6 +13460,87 @@ const char *ModeAttr::getSpelling() const {
 }
 
 
+// MustTailAttr implementation
+
+MustTailAttr *MustTailAttr::CreateImplicit(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo) {
+  auto *A = new (Ctx) MustTailAttr(Ctx, CommonInfo);
+  A->setImplicit(true);
+  if (!A->isAttributeSpellingListCalculated() && !A->getAttrName())
+    A->setAttributeSpellingListIndex(0);
+  return A;
+}
+
+MustTailAttr *MustTailAttr::Create(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo) {
+  auto *A = new (Ctx) MustTailAttr(Ctx, CommonInfo);
+  if (!A->isAttributeSpellingListCalculated() && !A->getAttrName())
+    A->setAttributeSpellingListIndex(0);
+  return A;
+}
+
+MustTailAttr *MustTailAttr::CreateImplicit(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax) {
+  AttributeCommonInfo I(Range, NoSemaHandlerAttribute, Syntax);
+  return CreateImplicit(Ctx, I);
+}
+
+MustTailAttr *MustTailAttr::Create(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax) {
+  AttributeCommonInfo I(Range, NoSemaHandlerAttribute, Syntax);
+  return Create(Ctx, I);
+}
+
+MustTailAttr::MustTailAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+             )
+  : StmtAttr(Ctx, CommonInfo, attr::MustTail, false)
+  {
+}
+
+MustTailAttr *MustTailAttr::clone(ASTContext &C) const {
+  auto *A = new (C) MustTailAttr(C, *this);
+  A->Inherited = Inherited;
+  A->IsPackExpansion = IsPackExpansion;
+  A->setImplicit(Implicit);
+  return A;
+}
+
+void MustTailAttr::printPretty(raw_ostream &OS, const PrintingPolicy &Policy) const {
+  bool IsFirstArgument = true; (void)IsFirstArgument;
+  unsigned TrailingOmittedArgs = 0; (void)TrailingOmittedArgs;
+  switch (getAttributeSpellingListIndex()) {
+  default:
+    llvm_unreachable("Unknown attribute spelling!");
+    break;
+  case 0 : {
+    OS << " __attribute__((musttail";
+    OS << "))";
+    break;
+  }
+  case 1 : {
+    OS << " [[clang::musttail";
+    OS << "]]";
+    break;
+  }
+  case 2 : {
+    OS << " [[clang::musttail";
+    OS << "]]";
+    break;
+  }
+}
+}
+
+const char *MustTailAttr::getSpelling() const {
+  switch (getAttributeSpellingListIndex()) {
+  default:
+    llvm_unreachable("Unknown attribute spelling!");
+    return "(No spelling)";
+  case 0:
+    return "musttail";
+  case 1:
+    return "musttail";
+  case 2:
+    return "musttail";
+  }
+}
+
+
 // NSConsumedAttr implementation
 
 NSConsumedAttr *NSConsumedAttr::CreateImplicit(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo) {
@@ -30553,6 +30634,8 @@ const char *Attr::getSpelling() const {
     return cast<MipsShortCallAttr>(this)->getSpelling();
   case attr::Mode:
     return cast<ModeAttr>(this)->getSpelling();
+  case attr::MustTail:
+    return cast<MustTailAttr>(this)->getSpelling();
   case attr::NSConsumed:
     return cast<NSConsumedAttr>(this)->getSpelling();
   case attr::NSConsumesSelf:
@@ -31229,6 +31312,8 @@ Attr *Attr::clone(ASTContext &C) const {
     return cast<MipsShortCallAttr>(this)->clone(C);
   case attr::Mode:
     return cast<ModeAttr>(this)->clone(C);
+  case attr::MustTail:
+    return cast<MustTailAttr>(this)->clone(C);
   case attr::NSConsumed:
     return cast<NSConsumedAttr>(this)->clone(C);
   case attr::NSConsumesSelf:
@@ -31905,6 +31990,8 @@ void Attr::printPretty(raw_ostream &OS, const PrintingPolicy &Policy) const {
     return cast<MipsShortCallAttr>(this)->printPretty(OS, Policy);
   case attr::Mode:
     return cast<ModeAttr>(this)->printPretty(OS, Policy);
+  case attr::MustTail:
+    return cast<MustTailAttr>(this)->printPretty(OS, Policy);
   case attr::NSConsumed:
     return cast<NSConsumedAttr>(this)->printPretty(OS, Policy);
   case attr::NSConsumesSelf:

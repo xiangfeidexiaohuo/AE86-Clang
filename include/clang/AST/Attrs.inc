@@ -5311,6 +5311,35 @@ public:
   static bool classof(const Attr *A) { return A->getKind() == attr::Mode; }
 };
 
+class MustTailAttr : public StmtAttr {
+public:
+  enum Spelling {
+    GNU_musttail = 0,
+    CXX11_clang_musttail = 1,
+    C2x_clang_musttail = 2,
+  SpellingNotCalculated = 15
+
+  };
+
+  // Factory methods
+  static MustTailAttr *CreateImplicit(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo = {SourceRange{}});
+  static MustTailAttr *Create(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo);
+  static MustTailAttr *CreateImplicit(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax);
+  static MustTailAttr *Create(ASTContext &Ctx, SourceRange Range, AttributeCommonInfo::Syntax Syntax);
+
+  // Constructors
+  MustTailAttr(ASTContext &Ctx, const AttributeCommonInfo &CommonInfo
+             );
+
+  MustTailAttr *clone(ASTContext &C) const;
+  void printPretty(raw_ostream &OS,
+                   const PrintingPolicy &Policy) const;
+  const char *getSpelling() const;
+
+
+  static bool classof(const Attr *A) { return A->getKind() == attr::MustTail; }
+};
+
 class NSConsumedAttr : public InheritableParamAttr {
 public:
   enum Spelling {

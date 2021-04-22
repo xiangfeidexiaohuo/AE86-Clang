@@ -6,7 +6,7 @@
 |*                                                                            *|
 \*===----------------------------------------------------------------------===*/
 
-#if !defined(WANT_MERGE_LOGIC)
+#if !defined(WANT_DECL_MERGE_LOGIC) && !defined(WANT_STMT_MERGE_LOGIC)
 static bool isStruct(const Decl *D) {
   if (const auto *S = dyn_cast<RecordDecl>(D))
     return !S->isUnion();
@@ -776,13 +776,13 @@ struct ParsedAttrInfoAllocSize final : public ParsedAttrInfo {
     IsType = 0;
     IsStmt = 0;
     IsKnownToGCC = 1;
-    IsSupportedByPragmaAttribute = 1;
+    IsSupportedByPragmaAttribute = 0;
     Spellings = AllocSizeSpellings;
   }
 bool diagAppertainsToDecl(Sema &S, const ParsedAttr &Attr, const Decl *D) const override {
-  if (!isa<FunctionDecl>(D)) {
+  if (!isHasFunctionProto(D)) {
     S.Diag(Attr.getLoc(), diag::warn_attribute_wrong_decl_type_str)
-      << Attr << "functions";
+      << Attr << "non-K&R-style functions";
     return false;
   }
   return true;
@@ -792,10 +792,6 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   S.Diag(AL.getLoc(), diag::err_decl_attribute_invalid_on_stmt)
     << AL << St->getBeginLoc();
   return false;
-}
-
-void getPragmaAttributeMatchRules(llvm::SmallVectorImpl<std::pair<attr::SubjectMatchRule, bool>> &MatchRules, const LangOptions &LangOpts) const override {
-  MatchRules.push_back(std::make_pair(attr::SubjectMatchRule_function, /*IsSupported=*/true));
 }
 
 static const ParsedAttrInfoAllocSize Instance;
@@ -832,6 +828,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
     << AL << St->getBeginLoc();
   return false;
 }
+
+  using ParsedAttrInfo::diagMutualExclusion;
 
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<NoDestroyAttr>()) {
@@ -882,6 +880,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
     << AL << St->getBeginLoc();
   return false;
 }
+
+  using ParsedAttrInfo::diagMutualExclusion;
 
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<NotTailCalledAttr>()) {
@@ -1681,6 +1681,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  using ParsedAttrInfo::diagMutualExclusion;
+
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<CFUnknownTransferAttr>()) {
       S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
@@ -1896,6 +1898,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  using ParsedAttrInfo::diagMutualExclusion;
+
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<CFAuditedTransferAttr>()) {
       S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
@@ -2031,6 +2035,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  using ParsedAttrInfo::diagMutualExclusion;
+
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<CUDASharedAttr>()) {
       S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
@@ -2093,6 +2099,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  using ParsedAttrInfo::diagMutualExclusion;
+
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<CUDAGlobalAttr>()) {
       S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
@@ -2150,6 +2158,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
     << AL << St->getBeginLoc();
   return false;
 }
+
+  using ParsedAttrInfo::diagMutualExclusion;
 
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<CUDADeviceBuiltinTextureTypeAttr>()) {
@@ -2213,6 +2223,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  using ParsedAttrInfo::diagMutualExclusion;
+
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<CUDADeviceBuiltinSurfaceTypeAttr>()) {
       S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
@@ -2275,6 +2287,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  using ParsedAttrInfo::diagMutualExclusion;
+
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<CUDADeviceAttr>()) {
       S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
@@ -2336,6 +2350,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
     << AL << St->getBeginLoc();
   return false;
 }
+
+  using ParsedAttrInfo::diagMutualExclusion;
 
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<CUDAGlobalAttr>()) {
@@ -2486,6 +2502,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
     << AL << St->getBeginLoc();
   return false;
 }
+
+  using ParsedAttrInfo::diagMutualExclusion;
 
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<CUDAConstantAttr>()) {
@@ -2983,6 +3001,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  using ParsedAttrInfo::diagMutualExclusion;
+
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<HotAttr>()) {
       S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
@@ -3036,6 +3056,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
     << AL << St->getBeginLoc();
   return false;
 }
+
+  using ParsedAttrInfo::diagMutualExclusion;
 
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<InternalLinkageAttr>()) {
@@ -3664,6 +3686,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
     << AL << St->getBeginLoc();
   return false;
 }
+
+  using ParsedAttrInfo::diagMutualExclusion;
 
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<NakedAttr>()) {
@@ -4428,6 +4452,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  using ParsedAttrInfo::diagMutualExclusion;
+
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<CUDAConstantAttr>()) {
       S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
@@ -4490,6 +4516,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
     << AL << St->getBeginLoc();
   return false;
 }
+
+  using ParsedAttrInfo::diagMutualExclusion;
 
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<ColdAttr>()) {
@@ -4741,6 +4769,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  using ParsedAttrInfo::diagMutualExclusion;
+
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<CommonAttr>()) {
       S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
@@ -4954,18 +4984,7 @@ struct ParsedAttrInfoLikely final : public ParsedAttrInfo {
     IsSupportedByPragmaAttribute = 0;
     Spellings = LikelySpellings;
   }
-  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
-    if (const auto *AS = dyn_cast<AttributedStmt>(St)) {
-      const ArrayRef<const Attr *> &Attrs = AS->getAttrs();
-      auto IterUnlikelyAttr = llvm::find_if(Attrs, [](const Attr *A) { return isa<UnlikelyAttr>(A); });
-      if (IterUnlikelyAttr != Attrs.end()) {
-        S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << *IterUnlikelyAttr;
-        S.Diag((*IterUnlikelyAttr)->getLocation(), diag::note_conflicting_attribute);
-        return false;
-      }
-    }
-    return true;
-  }
+  using ParsedAttrInfo::diagMutualExclusion;
 
 static const ParsedAttrInfoLikely Instance;
 };
@@ -5498,6 +5517,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  using ParsedAttrInfo::diagMutualExclusion;
+
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<Mips16Attr>()) {
       S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
@@ -5638,6 +5659,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  using ParsedAttrInfo::diagMutualExclusion;
+
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<MipsInterruptAttr>()) {
       S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
@@ -5704,6 +5727,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
     << AL << St->getBeginLoc();
   return false;
 }
+
+  using ParsedAttrInfo::diagMutualExclusion;
 
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<MipsShortCallAttr>()) {
@@ -5791,6 +5816,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  using ParsedAttrInfo::diagMutualExclusion;
+
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<MipsLongCallAttr>()) {
       S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
@@ -5877,6 +5904,42 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
 static const ParsedAttrInfoMode Instance;
 };
 const ParsedAttrInfoMode ParsedAttrInfoMode::Instance;
+static constexpr ParsedAttrInfo::Spelling MustTailSpellings[] = {
+  {AttributeCommonInfo::AS_GNU, "musttail"},
+  {AttributeCommonInfo::AS_CXX11, "clang::musttail"},
+  {AttributeCommonInfo::AS_C2x, "clang::musttail"},
+};
+struct ParsedAttrInfoMustTail final : public ParsedAttrInfo {
+  ParsedAttrInfoMustTail() {
+    AttrKind = ParsedAttr::AT_MustTail;
+    NumArgs = 0;
+    OptArgs = 0;
+    HasCustomParsing = 0;
+    IsTargetSpecific = 0;
+    IsType = 0;
+    IsStmt = 1;
+    IsKnownToGCC = 0;
+    IsSupportedByPragmaAttribute = 0;
+    Spellings = MustTailSpellings;
+  }
+bool diagAppertainsToDecl(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
+  S.Diag(AL.getLoc(), diag::err_stmt_attribute_invalid_on_decl)
+    << AL << D->getLocation();
+  return false;
+}
+
+bool diagAppertainsToStmt(Sema &S, const ParsedAttr &Attr, const Stmt *St) const override {
+  if (!isa<ReturnStmt>(St)) {
+    S.Diag(Attr.getLoc(), diag::err_attribute_wrong_decl_type_str)
+      << Attr << "return statements";
+    return false;
+  }
+  return true;
+}
+
+static const ParsedAttrInfoMustTail Instance;
+};
+const ParsedAttrInfoMustTail ParsedAttrInfoMustTail::Instance;
 static constexpr ParsedAttrInfo::Spelling NSConsumedSpellings[] = {
   {AttributeCommonInfo::AS_GNU, "ns_consumed"},
   {AttributeCommonInfo::AS_CXX11, "clang::ns_consumed"},
@@ -6096,6 +6159,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
     << AL << St->getBeginLoc();
   return false;
 }
+
+  using ParsedAttrInfo::diagMutualExclusion;
 
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<DisableTailCallsAttr>()) {
@@ -6374,6 +6439,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
     << AL << St->getBeginLoc();
   return false;
 }
+
+  using ParsedAttrInfo::diagMutualExclusion;
 
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<AlwaysDestroyAttr>()) {
@@ -6862,6 +6929,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  using ParsedAttrInfo::diagMutualExclusion;
+
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<SpeculativeLoadHardeningAttr>()) {
       S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
@@ -7172,6 +7241,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
     << AL << St->getBeginLoc();
   return false;
 }
+
+  using ParsedAttrInfo::diagMutualExclusion;
 
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<AlwaysInlineAttr>()) {
@@ -9144,6 +9215,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  using ParsedAttrInfo::diagMutualExclusion;
+
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<PointerAttr>()) {
       S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
@@ -9479,6 +9552,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
     << AL << St->getBeginLoc();
   return false;
 }
+
+  using ParsedAttrInfo::diagMutualExclusion;
 
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<OwnerAttr>()) {
@@ -10761,6 +10836,8 @@ bool diagAppertainsToStmt(Sema &S, const ParsedAttr &AL, const Stmt *St) const o
   return false;
 }
 
+  using ParsedAttrInfo::diagMutualExclusion;
+
   bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Decl *D) const override {
     if (const auto *A = D->getAttr<NoSpeculativeLoadHardeningAttr>()) {
       S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << A;
@@ -12006,18 +12083,7 @@ struct ParsedAttrInfoUnlikely final : public ParsedAttrInfo {
     IsSupportedByPragmaAttribute = 0;
     Spellings = UnlikelySpellings;
   }
-  bool diagMutualExclusion(Sema &S, const ParsedAttr &AL, const Stmt *St) const override {
-    if (const auto *AS = dyn_cast<AttributedStmt>(St)) {
-      const ArrayRef<const Attr *> &Attrs = AS->getAttrs();
-      auto IterLikelyAttr = llvm::find_if(Attrs, [](const Attr *A) { return isa<LikelyAttr>(A); });
-      if (IterLikelyAttr != Attrs.end()) {
-        S.Diag(AL.getLoc(), diag::err_attributes_are_not_compatible) << AL << *IterLikelyAttr;
-        S.Diag((*IterLikelyAttr)->getLocation(), diag::note_conflicting_attribute);
-        return false;
-      }
-    }
-    return true;
-  }
+  using ParsedAttrInfo::diagMutualExclusion;
 
 static const ParsedAttrInfoUnlikely Instance;
 };
@@ -13023,6 +13089,7 @@ static const ParsedAttrInfo *AttrInfoMap[] = {
 &ParsedAttrInfoMipsLongCall::Instance,
 &ParsedAttrInfoMipsShortCall::Instance,
 &ParsedAttrInfoMode::Instance,
+&ParsedAttrInfoMustTail::Instance,
 &ParsedAttrInfoNSConsumed::Instance,
 &ParsedAttrInfoNSConsumesSelf::Instance,
 &ParsedAttrInfoNSErrorDomain::Instance,
@@ -13267,7 +13334,7 @@ static bool checkAttributeMatchRuleAppliesTo(const Decl *D, attr::SubjectMatchRu
 return false;
 }
 
-#else // WANT_MERGE_LOGIC
+#elif defined(WANT_DECL_MERGE_LOGIC)
 
 static bool DiagnoseMutualExclusions(Sema &S, const NamedDecl *D, const Attr *A) {
   if (const auto *Second = dyn_cast<AlwaysDestroyAttr>(A)) {
@@ -13522,4 +13589,28 @@ static bool DiagnoseMutualExclusions(Sema &S, const NamedDecl *D, const Attr *A)
   return true;
 }
 
-#endif // WANT_MERGE_LOGIC
+#elif defined(WANT_STMT_MERGE_LOGIC)
+
+static bool DiagnoseMutualExclusions(Sema &S, const SmallVectorImpl<const Attr *> &C) {
+  for (const Attr *A : C) {
+    if (const auto *Second = dyn_cast<LikelyAttr>(A)) {
+      auto Iter = llvm::find_if(C, [](const Attr *Check) { return isa<UnlikelyAttr>(Check); });
+      if (Iter != C.end()) {
+        S.Diag((*Iter)->getLocation(), diag::err_attributes_are_not_compatible) << *Iter << Second;
+        S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+        return false;
+      }
+    }
+    if (const auto *Second = dyn_cast<UnlikelyAttr>(A)) {
+      auto Iter = llvm::find_if(C, [](const Attr *Check) { return isa<LikelyAttr>(Check); });
+      if (Iter != C.end()) {
+        S.Diag((*Iter)->getLocation(), diag::err_attributes_are_not_compatible) << *Iter << Second;
+        S.Diag(Second->getLocation(), diag::note_conflicting_attribute);
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+#endif
