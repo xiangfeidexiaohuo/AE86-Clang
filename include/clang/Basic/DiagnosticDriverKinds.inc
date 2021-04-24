@@ -120,6 +120,7 @@ DIAG(err_drv_trivial_auto_var_init_stop_after_missing_dependency, CLASS_ERROR, (
 DIAG(err_drv_trivial_auto_var_init_zero_disabled, CLASS_ERROR, (unsigned)diag::Severity::Error, "-ftrivial-auto-var-init=zero hasn't been enabled. Enable it at your own peril for benchmarking purpose only with -enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang", 0, SFINAE_SubstitutionFailure, false, true, false, 0)
 DIAG(err_drv_unable_to_remove_file, CLASS_ERROR, (unsigned)diag::Severity::Error, "unable to remove file: %0", 0, SFINAE_SubstitutionFailure, false, true, false, 0)
 DIAG(err_drv_unable_to_set_working_directory, CLASS_ERROR, (unsigned)diag::Severity::Error, "unable to set working directory: %0", 0, SFINAE_SubstitutionFailure, false, true, false, 0)
+DIAG(err_drv_undetermined_amdgpu_arch, CLASS_ERROR, (unsigned)diag::Severity::Error, "Cannot determine AMDGPU architecture: %0. Consider passing it via --march.", 0, SFINAE_SubstitutionFailure, false, true, false, 0)
 DIAG(err_drv_unknown_argument, CLASS_ERROR, (unsigned)diag::Severity::Error, "unknown argument: '%0'", 0, SFINAE_SubstitutionFailure, false, true, false, 0)
 DIAG(err_drv_unknown_argument_with_suggestion, CLASS_ERROR, (unsigned)diag::Severity::Error, "unknown argument '%0'; did you mean '%1'?", 0, SFINAE_SubstitutionFailure, false, true, false, 0)
 DIAG(err_drv_unknown_indirect_jump_opt, CLASS_ERROR, (unsigned)diag::Severity::Error, "unknown '-mindirect-jump=' option '%0'", 0, SFINAE_SubstitutionFailure, false, true, false, 0)
